@@ -1,6 +1,6 @@
 // Copyright K.Taukach
 
-#include "Player/TDRPGCharacterBase.h"
+#include "Character/TDRPGCharacterBase.h"
 
 ATDRPGCharacterBase::ATDRPGCharacterBase()
 {

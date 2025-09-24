@@ -14,7 +14,8 @@ public class TopDownRPG : ModuleRules
 		
 		PublicIncludePaths.AddRange(new string[]
 		{
-			"TopDownRPG/Public/Player"
+			"TopDownRPG/Public/Player",
+			"TopDownRPG/Public/Character"
 		});
 
 		// Uncomment if you are using Slate UI

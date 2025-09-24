@@ -7,14 +7,25 @@
     <projectFile>Intermediate/ProjectFiles/TopDownRPG.vcxproj</projectFile>
     <projectFile>Intermediate/ProjectFiles/UE5.vcxproj</projectFile>
   </component>
-  <component name="AutoImportSettings">
-    <option name="autoReloadType" value="SELECTIVE" />
-  </component>
   <component name="ChangeListManager">
-    <list default="true" id="9e4e37d4-1cb6-4926-91a8-7839e81248b3" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.TopDownRPG/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.TopDownRPG/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Assets/Characters/Aura/Animations/IdleWalkRun.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Assets/Characters/Aura/Animations/IdleWalkRun.uasset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Content/Blueprints/Characters/TDRPGCharacter/BP_TDRPGCharacter.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Blueprints/Characters/TDRPGCharacter/BP_TDRPGCharacter.uasset" afterDir="false" />
+    <list default="true" id="85061c6b-c6fe-4f94-924a-154e27088028" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.TopDownRPG.dir/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.TopDownRPG.dir/.idea/encodings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.TopDownRPG.dir/.idea/indexLayout.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.TopDownRPG.dir/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.TopDownRPG/.idea/indexLayout.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.TopDownRPG/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.TopDownRPG/.idea/projectSettingsUpdater.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.TopDownRPG/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.TopDownRPG/.idea/workspace.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/TopDownRPG/Private/Player/TDRPGCharacter.cpp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/TopDownRPG/Private/Player/TDRPGCharacterBase.cpp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/TopDownRPG/Private/Player/TDRPGEnemy.cpp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/TopDownRPG/Public/Player/TDRPGCharacter.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/TopDownRPG/Public/Player/TDRPGCharacterBase.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/TopDownRPG/Public/Player/TDRPGEnemy.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/TopDownRPG/TopDownRPG.Build.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TopDownRPG/TopDownRPG.Build.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -24,41 +35,27 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="HighlightingSettingsPerFile">
-    <setting file="file://$PROJECT_DIR$/Source/TopDownRPG/Private/Player/TDRPGEnemy.cpp" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Source/TopDownRPG/Public/Player/TDRPGEnemy.h" root0="FORCE_HIGHLIGHTING" />
-  </component>
-  <component name="ProblemsViewState">
-    <option name="selectedTabId" value="CurrentFile" />
-  </component>
-  <component name="ProjectColorInfo">{
-  &quot;customColor&quot;: &quot;&quot;,
-  &quot;associatedIndex&quot;: 3
-}</component>
-  <component name="ProjectId" id="3337CAKPrBu4L3679zzE3vZVrAI" />
+  <component name="ProjectColorInfo"><![CDATA[{
+  "customColor": "",
+  "associatedIndex": 3
+}]]></component>
+  <component name="ProjectId" id="338vj1S4CHjzwGtLrsvwoBqbo1J" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;C++ Project.TopDownRPG.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;rider.code.cleanup.on.save.profile&quot;: &quot;Built-in: Reformat Code&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.sourceCode.C#&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "master",
+    "nodejs_package_manager_path": "npm",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RunManager" selected="C++ Project.TopDownRPG">
     <configuration name="TopDownRPG" type="CppProject" factoryName="C++ Project">
       <configuration_1>
-        <option name="CONFIGURATION" value="Development Editor" />
+        <option name="CONFIGURATION" value="DebugGame Editor" />
         <option name="PLATFORM" value="Win64" />
         <option name="PROJECT_FILE_PATH" value="$PROJECT_DIR$/Intermediate/ProjectFiles/TopDownRPG.vcxproj" />
         <option name="CURRENT_LAUNCH_PROFILE" value="Local" />
@@ -154,8 +151,8 @@
         <option name="TERMINAL_INTERACTION_BEHAVIOR" value="AUTO_DETECT" />
       </configuration_8>
       <configuration_9>
-        <option name="CONFIGURATION" value="DebugGame Editor" />
-        <option name="PLATFORM" value="Win64" />
+        <option name="CONFIGURATION" value="Development" />
+        <option name="PLATFORM" value="Win64-arm64" />
         <option name="PROJECT_FILE_PATH" value="$PROJECT_DIR$/Intermediate/ProjectFiles/TopDownRPG.vcxproj" />
         <option name="CURRENT_LAUNCH_PROFILE" value="Local" />
         <option name="EXE_PATH" value="$(LocalDebuggerCommand)" />
@@ -166,7 +163,7 @@
         <option name="TERMINAL_INTERACTION_BEHAVIOR" value="AUTO_DETECT" />
       </configuration_9>
       <configuration_10>
-        <option name="CONFIGURATION" value="Development" />
+        <option name="CONFIGURATION" value="Shipping" />
         <option name="PLATFORM" value="Win64-arm64" />
         <option name="PROJECT_FILE_PATH" value="$PROJECT_DIR$/Intermediate/ProjectFiles/TopDownRPG.vcxproj" />
         <option name="CURRENT_LAUNCH_PROFILE" value="Local" />
@@ -178,8 +175,8 @@
         <option name="TERMINAL_INTERACTION_BEHAVIOR" value="AUTO_DETECT" />
       </configuration_10>
       <configuration_11>
-        <option name="CONFIGURATION" value="Shipping" />
-        <option name="PLATFORM" value="Win64-arm64" />
+        <option name="CONFIGURATION" value="DebugGame" />
+        <option name="PLATFORM" value="Win64" />
         <option name="PROJECT_FILE_PATH" value="$PROJECT_DIR$/Intermediate/ProjectFiles/TopDownRPG.vcxproj" />
         <option name="CURRENT_LAUNCH_PROFILE" value="Local" />
         <option name="EXE_PATH" value="$(LocalDebuggerCommand)" />
@@ -190,8 +187,8 @@
         <option name="TERMINAL_INTERACTION_BEHAVIOR" value="AUTO_DETECT" />
       </configuration_11>
       <configuration_12>
-        <option name="CONFIGURATION" value="DebugGame" />
-        <option name="PLATFORM" value="Win64" />
+        <option name="CONFIGURATION" value="DebugGame Editor" />
+        <option name="PLATFORM" value="Win64-arm64ec" />
         <option name="PROJECT_FILE_PATH" value="$PROJECT_DIR$/Intermediate/ProjectFiles/TopDownRPG.vcxproj" />
         <option name="CURRENT_LAUNCH_PROFILE" value="Local" />
         <option name="EXE_PATH" value="$(LocalDebuggerCommand)" />
@@ -203,7 +200,7 @@
       </configuration_12>
       <configuration_13>
         <option name="CONFIGURATION" value="DebugGame Editor" />
-        <option name="PLATFORM" value="Win64-arm64ec" />
+        <option name="PLATFORM" value="Win64-arm64" />
         <option name="PROJECT_FILE_PATH" value="$PROJECT_DIR$/Intermediate/ProjectFiles/TopDownRPG.vcxproj" />
         <option name="CURRENT_LAUNCH_PROFILE" value="Local" />
         <option name="EXE_PATH" value="$(LocalDebuggerCommand)" />
@@ -214,8 +211,8 @@
         <option name="TERMINAL_INTERACTION_BEHAVIOR" value="AUTO_DETECT" />
       </configuration_13>
       <configuration_14>
-        <option name="CONFIGURATION" value="DebugGame Editor" />
-        <option name="PLATFORM" value="Win64-arm64" />
+        <option name="CONFIGURATION" value="Development Editor" />
+        <option name="PLATFORM" value="Win64" />
         <option name="PROJECT_FILE_PATH" value="$PROJECT_DIR$/Intermediate/ProjectFiles/TopDownRPG.vcxproj" />
         <option name="CURRENT_LAUNCH_PROFILE" value="Local" />
         <option name="EXE_PATH" value="$(LocalDebuggerCommand)" />
@@ -245,7 +242,7 @@
     </configuration>
     <configuration name="UE5" type="CppProject" factoryName="C++ Project">
       <configuration_1>
-        <option name="CONFIGURATION" value="Development Editor" />
+        <option name="CONFIGURATION" value="DebugGame Editor" />
         <option name="PLATFORM" value="Win64" />
         <option name="PROJECT_FILE_PATH" value="$PROJECT_DIR$/Intermediate/ProjectFiles/UE5.vcxproj" />
         <option name="CURRENT_LAUNCH_PROFILE" value="Local" />
@@ -341,8 +338,8 @@
         <option name="TERMINAL_INTERACTION_BEHAVIOR" value="AUTO_DETECT" />
       </configuration_8>
       <configuration_9>
-        <option name="CONFIGURATION" value="DebugGame Editor" />
-        <option name="PLATFORM" value="Win64" />
+        <option name="CONFIGURATION" value="Development" />
+        <option name="PLATFORM" value="Win64-arm64" />
         <option name="PROJECT_FILE_PATH" value="$PROJECT_DIR$/Intermediate/ProjectFiles/UE5.vcxproj" />
         <option name="CURRENT_LAUNCH_PROFILE" value="Local" />
         <option name="EXE_PATH" value="$(LocalDebuggerCommand)" />
@@ -353,7 +350,7 @@
         <option name="TERMINAL_INTERACTION_BEHAVIOR" value="AUTO_DETECT" />
       </configuration_9>
       <configuration_10>
-        <option name="CONFIGURATION" value="Development" />
+        <option name="CONFIGURATION" value="Shipping" />
         <option name="PLATFORM" value="Win64-arm64" />
         <option name="PROJECT_FILE_PATH" value="$PROJECT_DIR$/Intermediate/ProjectFiles/UE5.vcxproj" />
         <option name="CURRENT_LAUNCH_PROFILE" value="Local" />
@@ -365,8 +362,8 @@
         <option name="TERMINAL_INTERACTION_BEHAVIOR" value="AUTO_DETECT" />
       </configuration_10>
       <configuration_11>
-        <option name="CONFIGURATION" value="Shipping" />
-        <option name="PLATFORM" value="Win64-arm64" />
+        <option name="CONFIGURATION" value="DebugGame" />
+        <option name="PLATFORM" value="Win64" />
         <option name="PROJECT_FILE_PATH" value="$PROJECT_DIR$/Intermediate/ProjectFiles/UE5.vcxproj" />
         <option name="CURRENT_LAUNCH_PROFILE" value="Local" />
         <option name="EXE_PATH" value="$(LocalDebuggerCommand)" />
@@ -377,8 +374,8 @@
         <option name="TERMINAL_INTERACTION_BEHAVIOR" value="AUTO_DETECT" />
       </configuration_11>
       <configuration_12>
-        <option name="CONFIGURATION" value="DebugGame" />
-        <option name="PLATFORM" value="Win64" />
+        <option name="CONFIGURATION" value="DebugGame Editor" />
+        <option name="PLATFORM" value="Win64-arm64ec" />
         <option name="PROJECT_FILE_PATH" value="$PROJECT_DIR$/Intermediate/ProjectFiles/UE5.vcxproj" />
         <option name="CURRENT_LAUNCH_PROFILE" value="Local" />
         <option name="EXE_PATH" value="$(LocalDebuggerCommand)" />
@@ -390,7 +387,7 @@
       </configuration_12>
       <configuration_13>
         <option name="CONFIGURATION" value="DebugGame Editor" />
-        <option name="PLATFORM" value="Win64-arm64ec" />
+        <option name="PLATFORM" value="Win64-arm64" />
         <option name="PROJECT_FILE_PATH" value="$PROJECT_DIR$/Intermediate/ProjectFiles/UE5.vcxproj" />
         <option name="CURRENT_LAUNCH_PROFILE" value="Local" />
         <option name="EXE_PATH" value="$(LocalDebuggerCommand)" />
@@ -401,8 +398,8 @@
         <option name="TERMINAL_INTERACTION_BEHAVIOR" value="AUTO_DETECT" />
       </configuration_13>
       <configuration_14>
-        <option name="CONFIGURATION" value="DebugGame Editor" />
-        <option name="PLATFORM" value="Win64-arm64" />
+        <option name="CONFIGURATION" value="Development Editor" />
+        <option name="PLATFORM" value="Win64" />
         <option name="PROJECT_FILE_PATH" value="$PROJECT_DIR$/Intermediate/ProjectFiles/UE5.vcxproj" />
         <option name="CURRENT_LAUNCH_PROFILE" value="Local" />
         <option name="EXE_PATH" value="$(LocalDebuggerCommand)" />
@@ -485,26 +482,12 @@
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="9e4e37d4-1cb6-4926-91a8-7839e81248b3" name="Changes" comment="" />
-      <created>1758533775985</created>
+      <changelist id="85061c6b-c6fe-4f94-924a-154e27088028" name="Changes" comment="" />
+      <created>1758711646421</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1758533775985</updated>
-      <workItem from="1758533777553" duration="95000" />
-      <workItem from="1758533893542" duration="40000" />
-      <workItem from="1758533957869" duration="135000" />
-      <workItem from="1758534134290" duration="1270000" />
-      <workItem from="1758535438407" duration="302000" />
-      <workItem from="1758535759928" duration="236000" />
-      <workItem from="1758536013403" duration="280000" />
-      <workItem from="1758536323856" duration="549000" />
-      <workItem from="1758538037695" duration="279000" />
-      <workItem from="1758539617574" duration="630000" />
-      <workItem from="1758540364956" duration="16000" />
-      <workItem from="1758540429160" duration="491000" />
-      <workItem from="1758617690849" duration="136000" />
-      <workItem from="1758617874336" duration="1901000" />
-      <workItem from="1758706218952" duration="977000" />
+      <updated>1758711646421</updated>
+      <workItem from="1758711647944" duration="144000" />
     </task>
     <servers />
   </component>
@@ -515,8 +498,15 @@
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
   </component>
-  <component name="XSLT-Support.FileAssociations.UIState">
-    <expand />
-    <select />
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+          <url>file://$PROJECT_DIR$/Source/TopDownRPG/Public/Character/TDRPGCharacterBase.h</url>
+          <line>4</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

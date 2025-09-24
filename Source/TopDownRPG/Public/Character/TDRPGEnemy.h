@@ -3,7 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Player/TDRPGCharacterBase.h"
+#include "Character/TDRPGCharacterBase.h"
 #include "TDRPGEnemy.generated.h"
 
 UCLASS()
