@@ -1,12 +1,3 @@
-# Created by https://www.toptal.com/developers/gitignore/api/visualstudio,unrealengine
-# Edit at https://www.toptal.com/developers/gitignore?templates=visualstudio,unrealengine
-
-/Content/StarterBundle
-/Content/ModSci_Engineer
-/Content/ModSci_EngiProps
-/Content/ModSciInteriors
-/Content/Spaceshipinterior
-
 ### UnrealEngine ###
 # Visual Studio 2015 user specific files
 .vs/
@@ -489,8 +480,24 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
+.idea/
+*.ipr
+*.iws
+*.suo
+*.ntvs*
+*.njsproj
+*.slnx
+*.swp
+*~
+*.unoc
 
-### VisualStudio Patch ###
-# Additional files built by Visual Studio
+# Rider caches and user-specific files
+.vs/
+.cache/
+.local/
+tmp/
+temp/
 
-# End of https://www.toptal.com/developers/gitignore/api/visualstudio,unrealengine
+# Rider temporary files
+*.kate-swp
+*.kate-lock
