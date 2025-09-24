@@ -13,8 +13,8 @@
   <component name="ChangeListManager">
     <list default="true" id="9e4e37d4-1cb6-4926-91a8-7839e81248b3" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.TopDownRPG/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.TopDownRPG/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/TopDownRPG/Private/Player/TDRPGCharacterBase.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TopDownRPG/Private/Player/TDRPGCharacterBase.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Source/TopDownRPG/Public/Player/TDRPGCharacterBase.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/TopDownRPG/Public/Player/TDRPGCharacterBase.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Assets/Characters/Aura/Animations/IdleWalkRun.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Assets/Characters/Aura/Animations/IdleWalkRun.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Blueprints/Characters/TDRPGCharacter/BP_TDRPGCharacter.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Blueprints/Characters/TDRPGCharacter/BP_TDRPGCharacter.uasset" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -503,7 +503,8 @@
       <workItem from="1758540364956" duration="16000" />
       <workItem from="1758540429160" duration="491000" />
       <workItem from="1758617690849" duration="136000" />
-      <workItem from="1758617874336" duration="307000" />
+      <workItem from="1758617874336" duration="1901000" />
+      <workItem from="1758706218952" duration="977000" />
     </task>
     <servers />
   </component>
