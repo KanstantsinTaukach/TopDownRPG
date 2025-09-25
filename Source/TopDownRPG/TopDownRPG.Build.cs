@@ -16,7 +16,8 @@ public class TopDownRPG : ModuleRules
 		{
 			"TopDownRPG/Public/Player",
 			"TopDownRPG/Public/Character",
-			"TopDownRPG/Public/Game"
+			"TopDownRPG/Public/Game",
+			"TopDownRPG/Public/Interaction"
 		});
 
 		// Uncomment if you are using Slate UI

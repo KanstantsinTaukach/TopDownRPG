@@ -4,11 +4,15 @@
 
 #include "CoreMinimal.h"
 #include "Character/TDRPGCharacterBase.h"
+#include "Interaction/TDRPGEnemyInterface.h"
 #include "TDRPGEnemy.generated.h"
 
 UCLASS()
-class TOPDOWNRPG_API ATDRPGEnemy : public ATDRPGCharacterBase
+class TOPDOWNRPG_API ATDRPGEnemy : public ATDRPGCharacterBase, public ITDRPGEnemyInterface
 {
 	GENERATED_BODY()
-	
+
+public:
+    virtual void HighlightActor() override;
+    virtual void UnHighlightActor() override;
 };
