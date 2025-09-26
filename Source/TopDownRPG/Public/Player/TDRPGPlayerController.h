@@ -8,6 +8,7 @@
 
 class UInputMappingContext;
 class UInputAction;
+class ITDRPGEnemyInterface;
 
 struct FInputActionValue;
 
@@ -18,6 +19,7 @@ class TOPDOWNRPG_API ATDRPGPlayerController : public APlayerController
 
 public:
     ATDRPGPlayerController();
+    virtual void PlayerTick(float DeltaTime) override;
     
 protected:
     virtual void BeginPlay() override;
@@ -31,4 +33,9 @@ private:
     TObjectPtr<UInputAction> MoveAction;
 
     void Move(const FInputActionValue& InputActionValue);
+
+    void CursorTrace();
+
+    TObjectPtr<ITDRPGEnemyInterface> LastActor;
+    TObjectPtr<ITDRPGEnemyInterface> ThisActor;
 };

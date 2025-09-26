@@ -4,10 +4,10 @@
 
 void ATDRPGEnemy::HighlightActor()
 {
-    
+    bIsHighlighted = true;
 }
 
 void ATDRPGEnemy::UnHighlightActor()
 {
-    
+    bIsHighlighted = false;
 }
