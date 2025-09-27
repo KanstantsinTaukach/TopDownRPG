@@ -13,9 +13,7 @@ class TOPDOWNRPG_API ATDRPGEnemy : public ATDRPGCharacterBase, public ITDRPGEnem
 	GENERATED_BODY()
 
 public:
+    ATDRPGEnemy();
     virtual void HighlightActor() override;
     virtual void UnHighlightActor() override;
-
-    UPROPERTY(BlueprintReadWrite)
-    bool bIsHighlighted = false;
 };
