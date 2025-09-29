@@ -10,14 +10,15 @@ public class TopDownRPG : ModuleRules
 	
 		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore", "EnhancedInput" }); 
 
-		PrivateDependencyModuleNames.AddRange(new string[] {  });
+		PrivateDependencyModuleNames.AddRange(new string[] { "GameplayAbilities", "GameplayTags", "GameplayTasks" });
 		
 		PublicIncludePaths.AddRange(new string[]
 		{
 			"TopDownRPG/Public/Player",
 			"TopDownRPG/Public/Character",
 			"TopDownRPG/Public/Game",
-			"TopDownRPG/Public/Interaction"
+			"TopDownRPG/Public/Interaction",
+			"TopDownRPG/Public/AbilitySystem"
 		});
 
 		// Uncomment if you are using Slate UI
