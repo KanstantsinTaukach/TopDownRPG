@@ -2,11 +2,18 @@
 
 #include "Character/TDRPGEnemy.h"
 
+#include "AbilitySystem/TDRPGAttributeSet.h"
+#include "AbilitySystem/TDRPGAbilitySystemComponent.h"
 #include "TopDownRPG/TopDownRPG.h"
 
 ATDRPGEnemy::ATDRPGEnemy()
 {
     GetMesh()->SetCollisionResponseToChannel(ECC_Visibility, ECR_Block);
+
+    AbilitySystemComponent = CreateDefaultSubobject<UTDRPGAbilitySystemComponent>("AbilitySystemComponent");
+    AbilitySystemComponent->SetIsReplicated(true);
+
+    AttributeSet = CreateDefaultSubobject<UTDRPGAttributeSet>("AttributeSet");
 }
 
 void ATDRPGEnemy::HighlightActor()

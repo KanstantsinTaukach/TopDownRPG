@@ -15,3 +15,8 @@ void ATDRPGCharacterBase::BeginPlay()
 {
     Super::BeginPlay();
 }
+
+UAbilitySystemComponent* ATDRPGCharacterBase::GetAbilitySystemComponent() const
+{
+    return AbilitySystemComponent;
+}
