@@ -16,11 +16,17 @@ class TOPDOWNRPG_API ATDRPGCharacter : public ATDRPGCharacterBase
 
 public:
     ATDRPGCharacter();
+
+    virtual void PossessedBy(AController* NewController) override;
+    virtual void OnRep_PlayerState() override;
     
 protected:
     UPROPERTY(VisibleAnywhere)
-    USpringArmComponent* SpringArmComponent;
+    TObjectPtr<USpringArmComponent> SpringArmComponent;
     
     UPROPERTY(VisibleAnywhere)
-    UCameraComponent* CameraComponent;	
+    TObjectPtr<UCameraComponent> CameraComponent;
+
+private:
+    void InitAbilityActorInfo();
 };

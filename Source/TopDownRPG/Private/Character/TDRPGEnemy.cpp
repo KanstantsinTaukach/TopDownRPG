@@ -17,6 +17,13 @@ ATDRPGEnemy::ATDRPGEnemy()
     AttributeSet = CreateDefaultSubobject<UTDRPGAttributeSet>("AttributeSet");
 }
 
+void ATDRPGEnemy::BeginPlay()
+{
+    Super::BeginPlay();
+
+    AbilitySystemComponent->InitAbilityActorInfo(this, this);
+}
+
 void ATDRPGEnemy::HighlightActor()
 {
     GetMesh()->SetRenderCustomDepth(true);
