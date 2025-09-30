@@ -12,6 +12,7 @@ ATDRPGEnemy::ATDRPGEnemy()
 
     AbilitySystemComponent = CreateDefaultSubobject<UTDRPGAbilitySystemComponent>("AbilitySystemComponent");
     AbilitySystemComponent->SetIsReplicated(true);
+    AbilitySystemComponent->SetReplicationMode(EGameplayEffectReplicationMode::Minimal);
 
     AttributeSet = CreateDefaultSubobject<UTDRPGAttributeSet>("AttributeSet");
 }

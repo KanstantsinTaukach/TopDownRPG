@@ -9,6 +9,7 @@ ATDRPGPlayerState::ATDRPGPlayerState()
 {
     AbilitySystemComponent = CreateDefaultSubobject<UTDRPGAbilitySystemComponent>("AbilitySystemComponent");
     AbilitySystemComponent->SetIsReplicated(true);
+    AbilitySystemComponent->SetReplicationMode(EGameplayEffectReplicationMode::Mixed);
 
     AttributeSet = CreateDefaultSubobject<UTDRPGAttributeSet>("AttributeSet");
     
