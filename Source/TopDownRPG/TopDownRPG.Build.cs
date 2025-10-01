@@ -18,7 +18,8 @@ public class TopDownRPG : ModuleRules
 			"TopDownRPG/Public/Character",
 			"TopDownRPG/Public/Game",
 			"TopDownRPG/Public/Interaction",
-			"TopDownRPG/Public/AbilitySystem"
+			"TopDownRPG/Public/AbilitySystem",
+			"TopDownRPG/Public/Actor"
 		});
 
 		// Uncomment if you are using Slate UI
