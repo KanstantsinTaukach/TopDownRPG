@@ -8,7 +8,7 @@ public class TopDownRPG : ModuleRules
 	{
 		PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
 	
-		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore", "EnhancedInput", "GameplayAbilities" }); 
+		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore", "EnhancedInput", "GameplayAbilities", "UMG" }); 
 
 		PrivateDependencyModuleNames.AddRange(new string[] { "GameplayTags", "GameplayTasks" });
 		
@@ -19,7 +19,10 @@ public class TopDownRPG : ModuleRules
 			"TopDownRPG/Public/Game",
 			"TopDownRPG/Public/Interaction",
 			"TopDownRPG/Public/AbilitySystem",
-			"TopDownRPG/Public/Actor"
+			"TopDownRPG/Public/Actor",
+			"TopDownRPG/Public/UI",
+			"TopDownRPG/Public/UI/Widget",
+			"TopDownRPG/Public/UI/WidgetController"
 		});
 
 		// Uncomment if you are using Slate UI
