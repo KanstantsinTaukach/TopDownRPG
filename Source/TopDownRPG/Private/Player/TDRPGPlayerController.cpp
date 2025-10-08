@@ -24,8 +24,10 @@ void ATDRPGPlayerController::BeginPlay()
      check(PlayerMappingContext);
 
      UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(GetLocalPlayer());
-     check(Subsystem);
-     Subsystem->AddMappingContext(PlayerMappingContext, 0);
+     if(Subsystem)
+     {
+         Subsystem->AddMappingContext(PlayerMappingContext, 0);
+     }     
 
      bShowMouseCursor = true;
      DefaultMouseCursor = EMouseCursor::Default;

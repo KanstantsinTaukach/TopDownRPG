@@ -1,8 +1,9 @@
 // Copyright K.Taukach
 
 #include "Character/TDRPGCharacter.h"
-
 #include "AbilitySystemComponent.h"
+#include "UI/HUD/TDRPGHUD.h"
+#include "Player/TDRPGPlayerController.h"
 #include "Player/TDRPGPlayerState.h"
 #include "Camera/CameraComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
@@ -52,4 +53,12 @@ void ATDRPGCharacter::InitAbilityActorInfo()
     
     AbilitySystemComponent = TDRPGPlayerState->GetAbilitySystemComponent();
     AttributeSet = TDRPGPlayerState->GetAttributeSet();
+    
+    if(ATDRPGPlayerController* TDRPGPlayerController = Cast<ATDRPGPlayerController>(GetController()))
+    {        
+        if(ATDRPGHUD* TDRPGHUD = Cast<ATDRPGHUD>(TDRPGPlayerController->GetHUD()))
+        {
+            TDRPGHUD->InitOverlay(TDRPGPlayerController, TDRPGPlayerState, AbilitySystemComponent, AttributeSet);
+        }
+    }
 }
