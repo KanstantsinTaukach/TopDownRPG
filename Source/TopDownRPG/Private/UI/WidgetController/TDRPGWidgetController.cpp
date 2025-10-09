@@ -9,3 +9,8 @@ void UTDRPGWidgetController::SetWidgetControllerParams(const FWidgetControllerPa
     AbilitySystemComponent = WidgetControllerParams.AbilitySystemComponent;
     AttributeSet = WidgetControllerParams.AttributeSet;
 }
+
+void UTDRPGWidgetController::BroadcastInitialValues()
+{
+    
+}

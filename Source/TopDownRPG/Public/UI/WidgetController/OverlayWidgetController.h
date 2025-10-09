@@ -6,9 +6,20 @@
 #include "UI/WidgetController/TDRPGWidgetController.h"
 #include "OverlayWidgetController.generated.h"
 
-UCLASS()
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnHealthChangedSignature, float, NewHealth);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnMaxHealthChangedSignature, float, NewMaxHealth);
+
+UCLASS(Blueprintable, Blueprintable)
 class TOPDOWNRPG_API UOverlayWidgetController : public UTDRPGWidgetController
 {
 	GENERATED_BODY()
-	
+
+public:
+    virtual void BroadcastInitialValues() override;
+
+    UPROPERTY(BlueprintAssignable, Category = "GAS|Attributes")
+    FOnHealthChangedSignature OnHealthChanged;
+    
+    UPROPERTY(BlueprintAssignable, Category = "GAS|Attributes")
+    FOnMaxHealthChangedSignature OnMaxHealthChanged;
 };
