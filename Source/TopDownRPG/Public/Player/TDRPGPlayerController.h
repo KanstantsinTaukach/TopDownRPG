@@ -36,6 +36,6 @@ private:
 
     void CursorTrace();
 
-    TObjectPtr<ITDRPGEnemyInterface> LastActor;
-    TObjectPtr<ITDRPGEnemyInterface> ThisActor;
+    ITDRPGEnemyInterface* LastActor;
+    ITDRPGEnemyInterface* ThisActor;
 };

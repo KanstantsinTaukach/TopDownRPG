@@ -11,6 +11,8 @@ UOverlayWidgetController* ATDRPGHUD::GetOverlayWidgetController(const FWidgetCon
         OverlayWidgetController = NewObject<UOverlayWidgetController>(this, OverlayWidgetControllerClass);
         OverlayWidgetController->SetWidgetControllerParams(WidgetControllerParams);
 
+        OverlayWidgetController->BindCallbacksToDependencies();
+
         return OverlayWidgetController;
     }
     return OverlayWidgetController;

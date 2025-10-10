@@ -11,6 +11,9 @@ void UTDRPGWidgetController::SetWidgetControllerParams(const FWidgetControllerPa
 }
 
 void UTDRPGWidgetController::BroadcastInitialValues()
+{    
+}
+
+void UTDRPGWidgetController::BindCallbacksToDependencies()
 {
-    
 }
