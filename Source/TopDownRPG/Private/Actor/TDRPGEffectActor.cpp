@@ -38,6 +38,7 @@ void ATDRPGEffectActor::OnOverlap(UPrimitiveComponent* OverlappedComponent, AAct
         
         UTDRPGAttributeSet* MutableTDRPGAttibuteSet = const_cast<UTDRPGAttributeSet*>(TDRPGAttributeSet);
         MutableTDRPGAttibuteSet->SetHealth(TDRPGAttributeSet->GetHealth() + 25.0f);
+        MutableTDRPGAttibuteSet->SetMana(TDRPGAttributeSet->GetMana() + 25.0f);
         Destroy();
     }
 }
