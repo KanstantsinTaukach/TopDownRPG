@@ -2,50 +2,37 @@
 
 #include "Actor/TDRPGEffectActor.h"
 
+#include "AbilitySystemBlueprintLibrary.h"
 #include "AbilitySystemComponent.h"
 #include "AbilitySystemInterface.h"
-#include "AbilitySystem/TDRPGAttributeSet.h"
-#include "Components/StaticMeshComponent.h"
-#include "Components/SphereComponent.h"
 
 ATDRPGEffectActor::ATDRPGEffectActor()
 {
 	PrimaryActorTick.bCanEverTick = false;
 
-    StaticMeshComponent = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("StaticMeshComponent"));
-    SetRootComponent(StaticMeshComponent);
-    
-    SphereComponent = CreateDefaultSubobject<USphereComponent>(TEXT("SphereComponent"));
-    SphereComponent->SetupAttachment(GetRootComponent());
+    SetRootComponent(CreateDefaultSubobject<USceneComponent>("SceneRoot"));
 }
 
 void ATDRPGEffectActor::BeginPlay()
 {
     Super::BeginPlay();
-
-    SphereComponent->OnComponentBeginOverlap.AddDynamic(this, &ATDRPGEffectActor::OnOverlap);
-    SphereComponent->OnComponentEndOverlap.AddDynamic(this, &ATDRPGEffectActor::EndOverlap);
 }
 
-void ATDRPGEffectActor::OnOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp,
-    int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+void ATDRPGEffectActor::ApplyEffectToTarget(AActor* Target, TSubclassOf<UGameplayEffect> GameplayEffectClass)
 {
-    // TODO: Change this to apply a Gameplay Effect. For now, using const_cast as a hack!
-    
-    if(IAbilitySystemInterface* ASCInterface = Cast<IAbilitySystemInterface>(OtherActor))
+    /** We can use this instead of UAbilitySystemComponent* TargetASC = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(Target);
+    IAbilitySystemInterface* ASInterface = Cast<IAbilitySystemInterface>(Target);
+    if(ASInterface)
     {
-        const UTDRPGAttributeSet* TDRPGAttributeSet = Cast<UTDRPGAttributeSet>(ASCInterface->GetAbilitySystemComponent()->GetAttributeSet(UTDRPGAttributeSet::StaticClass()));
-        
-        UTDRPGAttributeSet* MutableTDRPGAttibuteSet = const_cast<UTDRPGAttributeSet*>(TDRPGAttributeSet);
-        MutableTDRPGAttibuteSet->SetHealth(TDRPGAttributeSet->GetHealth() + 25.0f);
-        MutableTDRPGAttibuteSet->SetMana(TDRPGAttributeSet->GetMana() + 25.0f);
-        Destroy();
-    }
-}
+        UAbilitySystemComponent* TargetASC = ASInterface->GetAbilitySystemComponent();
+    }    
+    */    
+    UAbilitySystemComponent* TargetASC = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(Target);
+    if(TargetASC == nullptr) return;
 
-void ATDRPGEffectActor::EndOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp,
-    int32 OtherBodyIndex)
-{
-    
+    check(GameplayEffectClass);
+    FGameplayEffectContextHandle EffectContextHandle = TargetASC->MakeEffectContext();
+    EffectContextHandle.AddSourceObject(this);
+    const FGameplayEffectSpecHandle EffectSpecHandle = TargetASC->MakeOutgoingSpec(GameplayEffectClass, 1.0f, EffectContextHandle);
+    TargetASC->ApplyGameplayEffectSpecToSelf(*EffectSpecHandle.Data.Get());
 }
-

@@ -6,8 +6,7 @@
 #include "GameFramework/Actor.h"
 #include "TDRPGEffectActor.generated.h"
 
-class USphereComponent;
-class UStaticMeshComponent;
+class UGameplayEffect;
 
 UCLASS()
 class TOPDOWNRPG_API ATDRPGEffectActor : public AActor
@@ -16,19 +15,13 @@ class TOPDOWNRPG_API ATDRPGEffectActor : public AActor
 	
 public:	
 	ATDRPGEffectActor();
-
-    UFUNCTION()
-    virtual void OnOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
-    UFUNCTION()
-    virtual void EndOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
     
 protected:
 	virtual void BeginPlay() override;
 
-private:
-    UPROPERTY(VisibleAnywhere)
-    TObjectPtr<UStaticMeshComponent> StaticMeshComponent;
-
-    UPROPERTY(VisibleAnywhere)
-    TObjectPtr<USphereComponent> SphereComponent;
+    UFUNCTION(BlueprintCallable)
+    void ApplyEffectToTarget(AActor* Target, TSubclassOf<UGameplayEffect> GameplayEffectClass);
+    
+    UPROPERTY(EditAnywhere, Category = "Applied Effects")
+    TSubclassOf<UGameplayEffect> InstantGameplayEffectClass;
 };
