@@ -4,7 +4,6 @@
 
 #include "AbilitySystemBlueprintLibrary.h"
 #include "AbilitySystemComponent.h"
-#include "AbilitySystemInterface.h"
 
 ATDRPGEffectActor::ATDRPGEffectActor()
 {
@@ -18,16 +17,9 @@ void ATDRPGEffectActor::BeginPlay()
     Super::BeginPlay();
 }
 
-void ATDRPGEffectActor::ApplyEffectToTarget(AActor* Target, TSubclassOf<UGameplayEffect> GameplayEffectClass)
+void ATDRPGEffectActor::ApplyEffectToTarget(AActor* TargetActor, TSubclassOf<UGameplayEffect> GameplayEffectClass)
 {
-    /** We can use this instead of UAbilitySystemComponent* TargetASC = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(Target);
-    IAbilitySystemInterface* ASInterface = Cast<IAbilitySystemInterface>(Target);
-    if(ASInterface)
-    {
-        UAbilitySystemComponent* TargetASC = ASInterface->GetAbilitySystemComponent();
-    }    
-    */    
-    UAbilitySystemComponent* TargetASC = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(Target);
+    UAbilitySystemComponent* TargetASC = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(TargetActor);
     if(TargetASC == nullptr) return;
 
     check(GameplayEffectClass);
