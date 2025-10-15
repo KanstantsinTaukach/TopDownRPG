@@ -28,3 +28,13 @@ void ATDRPGEffectActor::ApplyEffectToTarget(AActor* TargetActor, TSubclassOf<UGa
     const FGameplayEffectSpecHandle EffectSpecHandle = TargetASC->MakeOutgoingSpec(GameplayEffectClass, 1.0f, EffectContextHandle);
     TargetASC->ApplyGameplayEffectSpecToSelf(*EffectSpecHandle.Data.Get());
 }
+
+void ATDRPGEffectActor::OnOverlap(AActor* TargetActor)
+{
+    
+}
+
+void ATDRPGEffectActor::OnEndOverlap(AActor* TargetActor)
+{
+    
+}
