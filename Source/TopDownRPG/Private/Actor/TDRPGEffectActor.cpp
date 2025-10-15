@@ -31,10 +31,26 @@ void ATDRPGEffectActor::ApplyEffectToTarget(AActor* TargetActor, TSubclassOf<UGa
 
 void ATDRPGEffectActor::OnOverlap(AActor* TargetActor)
 {
+    if(InstantEffectApplicationPolicy == EEffectApplicationPolicy::ApplyOnOverlap)
+    {
+        ApplyEffectToTarget(TargetActor, InstantGameplayEffectClass);
+    }
     
+    if(DurationEffectApplicationPolicy == EEffectApplicationPolicy::ApplyOnOverlap)
+    {
+        ApplyEffectToTarget(TargetActor, DurationGameplayEffectClass);
+    }
 }
 
 void ATDRPGEffectActor::OnEndOverlap(AActor* TargetActor)
 {
+    if(InstantEffectApplicationPolicy == EEffectApplicationPolicy::ApplyOnEndOverlap)
+    {
+        ApplyEffectToTarget(TargetActor, InstantGameplayEffectClass);
+    }
     
+    if(DurationEffectApplicationPolicy == EEffectApplicationPolicy::ApplyOnEndOverlap)
+    {
+        ApplyEffectToTarget(TargetActor, DurationGameplayEffectClass);
+    }
 }
