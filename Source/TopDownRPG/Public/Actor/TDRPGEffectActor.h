@@ -4,12 +4,14 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "GameplayEffectTypes.h"
 #include "TDRPGEffectActor.generated.h"
 
+class UAbilitySystemComponent;
 class UGameplayEffect;
 
 UENUM(BlueprintType)
-enum class EEffectApplicationPolicy
+enum class EEffectApplicationPolicy : uint8
 {
     ApplyOnOverlap,
     ApplyOnEndOverlap,
@@ -17,7 +19,7 @@ enum class EEffectApplicationPolicy
 };
 
 UENUM(BlueprintType)
-enum class EEffectRemovalPolicy
+enum class EEffectRemovalPolicy : uint8
 {
     RemoveOnEndOverlap,
     DoNotRemove
@@ -60,5 +62,7 @@ protected:
     UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Applied Effects")
     EEffectApplicationPolicy InfiniteEffectApplicationPolicy = EEffectApplicationPolicy::DoNotApply;
     UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Applied Effects")
-    EEffectRemovalPolicy InfiniteEffectREmovalPolicy = EEffectRemovalPolicy::RemoveOnEndOverlap;
+    EEffectRemovalPolicy InfiniteEffectRemovalPolicy = EEffectRemovalPolicy::RemoveOnEndOverlap;
+
+    TMap<FActiveGameplayEffectHandle, UAbilitySystemComponent*> ActiveEffectHandles;
 };
