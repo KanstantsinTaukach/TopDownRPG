@@ -6,6 +6,8 @@
 #include "AbilitySystemComponent.h"
 #include "TDRPGAbilitySystemComponent.generated.h"
 
+DECLARE_MULTICAST_DELEGATE_OneParam(FEffectAssetTagsSignature, const FGameplayTagContainer& /*AssetTags*/);
+
 UCLASS()
 class TOPDOWNRPG_API UTDRPGAbilitySystemComponent : public UAbilitySystemComponent
 {
@@ -13,6 +15,8 @@ class TOPDOWNRPG_API UTDRPGAbilitySystemComponent : public UAbilitySystemCompone
 
 public:
     void AbilityActorInfoSet();
+
+    FEffectAssetTagsSignature EffectAssetTags;
     
 protected:
     void EffectApplied(UAbilitySystemComponent* AbilitySystemComponent, const FGameplayEffectSpec& EffectSpec, FActiveGameplayEffectHandle ActiveEffectHandle);
