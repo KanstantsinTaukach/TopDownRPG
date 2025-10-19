@@ -28,5 +28,5 @@ protected:
     TObjectPtr<UCameraComponent> CameraComponent;
 
 private:
-    void InitAbilityActorInfo();
+    virtual void InitAbilityActorInfo() override;
 };

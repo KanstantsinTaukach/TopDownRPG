@@ -20,3 +20,8 @@ UAbilitySystemComponent* ATDRPGCharacterBase::GetAbilitySystemComponent() const
 {
     return AbilitySystemComponent;
 }
+
+void ATDRPGCharacterBase::InitAbilityActorInfo()
+{
+    
+}

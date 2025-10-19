@@ -2,6 +2,7 @@
 
 #include "Character/TDRPGCharacter.h"
 #include "AbilitySystemComponent.h"
+#include "AbilitySystem/TDRPGAbilitySystemComponent.h"
 #include "UI/HUD/TDRPGHUD.h"
 #include "Player/TDRPGPlayerController.h"
 #include "Player/TDRPGPlayerState.h"
@@ -50,6 +51,7 @@ void ATDRPGCharacter::InitAbilityActorInfo()
     ATDRPGPlayerState* TDRPGPlayerState = GetPlayerState<ATDRPGPlayerState>();
     check(TDRPGPlayerState);
     TDRPGPlayerState->GetAbilitySystemComponent()->InitAbilityActorInfo(TDRPGPlayerState, this);
+    Cast<UTDRPGAbilitySystemComponent>(TDRPGPlayerState->GetAbilitySystemComponent())->AbilityActorInfoSet();
     
     AbilitySystemComponent = TDRPGPlayerState->GetAbilitySystemComponent();
     AttributeSet = TDRPGPlayerState->GetAttributeSet();

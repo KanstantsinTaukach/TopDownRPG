@@ -21,7 +21,13 @@ void ATDRPGEnemy::BeginPlay()
 {
     Super::BeginPlay();
 
+    InitAbilityActorInfo();
+}
+
+void ATDRPGEnemy::InitAbilityActorInfo()
+{
     AbilitySystemComponent->InitAbilityActorInfo(this, this);
+    Cast<UTDRPGAbilitySystemComponent>(AbilitySystemComponent)->AbilityActorInfoSet();
 }
 
 void ATDRPGEnemy::HighlightActor()
