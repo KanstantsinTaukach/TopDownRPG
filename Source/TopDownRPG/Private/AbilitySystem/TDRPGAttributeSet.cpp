@@ -21,9 +21,13 @@ void UTDRPGAttributeSet::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& O
 
     DOREPLIFETIME_CONDITION_NOTIFY(UTDRPGAttributeSet, Health, COND_None, REPNOTIFY_Always);
     DOREPLIFETIME_CONDITION_NOTIFY(UTDRPGAttributeSet, MaxHealth, COND_None, REPNOTIFY_Always);
-
     DOREPLIFETIME_CONDITION_NOTIFY(UTDRPGAttributeSet, Mana, COND_None, REPNOTIFY_Always);
     DOREPLIFETIME_CONDITION_NOTIFY(UTDRPGAttributeSet, MaxMana, COND_None, REPNOTIFY_Always);
+
+    DOREPLIFETIME_CONDITION_NOTIFY(UTDRPGAttributeSet, Strength, COND_None, REPNOTIFY_Always);
+    DOREPLIFETIME_CONDITION_NOTIFY(UTDRPGAttributeSet, Intelligence, COND_None, REPNOTIFY_Always);
+    DOREPLIFETIME_CONDITION_NOTIFY(UTDRPGAttributeSet, Resilience, COND_None, REPNOTIFY_Always);
+    DOREPLIFETIME_CONDITION_NOTIFY(UTDRPGAttributeSet, Vigor, COND_None, REPNOTIFY_Always);
 }
 
 void UTDRPGAttributeSet::PreAttributeChange(const FGameplayAttribute& Attribute, float& NewValue)
@@ -112,4 +116,24 @@ void UTDRPGAttributeSet::OnRep_Mana(const FGameplayAttributeData& OldMana) const
 void UTDRPGAttributeSet::OnRep_MaxMana(const FGameplayAttributeData& OldMaxMana) const
 {
     GAMEPLAYATTRIBUTE_REPNOTIFY(UTDRPGAttributeSet, MaxMana, OldMaxMana);
+}
+
+void UTDRPGAttributeSet::OnRep_Strength(const FGameplayAttributeData& OldStrength) const
+{
+    GAMEPLAYATTRIBUTE_REPNOTIFY(UTDRPGAttributeSet, Strength, OldStrength);
+}
+
+void UTDRPGAttributeSet::OnRep_Intelligence(const FGameplayAttributeData& OldIntelligence) const
+{
+    GAMEPLAYATTRIBUTE_REPNOTIFY(UTDRPGAttributeSet, Intelligence, OldIntelligence);
+}
+
+void UTDRPGAttributeSet::OnRep_Resilience(const FGameplayAttributeData& OldResilience) const
+{
+    GAMEPLAYATTRIBUTE_REPNOTIFY(UTDRPGAttributeSet, Resilience, OldResilience);
+}
+
+void UTDRPGAttributeSet::OnRep_Vigor(const FGameplayAttributeData& OldVigor) const
+{
+    GAMEPLAYATTRIBUTE_REPNOTIFY(UTDRPGAttributeSet, Vigor, OldVigor);
 }
