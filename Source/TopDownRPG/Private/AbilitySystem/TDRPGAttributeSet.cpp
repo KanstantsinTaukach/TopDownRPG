@@ -46,6 +46,15 @@ void UTDRPGAttributeSet::PostGameplayEffectExecute(const struct FGameplayEffectM
 
     FEffectProperties Props;
     SetEffectProperties(Data, Props);
+
+    if(Data.EvaluatedData.Attribute == GetHealthAttribute())
+    {
+        SetHealth(FMath::Clamp(GetHealth(), 0.0f, GetMaxHealth()));
+    }
+    if(Data.EvaluatedData.Attribute == GetManaAttribute())
+    {
+        SetMana(FMath::Clamp(GetMana(), 0.0f, GetMaxMana()));
+    }
 }
 
 void UTDRPGAttributeSet::SetEffectProperties(const struct FGameplayEffectModCallbackData& Data, FEffectProperties& Props) const
