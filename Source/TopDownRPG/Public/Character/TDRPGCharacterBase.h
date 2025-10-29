@@ -7,6 +7,7 @@
 #include "GameFramework/Character.h"
 #include "TDRPGCharacterBase.generated.h"
 
+class UGameplayEffect;
 class UAbilitySystemComponent;
 class UAttributeSet;
 
@@ -24,6 +25,8 @@ public:
 protected:
     virtual void BeginPlay() override;
 
+    virtual void InitAbilityActorInfo();
+
     UPROPERTY(EditAnywhere, Category = "Combat")
     TObjectPtr<USkeletalMeshComponent> WeaponSkeletalMesh;
 
@@ -33,5 +36,8 @@ protected:
     UPROPERTY()
     TObjectPtr<UAttributeSet> AttributeSet;
 
-    virtual void InitAbilityActorInfo();
+    UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Attributes")
+    TSubclassOf<UGameplayEffect> DefaultPrimaryAttributes;
+
+    void InitializePrimaryAttributes() const;
 };

@@ -1,6 +1,7 @@
 // Copyright K.Taukach
 
 #include "Character/TDRPGCharacterBase.h"
+#include "AbilitySystemComponent.h"
 
 ATDRPGCharacterBase::ATDRPGCharacterBase()
 {
@@ -24,4 +25,13 @@ UAbilitySystemComponent* ATDRPGCharacterBase::GetAbilitySystemComponent() const
 void ATDRPGCharacterBase::InitAbilityActorInfo()
 {
     
+}
+
+void ATDRPGCharacterBase::InitializePrimaryAttributes() const
+{
+    check(IsValid(GetAbilitySystemComponent()));
+    check(DefaultPrimaryAttributes);
+    const FGameplayEffectContextHandle ContextHandle = GetAbilitySystemComponent()->MakeEffectContext();
+    const FGameplayEffectSpecHandle SpecHandle = GetAbilitySystemComponent()->MakeOutgoingSpec(DefaultPrimaryAttributes, 1.0f, ContextHandle);
+    GetAbilitySystemComponent()->ApplyGameplayEffectSpecToTarget(*SpecHandle.Data.Get(), GetAbilitySystemComponent());
 }

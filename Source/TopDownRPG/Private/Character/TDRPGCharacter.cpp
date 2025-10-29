@@ -63,4 +63,6 @@ void ATDRPGCharacter::InitAbilityActorInfo()
             TDRPGHUD->InitOverlay(TDRPGPlayerController, TDRPGPlayerState, AbilitySystemComponent, AttributeSet);
         }
     }
+
+    InitializePrimaryAttributes();
 }
