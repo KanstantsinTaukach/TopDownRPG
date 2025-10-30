@@ -17,17 +17,26 @@ UTDRPGAttributeSet::UTDRPGAttributeSet()
 
 void UTDRPGAttributeSet::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
 {
-    Super::GetLifetimeReplicatedProps(OutLifetimeProps);
-
-    DOREPLIFETIME_CONDITION_NOTIFY(UTDRPGAttributeSet, Health, COND_None, REPNOTIFY_Always);
-    DOREPLIFETIME_CONDITION_NOTIFY(UTDRPGAttributeSet, MaxHealth, COND_None, REPNOTIFY_Always);
-    DOREPLIFETIME_CONDITION_NOTIFY(UTDRPGAttributeSet, Mana, COND_None, REPNOTIFY_Always);
-    DOREPLIFETIME_CONDITION_NOTIFY(UTDRPGAttributeSet, MaxMana, COND_None, REPNOTIFY_Always);
+    Super::GetLifetimeReplicatedProps(OutLifetimeProps);       
 
     DOREPLIFETIME_CONDITION_NOTIFY(UTDRPGAttributeSet, Strength, COND_None, REPNOTIFY_Always);
     DOREPLIFETIME_CONDITION_NOTIFY(UTDRPGAttributeSet, Intelligence, COND_None, REPNOTIFY_Always);
     DOREPLIFETIME_CONDITION_NOTIFY(UTDRPGAttributeSet, Resilience, COND_None, REPNOTIFY_Always);
     DOREPLIFETIME_CONDITION_NOTIFY(UTDRPGAttributeSet, Vigor, COND_None, REPNOTIFY_Always);
+
+    DOREPLIFETIME_CONDITION_NOTIFY(UTDRPGAttributeSet, Health, COND_None, REPNOTIFY_Always);    
+    DOREPLIFETIME_CONDITION_NOTIFY(UTDRPGAttributeSet, Mana, COND_None, REPNOTIFY_Always);    
+    
+    DOREPLIFETIME_CONDITION_NOTIFY(UTDRPGAttributeSet, MaxHealth, COND_None, REPNOTIFY_Always);
+    DOREPLIFETIME_CONDITION_NOTIFY(UTDRPGAttributeSet, MaxMana, COND_None, REPNOTIFY_Always);
+    DOREPLIFETIME_CONDITION_NOTIFY(UTDRPGAttributeSet, HealthRegeneration, COND_None, REPNOTIFY_Always);
+    DOREPLIFETIME_CONDITION_NOTIFY(UTDRPGAttributeSet, ManaRegeneration, COND_None, REPNOTIFY_Always);
+    DOREPLIFETIME_CONDITION_NOTIFY(UTDRPGAttributeSet, Armor, COND_None, REPNOTIFY_Always);
+    DOREPLIFETIME_CONDITION_NOTIFY(UTDRPGAttributeSet, ArmorPenetration, COND_None, REPNOTIFY_Always);
+    DOREPLIFETIME_CONDITION_NOTIFY(UTDRPGAttributeSet, BlockChance, COND_None, REPNOTIFY_Always);
+    DOREPLIFETIME_CONDITION_NOTIFY(UTDRPGAttributeSet, CriticalHitChance, COND_None, REPNOTIFY_Always);
+    DOREPLIFETIME_CONDITION_NOTIFY(UTDRPGAttributeSet, CriticalHitDamage, COND_None, REPNOTIFY_Always);
+    DOREPLIFETIME_CONDITION_NOTIFY(UTDRPGAttributeSet, CriticalHitResistance, COND_None, REPNOTIFY_Always);
 }
 
 void UTDRPGAttributeSet::PreAttributeChange(const FGameplayAttribute& Attribute, float& NewValue)
@@ -40,7 +49,7 @@ void UTDRPGAttributeSet::PreAttributeChange(const FGameplayAttribute& Attribute,
     }
     if(Attribute == GetManaAttribute())
     {
-        //NewValue = FMath::Clamp(NewValue, 0.0f, GetMaxMana());
+        //NewValue = FMath::Clamp(NewValue, 0.0f, GetManaRegeneration());
     }
 }
 
@@ -57,7 +66,7 @@ void UTDRPGAttributeSet::PostGameplayEffectExecute(const struct FGameplayEffectM
     }
     if(Data.EvaluatedData.Attribute == GetManaAttribute())
     {
-        //SetMana(FMath::Clamp(GetMana(), 0.0f, GetMaxMana()));
+        //SetMana(FMath::Clamp(GetMana(), 0.0f, GetManaRegeneration()));
     }
 }
 
@@ -98,26 +107,6 @@ void UTDRPGAttributeSet::SetEffectProperties(const struct FGameplayEffectModCall
     }
 }
 
-void UTDRPGAttributeSet::OnRep_Health(const FGameplayAttributeData& OldHealth) const
-{
-    GAMEPLAYATTRIBUTE_REPNOTIFY(UTDRPGAttributeSet, Health, OldHealth);
-}
-
-void UTDRPGAttributeSet::OnRep_MaxHealth(const FGameplayAttributeData& OldMaxHealth) const
-{
-    GAMEPLAYATTRIBUTE_REPNOTIFY(UTDRPGAttributeSet, MaxHealth, OldMaxHealth);
-}
-
-void UTDRPGAttributeSet::OnRep_Mana(const FGameplayAttributeData& OldMana) const
-{
-    GAMEPLAYATTRIBUTE_REPNOTIFY(UTDRPGAttributeSet, Mana, OldMana);
-}
-
-void UTDRPGAttributeSet::OnRep_MaxMana(const FGameplayAttributeData& OldMaxMana) const
-{
-    GAMEPLAYATTRIBUTE_REPNOTIFY(UTDRPGAttributeSet, MaxMana, OldMaxMana);
-}
-
 void UTDRPGAttributeSet::OnRep_Strength(const FGameplayAttributeData& OldStrength) const
 {
     GAMEPLAYATTRIBUTE_REPNOTIFY(UTDRPGAttributeSet, Strength, OldStrength);
@@ -136,4 +125,64 @@ void UTDRPGAttributeSet::OnRep_Resilience(const FGameplayAttributeData& OldResil
 void UTDRPGAttributeSet::OnRep_Vigor(const FGameplayAttributeData& OldVigor) const
 {
     GAMEPLAYATTRIBUTE_REPNOTIFY(UTDRPGAttributeSet, Vigor, OldVigor);
+}
+
+void UTDRPGAttributeSet::OnRep_Health(const FGameplayAttributeData& OldHealth) const
+{
+    GAMEPLAYATTRIBUTE_REPNOTIFY(UTDRPGAttributeSet, Health, OldHealth);
+}
+
+void UTDRPGAttributeSet::OnRep_Mana(const FGameplayAttributeData& OldMana) const
+{
+    GAMEPLAYATTRIBUTE_REPNOTIFY(UTDRPGAttributeSet, Mana, OldMana);
+}
+
+void UTDRPGAttributeSet::OnRep_MaxHealth(const FGameplayAttributeData& OldMaxHealth) const
+{
+    GAMEPLAYATTRIBUTE_REPNOTIFY(UTDRPGAttributeSet, MaxHealth, OldMaxHealth);
+}
+
+void UTDRPGAttributeSet::OnRep_MaxMana(const FGameplayAttributeData& OldMaxMana) const
+{
+    GAMEPLAYATTRIBUTE_REPNOTIFY(UTDRPGAttributeSet, MaxMana, OldMaxMana);
+}
+
+void UTDRPGAttributeSet::OnRep_HealthRegeneration(const FGameplayAttributeData& OldHealthRegeneration) const
+{
+    GAMEPLAYATTRIBUTE_REPNOTIFY(UTDRPGAttributeSet, HealthRegeneration, OldHealthRegeneration);
+}
+
+void UTDRPGAttributeSet::OnRep_ManaRegeneration(const FGameplayAttributeData& OldManaRegeneration) const
+{
+    GAMEPLAYATTRIBUTE_REPNOTIFY(UTDRPGAttributeSet, ManaRegeneration, OldManaRegeneration);
+}
+
+void UTDRPGAttributeSet::OnRep_Armor(const FGameplayAttributeData& OldArmor) const
+{
+    GAMEPLAYATTRIBUTE_REPNOTIFY(UTDRPGAttributeSet, Armor, OldArmor);
+}
+
+void UTDRPGAttributeSet::OnRep_ArmorPenetration(const FGameplayAttributeData& OldArmorPenetration) const
+{
+    GAMEPLAYATTRIBUTE_REPNOTIFY(UTDRPGAttributeSet, ArmorPenetration, OldArmorPenetration);
+}
+
+void UTDRPGAttributeSet::OnRep_BlockChance(const FGameplayAttributeData& OldBlockChance) const
+{
+    GAMEPLAYATTRIBUTE_REPNOTIFY(UTDRPGAttributeSet, BlockChance, OldBlockChance);
+}
+
+void UTDRPGAttributeSet::OnRep_CriticalHitChance(const FGameplayAttributeData& OldCriticalHitChance) const
+{
+    GAMEPLAYATTRIBUTE_REPNOTIFY(UTDRPGAttributeSet, CriticalHitChance, OldCriticalHitChance);
+}
+
+void UTDRPGAttributeSet::OnRep_CriticalHitDamage(const FGameplayAttributeData& OldCriticalHitDamage) const
+{
+    GAMEPLAYATTRIBUTE_REPNOTIFY(UTDRPGAttributeSet, CriticalHitDamage, OldCriticalHitDamage);
+}
+
+void UTDRPGAttributeSet::OnRep_CriticalHitResistance(const FGameplayAttributeData& OldCriticalHitResistance) const
+{
+    GAMEPLAYATTRIBUTE_REPNOTIFY(UTDRPGAttributeSet, CriticalHitResistance, OldCriticalHitResistance);
 }
