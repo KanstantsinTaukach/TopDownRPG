@@ -64,5 +64,5 @@ void ATDRPGCharacter::InitAbilityActorInfo()
         }
     }
 
-    InitializePrimaryAttributes();
+    InitializeDefaultAttributes();
 }
