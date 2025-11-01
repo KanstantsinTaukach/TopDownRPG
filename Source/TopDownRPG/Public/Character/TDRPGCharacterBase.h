@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "AbilitySystemInterface.h"
+#include "Interaction/TDRPGCombatInterface.h"
 #include "GameFramework/Character.h"
 #include "TDRPGCharacterBase.generated.h"
 
@@ -12,7 +13,7 @@ class UAbilitySystemComponent;
 class UAttributeSet;
 
 UCLASS()
-class TOPDOWNRPG_API ATDRPGCharacterBase : public ACharacter, public IAbilitySystemInterface
+class TOPDOWNRPG_API ATDRPGCharacterBase : public ACharacter, public IAbilitySystemInterface, public ITDRPGCombatInterface
 {
     GENERATED_BODY()
 

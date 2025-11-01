@@ -66,3 +66,10 @@ void ATDRPGCharacter::InitAbilityActorInfo()
 
     InitializeDefaultAttributes();
 }
+
+int32 ATDRPGCharacter::GetPlayerLevel() const
+{
+    const ATDRPGPlayerState* TDRPGPlayerState = GetPlayerState<ATDRPGPlayerState>();
+    check(TDRPGPlayerState);
+    return TDRPGPlayerState->GetPlayerLevel();
+}
