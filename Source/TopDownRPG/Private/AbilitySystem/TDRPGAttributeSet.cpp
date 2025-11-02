@@ -9,8 +9,7 @@
 
 UTDRPGAttributeSet::UTDRPGAttributeSet()
 {
-    InitHealth(10.0f);
-    InitMana(10.0f);
+    
 }
 
 void UTDRPGAttributeSet::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
@@ -47,7 +46,7 @@ void UTDRPGAttributeSet::PreAttributeChange(const FGameplayAttribute& Attribute,
     }
     if(Attribute == GetManaAttribute())
     {
-        NewValue = FMath::Clamp(NewValue, 0.0f, GetManaRegeneration());
+        NewValue = FMath::Clamp(NewValue, 0.0f, GetMaxMana());
     }
 }
 
@@ -64,7 +63,7 @@ void UTDRPGAttributeSet::PostGameplayEffectExecute(const struct FGameplayEffectM
     }
     if(Data.EvaluatedData.Attribute == GetManaAttribute())
     {
-        SetMana(FMath::Clamp(GetMana(), 0.0f, GetManaRegeneration()));
+        SetMana(FMath::Clamp(GetMana(), 0.0f, GetMaxMana()));
     }
 }
 
