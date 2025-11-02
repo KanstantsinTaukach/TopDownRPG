@@ -19,6 +19,7 @@ public class TopDownRPG : ModuleRules
 			"TopDownRPG/Public/Game",
 			"TopDownRPG/Public/Interaction",
 			"TopDownRPG/Public/AbilitySystem",
+			"TopDownRPG/Public/AbilitySystem/MMC",
 			"TopDownRPG/Public/Actor",
 			"TopDownRPG/Public/UI",
 			"TopDownRPG/Public/UI/Widget",
