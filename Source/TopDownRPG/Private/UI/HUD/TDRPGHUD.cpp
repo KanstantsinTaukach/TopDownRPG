@@ -3,6 +3,7 @@
 #include "UI/HUD/TDRPGHUD.h"
 #include "UI/Widget/TDRPGUserWidget.h"
 #include "UI/WidgetController/OverlayWidgetController.h"
+#include "UI/WidgetController/AttributeWidgetController.h"
 
 UOverlayWidgetController* ATDRPGHUD::GetOverlayWidgetController(const FWidgetControllerParams& WidgetControllerParams)
 {
@@ -10,12 +11,20 @@ UOverlayWidgetController* ATDRPGHUD::GetOverlayWidgetController(const FWidgetCon
     {
         OverlayWidgetController = NewObject<UOverlayWidgetController>(this, OverlayWidgetControllerClass);
         OverlayWidgetController->SetWidgetControllerParams(WidgetControllerParams);
-
         OverlayWidgetController->BindCallbacksToDependencies();
-
-        return OverlayWidgetController;
     }
     return OverlayWidgetController;
+}
+
+UAttributeWidgetController* ATDRPGHUD::GetAttributeWidgetController(const FWidgetControllerParams& WidgetControllerParams)
+{
+    if(AttributeWidgetController == nullptr)
+    {
+        AttributeWidgetController = NewObject<UAttributeWidgetController>(this, AttributeWidgetControllerClass);
+        AttributeWidgetController->SetWidgetControllerParams(WidgetControllerParams);
+        AttributeWidgetController->BindCallbacksToDependencies();
+    }
+    return AttributeWidgetController;
 }
 
 void ATDRPGHUD::InitOverlay(APlayerController* PC, APlayerState* PS, UAbilitySystemComponent* ASC, UAttributeSet* AS)

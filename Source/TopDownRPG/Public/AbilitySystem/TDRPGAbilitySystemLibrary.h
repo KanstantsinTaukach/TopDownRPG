@@ -6,6 +6,7 @@
 #include "Kismet/BlueprintFunctionLibrary.h"
 #include "TDRPGAbilitySystemLibrary.generated.h"
 
+class UAttributeWidgetController;
 class UOverlayWidgetController;
 
 UCLASS()
@@ -16,4 +17,7 @@ class TOPDOWNRPG_API UTDRPGAbilitySystemLibrary : public UBlueprintFunctionLibra
 public:
     UFUNCTION(BlueprintPure, Category = "TDRPGAbilitySystemLibrary|WidgetController")
     static UOverlayWidgetController* GetOverlayWidgetController(const UObject* WorldContextObject);
+
+    UFUNCTION(BlueprintPure, Category = "TDRPGAbilitySystemLibrary|WidgetController")
+    static UAttributeWidgetController* GetAttributeWidgetController (const UObject* WorldContextObject);
 };

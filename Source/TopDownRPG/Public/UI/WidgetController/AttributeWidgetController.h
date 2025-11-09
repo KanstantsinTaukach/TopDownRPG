@@ -6,7 +6,7 @@
 #include "UI/WidgetController/TDRPGWidgetController.h"
 #include "AttributeWidgetController.generated.h"
 
-UCLASS()
+UCLASS(BlueprintType, Blueprintable)
 class TOPDOWNRPG_API UAttributeWidgetController : public UTDRPGWidgetController
 {
 	GENERATED_BODY()

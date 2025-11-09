@@ -31,7 +31,7 @@ struct FUIWidgetRow : public FTableRowBase
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnAttributeChangedSignature, float, NewValue);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FMessageWidgetRowSignature, FUIWidgetRow, Row);
 
-UCLASS(Blueprintable, Blueprintable)
+UCLASS(BlueprintType, Blueprintable)
 class TOPDOWNRPG_API UOverlayWidgetController : public UTDRPGWidgetController
 {
 	GENERATED_BODY()
