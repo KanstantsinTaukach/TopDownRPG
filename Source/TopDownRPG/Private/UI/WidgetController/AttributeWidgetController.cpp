@@ -13,9 +13,12 @@ void UAttributeWidgetController::BroadcastInitialValues()
 
     check(AttributeInfo);
 
-    FTDRPGAttributeInfo Info = AttributeInfo->FindAttributeInfoForTag(FTDRPGGameplayTags::Get().Attributes_Primary_Strength);
-    Info.AttributeValue = AS->GetStrength();
-    AttributeInfoDelegate.Broadcast(Info);
+    for(auto& Pair: AS->TagsToAttributes)
+    {
+        FTDRPGAttributeInfo Info = AttributeInfo->FindAttributeInfoForTag(Pair.Key);
+        Info.AttributeValue = Pair.Value().GetNumericValue(AS);
+        AttributeInfoDelegate.Broadcast(Info);
+    }
 }
 
 void UAttributeWidgetController::BindCallbacksToDependencies()
