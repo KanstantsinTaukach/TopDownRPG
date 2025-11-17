@@ -36,6 +36,7 @@ void ATDRPGCharacter::PossessedBy(AController* NewController)
 
     // Init ability actor info for the Server
     InitAbilityActorInfo();
+    AddCharacterAbilities();
 }
 
 void ATDRPGCharacter::OnRep_PlayerState()
