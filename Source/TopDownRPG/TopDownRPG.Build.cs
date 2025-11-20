@@ -19,13 +19,15 @@ public class TopDownRPG : ModuleRules
 			"TopDownRPG/Public/Game",
 			"TopDownRPG/Public/Interaction",
 			"TopDownRPG/Public/AbilitySystem",
+			"TopDownRPG/Public/AbilitySystem/Abilities",
 			"TopDownRPG/Public/AbilitySystem/Data",
 			"TopDownRPG/Public/AbilitySystem/MMC",
 			"TopDownRPG/Public/Actor",
 			"TopDownRPG/Public/UI",
 			"TopDownRPG/Public/UI/Widget",
 			"TopDownRPG/Public/UI/WidgetController",
-			"TopDownRPG/Public/UI/HUD"
+			"TopDownRPG/Public/UI/HUD",
+			"TopDownRPG/Public/Input"
 		});
 
 		// Uncomment if you are using Slate UI
