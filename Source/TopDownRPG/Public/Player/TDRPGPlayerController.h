@@ -11,6 +11,7 @@ class UTDRPGInputConfig;
 class UInputMappingContext;
 class UInputAction;
 class ITDRPGEnemyInterface;
+class UTDRPGAbilitySystemComponent;
 
 struct FInputActionValue;
 
@@ -47,4 +48,9 @@ private:
 
     UPROPERTY(EditAnywhere, Category = "Input")
     TObjectPtr<UTDRPGInputConfig> InputConfig;
+
+    UPROPERTY()
+    TObjectPtr<UTDRPGAbilitySystemComponent> AbilitySystemComponent;
+
+    UTDRPGAbilitySystemComponent* GetASC();
 };

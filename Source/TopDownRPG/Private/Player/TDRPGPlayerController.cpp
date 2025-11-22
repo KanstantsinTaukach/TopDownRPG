@@ -1,7 +1,9 @@
 // Copyright K.Taukach
 
 #include "Player/TDRPGPlayerController.h"
+#include "AbilitySystemBlueprintLibrary.h"
 #include "EnhancedInputSubsystems.h"
+#include "TDRPGAbilitySystemComponent.h"
 #include "INteraction/TDRPGEnemyInterface.h"
 #include "Input/TDRPGInputComponent.h"
 
@@ -99,15 +101,29 @@ void ATDRPGPlayerController::CursorTrace()
 
 void ATDRPGPlayerController::AbilityInputTagPressed(FGameplayTag InputTag)
 {
-    GEngine->AddOnScreenDebugMessage(1, 3.0f, FColor::Red, *InputTag.ToString());
+    //GEngine->AddOnScreenDebugMessage(1, 3.0f, FColor::Red, *InputTag.ToString());
 }
 
 void ATDRPGPlayerController::AbilityInputTagReleased(FGameplayTag InputTag)
 {
-    GEngine->AddOnScreenDebugMessage(2, 3.0f, FColor::Blue, *InputTag.ToString());
+    if(GetASC() == nullptr) return;
+    
+    GetASC()->AbilityInputTagReleased(InputTag);
 }
 
 void ATDRPGPlayerController::AbilityInputTagHeld(FGameplayTag InputTag)
 {
-    GEngine->AddOnScreenDebugMessage(3, 3.0f, FColor::Green, *InputTag.ToString());
+    if(GetASC() == nullptr) return;
+    
+    GetASC()->AbilityInputTagHeld(InputTag);
+}
+
+UTDRPGAbilitySystemComponent* ATDRPGPlayerController::GetASC()
+{
+    if(AbilitySystemComponent == nullptr)
+    {
+        AbilitySystemComponent = Cast<UTDRPGAbilitySystemComponent>(UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(GetPawn<APawn>()));
+    }
+
+    return AbilitySystemComponent;
 }
