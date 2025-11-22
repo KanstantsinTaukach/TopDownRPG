@@ -4,8 +4,10 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/PlayerController.h"
+#include "GameplayTagContainer.h"
 #include "TDRPGPlayerController.generated.h"
 
+class UTDRPGInputConfig;
 class UInputMappingContext;
 class UInputAction;
 class ITDRPGEnemyInterface;
@@ -38,4 +40,11 @@ private:
 
     ITDRPGEnemyInterface* LastActor;
     ITDRPGEnemyInterface* ThisActor;
+
+    void AbilityInputTagPressed(FGameplayTag InputTag);
+    void AbilityInputTagReleased(FGameplayTag InputTag);
+    void AbilityInputTagHeld(FGameplayTag InputTag);
+
+    UPROPERTY(EditAnywhere, Category = "Input")
+    TObjectPtr<UTDRPGInputConfig> InputConfig;
 };
