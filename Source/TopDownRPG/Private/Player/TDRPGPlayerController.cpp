@@ -3,13 +3,17 @@
 #include "Player/TDRPGPlayerController.h"
 #include "AbilitySystemBlueprintLibrary.h"
 #include "EnhancedInputSubsystems.h"
-#include "TDRPGAbilitySystemComponent.h"
+#include "AbilitySystem/TDRPGAbilitySystemComponent.h"
+#include "TDRPGGameplayTags.h"
 #include "INteraction/TDRPGEnemyInterface.h"
 #include "Input/TDRPGInputComponent.h"
+#include "Components/SplineComponent.h"
 
 ATDRPGPlayerController::ATDRPGPlayerController()
 {
-     bReplicates = true;     
+     bReplicates = true;
+
+     Spline = CreateDefaultSubobject<USplineComponent>("Spline");
 }
 
 void ATDRPGPlayerController::PlayerTick(float DeltaTime)
@@ -101,21 +105,53 @@ void ATDRPGPlayerController::CursorTrace()
 
 void ATDRPGPlayerController::AbilityInputTagPressed(FGameplayTag InputTag)
 {
-    //GEngine->AddOnScreenDebugMessage(1, 3.0f, FColor::Red, *InputTag.ToString());
+    if(InputTag.MatchesTagExact(FTDRPGGameplayTags::Get().InputTag_LMB))
+    {
+        bTargeting = ThisActor ? true : false;
+        bAutoRunning = false;   
+    }
 }
 
 void ATDRPGPlayerController::AbilityInputTagReleased(FGameplayTag InputTag)
 {
-    if(GetASC() == nullptr) return;
-    
+    if(GetASC() == nullptr) return;    
     GetASC()->AbilityInputTagReleased(InputTag);
 }
 
 void ATDRPGPlayerController::AbilityInputTagHeld(FGameplayTag InputTag)
 {
-    if(GetASC() == nullptr) return;
-    
-    GetASC()->AbilityInputTagHeld(InputTag);
+    if(!InputTag.MatchesTagExact(FTDRPGGameplayTags::Get().InputTag_LMB))
+    {
+        if(GetASC())
+        {
+            GetASC()->AbilityInputTagHeld(InputTag);
+        }
+        return;
+    }
+
+    if(bTargeting)
+    {
+        if(GetASC())
+        {
+            GetASC()->AbilityInputTagHeld(InputTag);
+        }
+    }
+    else
+    {
+        FollowTime += GetWorld()->GetDeltaSeconds();
+
+        FHitResult HitResult;
+        if(GetHitResultUnderCursor(ECC_Visibility, false, HitResult))
+        {
+            CachedDestination = HitResult.ImpactPoint;
+        }
+
+        if(APawn* ControlledPawn = GetPawn())
+        {
+            const FVector WorldDirection = (CachedDestination - ControlledPawn->GetActorLocation()).GetSafeNormal();
+            ControlledPawn->AddMovementInput(WorldDirection);
+        }
+    }    
 }
 
 UTDRPGAbilitySystemComponent* ATDRPGPlayerController::GetASC()
