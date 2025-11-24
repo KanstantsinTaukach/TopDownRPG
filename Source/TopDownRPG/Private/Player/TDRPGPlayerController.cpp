@@ -3,9 +3,11 @@
 #include "Player/TDRPGPlayerController.h"
 #include "AbilitySystemBlueprintLibrary.h"
 #include "EnhancedInputSubsystems.h"
+#include "NavigationSystem.h"
+#include "NavigationPath.h"
 #include "AbilitySystem/TDRPGAbilitySystemComponent.h"
 #include "TDRPGGameplayTags.h"
-#include "INteraction/TDRPGEnemyInterface.h"
+#include "Interaction/TDRPGEnemyInterface.h"
 #include "Input/TDRPGInputComponent.h"
 #include "Components/SplineComponent.h"
 
@@ -114,8 +116,42 @@ void ATDRPGPlayerController::AbilityInputTagPressed(FGameplayTag InputTag)
 
 void ATDRPGPlayerController::AbilityInputTagReleased(FGameplayTag InputTag)
 {
-    if(GetASC() == nullptr) return;    
-    GetASC()->AbilityInputTagReleased(InputTag);
+    if(!InputTag.MatchesTagExact(FTDRPGGameplayTags::Get().InputTag_LMB))
+    {
+        if(GetASC())
+        {
+            GetASC()->AbilityInputTagReleased(InputTag);
+        }
+        return;
+    }
+
+    if(bTargeting)
+    {
+        if(GetASC())
+        {
+            GetASC()->AbilityInputTagReleased(InputTag);
+        }
+    }
+    else
+    {
+        APawn* ControlledPawn = GetPawn<APawn>();
+        if(FollowTime <= ShortPressThreshold && ControlledPawn)
+        {
+            if(UNavigationPath* NavPath = UNavigationSystemV1::FindPathToLocationSynchronously(this, ControlledPawn->GetActorLocation(), CachedDestination))
+            {
+                Spline->ClearSplinePoints();
+                for(const FVector& PointLoc : NavPath->PathPoints)
+                {
+                    Spline->AddSplinePoint(PointLoc, ESplineCoordinateSpace::World);
+                    DrawDebugSphere(GetWorld(), PointLoc, 8.0f, 8, FColor::Green, false, 5.0f);
+                }
+                bAutoRunning = true;
+            }
+        }
+        
+        FollowTime = 0.0f;
+        bTargeting = false;
+    }
 }
 
 void ATDRPGPlayerController::AbilityInputTagHeld(FGameplayTag InputTag)
