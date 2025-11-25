@@ -14,7 +14,6 @@
 ATDRPGPlayerController::ATDRPGPlayerController()
 {
      bReplicates = true;
-
      Spline = CreateDefaultSubobject<USplineComponent>("Spline");
 }
 
@@ -67,34 +66,16 @@ void ATDRPGPlayerController::AutoRun()
 
 void ATDRPGPlayerController::CursorTrace()
 {
-    FHitResult CursorHit;
     GetHitResultUnderCursor(ECC_Visibility, false, CursorHit);
     if(!CursorHit.bBlockingHit) return;
 
     LastActor = ThisActor;
     ThisActor = Cast<ITDRPGEnemyInterface>(CursorHit.GetActor());
 
-    if(LastActor == nullptr)
+    if(LastActor != ThisActor)
     {
-        if(ThisActor != nullptr)
-        {
-            ThisActor->HighlightActor();
-        }
-    }
-    else
-    {
-        if(ThisActor == nullptr)
-        {
-            LastActor->UnHighlightActor();
-        }
-        else
-        {
-            if(LastActor != ThisActor)
-            {
-                LastActor->UnHighlightActor();
-                ThisActor->HighlightActor();
-            }
-        }
+        if(LastActor) LastActor->UnHighlightActor();
+        if(ThisActor) ThisActor->HighlightActor();
     }
 }
 
@@ -137,19 +118,13 @@ void ATDRPGPlayerController::AbilityInputTagReleased(FGameplayTag InputTag)
 {
     if(!InputTag.MatchesTagExact(FTDRPGGameplayTags::Get().InputTag_LMB))
     {
-        if(GetASC())
-        {
-            GetASC()->AbilityInputTagReleased(InputTag);
-        }
+        if(GetASC()) GetASC()->AbilityInputTagReleased(InputTag);
         return;
     }
 
     if(bTargeting)
     {
-        if(GetASC())
-        {
-            GetASC()->AbilityInputTagReleased(InputTag);
-        }
+        if(GetASC()) GetASC()->AbilityInputTagReleased(InputTag);
     }
     else
     {
@@ -162,7 +137,6 @@ void ATDRPGPlayerController::AbilityInputTagReleased(FGameplayTag InputTag)
                 for(const FVector& PointLoc : NavPath->PathPoints)
                 {
                     Spline->AddSplinePoint(PointLoc, ESplineCoordinateSpace::World);
-                    DrawDebugSphere(GetWorld(), PointLoc, 8.0f, 8, FColor::Green, false, 5.0f);
                 }
                 CachedDestination = NavPath->PathPoints[NavPath->PathPoints.Num() - 1];
                 bAutoRunning = true;
@@ -178,29 +152,19 @@ void ATDRPGPlayerController::AbilityInputTagHeld(FGameplayTag InputTag)
 {
     if(!InputTag.MatchesTagExact(FTDRPGGameplayTags::Get().InputTag_LMB))
     {
-        if(GetASC())
-        {
-            GetASC()->AbilityInputTagHeld(InputTag);
-        }
+        if(GetASC()) GetASC()->AbilityInputTagHeld(InputTag);
         return;
     }
 
     if(bTargeting)
     {
-        if(GetASC())
-        {
-            GetASC()->AbilityInputTagHeld(InputTag);
-        }
+        if(GetASC()) GetASC()->AbilityInputTagHeld(InputTag);
     }
     else
     {
         FollowTime += GetWorld()->GetDeltaSeconds();
-
-        FHitResult HitResult;
-        if(GetHitResultUnderCursor(ECC_Visibility, false, HitResult))
-        {
-            CachedDestination = HitResult.ImpactPoint;
-        }
+        
+        if(CursorHit.bBlockingHit) CachedDestination = CursorHit.ImpactPoint;
 
         if(APawn* ControlledPawn = GetPawn())
         {

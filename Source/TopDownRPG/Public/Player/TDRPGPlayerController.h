@@ -39,9 +39,9 @@ private:
     void Move(const FInputActionValue& InputActionValue);
 
     void CursorTrace();
-
     ITDRPGEnemyInterface* LastActor;
     ITDRPGEnemyInterface* ThisActor;
+    FHitResult CursorHit;
 
     void AbilityInputTagPressed(FGameplayTag InputTag);
     void AbilityInputTagReleased(FGameplayTag InputTag);
