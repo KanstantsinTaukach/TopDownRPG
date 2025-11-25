@@ -18,58 +18,51 @@ ATDRPGPlayerController::ATDRPGPlayerController()
      Spline = CreateDefaultSubobject<USplineComponent>("Spline");
 }
 
+void ATDRPGPlayerController::BeginPlay()
+{
+    Super::BeginPlay();
+     
+    check(PlayerMappingContext);
+
+    UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(GetLocalPlayer());
+    if(Subsystem)
+    {
+        Subsystem->AddMappingContext(PlayerMappingContext, 0);
+    }     
+
+    bShowMouseCursor = true;
+    DefaultMouseCursor = EMouseCursor::Default;
+
+    FInputModeGameAndUI InputModeData;
+    InputModeData.SetLockMouseToViewportBehavior(EMouseLockMode::DoNotLock);
+    InputModeData.SetHideCursorDuringCapture(false);
+    SetInputMode(InputModeData);
+}
+
 void ATDRPGPlayerController::PlayerTick(float DeltaTime)
  {
      Super::PlayerTick(DeltaTime);
 
      CursorTrace();
+     AutoRun();
  }
 
-void ATDRPGPlayerController::BeginPlay()
+void ATDRPGPlayerController::AutoRun()
 {
-     Super::BeginPlay();
-     
-     check(PlayerMappingContext);
+    if(!bAutoRunning) return;
+    
+    if(APawn* ControlledPawn = GetPawn())
+    {
+        const FVector LocationOnSpline = Spline->FindLocationClosestToWorldLocation(ControlledPawn->GetActorLocation(), ESplineCoordinateSpace::World);
+        const FVector Direction = Spline->FindDirectionClosestToWorldLocation(LocationOnSpline, ESplineCoordinateSpace::World);
+        ControlledPawn->AddMovementInput(Direction);
 
-     UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(GetLocalPlayer());
-     if(Subsystem)
-     {
-         Subsystem->AddMappingContext(PlayerMappingContext, 0);
-     }     
-
-     bShowMouseCursor = true;
-     DefaultMouseCursor = EMouseCursor::Default;
-
-     FInputModeGameAndUI InputModeData;
-     InputModeData.SetLockMouseToViewportBehavior(EMouseLockMode::DoNotLock);
-     InputModeData.SetHideCursorDuringCapture(false);
-     SetInputMode(InputModeData);
-}
-
-void ATDRPGPlayerController::SetupInputComponent()
-{
-     Super::SetupInputComponent();
-
-     UTDRPGInputComponent* TDRPGInputComponent = CastChecked<UTDRPGInputComponent>(InputComponent);
-     TDRPGInputComponent->BindAction(MoveAction, ETriggerEvent::Triggered, this, &ATDRPGPlayerController::Move);
-
-     TDRPGInputComponent->BindAbilityActions(InputConfig, this, &ThisClass::AbilityInputTagPressed, &ThisClass::AbilityInputTagReleased, &ThisClass::AbilityInputTagHeld);
-}
-
-void ATDRPGPlayerController::Move(const FInputActionValue& InputActionValue)
-{
-     const FVector2d InputAxisVector = InputActionValue.Get<FVector2d>();
-     const FRotator Rotation = GetControlRotation();
-     const FRotator YawRotation(0.0, Rotation.Yaw, 0.0);
-
-     const FVector ForwardDirection = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::X);
-     const FVector RightDirection = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::Y);
-
-     if(APawn* ControlledPawn = GetPawn<APawn>())
-     {
-         ControlledPawn->AddMovementInput(ForwardDirection, InputAxisVector.Y);
-         ControlledPawn->AddMovementInput(RightDirection, InputAxisVector.X);
-     }
+        const float DistanceToDestination = (LocationOnSpline - CachedDestination).Length();
+        if(DistanceToDestination <= AutoRunAcceptanceRadius)
+        {
+            bAutoRunning = false;
+        }
+    }
 }
 
 void ATDRPGPlayerController::CursorTrace()
@@ -103,6 +96,32 @@ void ATDRPGPlayerController::CursorTrace()
             }
         }
     }
+}
+
+void ATDRPGPlayerController::SetupInputComponent()
+{
+     Super::SetupInputComponent();
+
+     UTDRPGInputComponent* TDRPGInputComponent = CastChecked<UTDRPGInputComponent>(InputComponent);
+     TDRPGInputComponent->BindAction(MoveAction, ETriggerEvent::Triggered, this, &ATDRPGPlayerController::Move);
+
+     TDRPGInputComponent->BindAbilityActions(InputConfig, this, &ThisClass::AbilityInputTagPressed, &ThisClass::AbilityInputTagReleased, &ThisClass::AbilityInputTagHeld);
+}
+
+void ATDRPGPlayerController::Move(const FInputActionValue& InputActionValue)
+{
+     const FVector2d InputAxisVector = InputActionValue.Get<FVector2d>();
+     const FRotator Rotation = GetControlRotation();
+     const FRotator YawRotation(0.0, Rotation.Yaw, 0.0);
+
+     const FVector ForwardDirection = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::X);
+     const FVector RightDirection = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::Y);
+
+     if(APawn* ControlledPawn = GetPawn<APawn>())
+     {
+         ControlledPawn->AddMovementInput(ForwardDirection, InputAxisVector.Y);
+         ControlledPawn->AddMovementInput(RightDirection, InputAxisVector.X);
+     }
 }
 
 void ATDRPGPlayerController::AbilityInputTagPressed(FGameplayTag InputTag)
@@ -145,6 +164,7 @@ void ATDRPGPlayerController::AbilityInputTagReleased(FGameplayTag InputTag)
                     Spline->AddSplinePoint(PointLoc, ESplineCoordinateSpace::World);
                     DrawDebugSphere(GetWorld(), PointLoc, 8.0f, 8, FColor::Green, false, 5.0f);
                 }
+                CachedDestination = NavPath->PathPoints[NavPath->PathPoints.Num() - 1];
                 bAutoRunning = true;
             }
         }
