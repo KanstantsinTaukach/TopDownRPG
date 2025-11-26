@@ -1,0 +1,36 @@
+// Copyright K.Taukach
+
+#include "Actor/TDRPGProjectile.h"
+#include "Components/SphereComponent.h"
+#include "GameFramework/ProjectileMovementComponent.h"
+
+ATDRPGProjectile::ATDRPGProjectile()
+{
+	PrimaryActorTick.bCanEverTick = false;
+
+    SphereComponent = CreateDefaultSubobject<USphereComponent>("Sphere");
+    SetRootComponent(SphereComponent);
+    SphereComponent->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
+    SphereComponent->SetCollisionResponseToAllChannels(ECR_Ignore);
+    SphereComponent->SetCollisionResponseToChannel(ECC_WorldDynamic, ECR_Overlap);
+    SphereComponent->SetCollisionResponseToChannel(ECC_WorldStatic, ECR_Overlap);
+    SphereComponent->SetCollisionResponseToChannel(ECC_Pawn, ECR_Overlap);
+
+    ProjectileMovementComponent = CreateDefaultSubobject<UProjectileMovementComponent>("ProjectileMovementComponent");
+    ProjectileMovementComponent->InitialSpeed = 550.0f;
+    ProjectileMovementComponent->MaxSpeed = 550.0f;
+    ProjectileMovementComponent->ProjectileGravityScale = 0.0f;
+}
+
+void ATDRPGProjectile::BeginPlay()
+{
+	Super::BeginPlay();
+
+    SphereComponent->OnComponentBeginOverlap.AddDynamic(this, &ATDRPGProjectile::OnSphereOverlap);
+}
+
+void ATDRPGProjectile::OnSphereOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp,
+    int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+{
+    
+}
