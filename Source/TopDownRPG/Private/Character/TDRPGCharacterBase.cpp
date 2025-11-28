@@ -28,6 +28,11 @@ void ATDRPGCharacterBase::InitAbilityActorInfo()
     
 }
 
+FVector ATDRPGCharacterBase::GetCombatSocketLocation()
+{
+    return WeaponSkeletalMesh->GetSocketLocation(WeaponTipSocketName);
+}
+
 void ATDRPGCharacterBase::ApplyEffectToSelf(TSubclassOf<UGameplayEffect> GameplayEffectClass, float Level) const
 {
     check(IsValid(GetAbilitySystemComponent()));

@@ -7,6 +7,7 @@
 ATDRPGProjectile::ATDRPGProjectile()
 {
 	PrimaryActorTick.bCanEverTick = false;
+    bReplicates = true;
 
     SphereComponent = CreateDefaultSubobject<USphereComponent>("Sphere");
     SetRootComponent(SphereComponent);

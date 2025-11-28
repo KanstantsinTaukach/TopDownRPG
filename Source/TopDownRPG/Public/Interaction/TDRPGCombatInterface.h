@@ -18,4 +18,6 @@ class TOPDOWNRPG_API ITDRPGCombatInterface
 
 public:
      virtual int32 GetPlayerLevel() const;
+
+     virtual FVector GetCombatSocketLocation();
 };
