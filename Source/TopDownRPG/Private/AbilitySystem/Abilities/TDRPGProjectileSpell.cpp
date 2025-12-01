@@ -7,9 +7,12 @@
 void UTDRPGProjectileSpell::ActivateAbility(const FGameplayAbilitySpecHandle Handle, const FGameplayAbilityActorInfo* ActorInfo,
     const FGameplayAbilityActivationInfo ActivationInfo, const FGameplayEventData* TriggerEventData)
 {
-    Super::ActivateAbility(Handle, ActorInfo, ActivationInfo, TriggerEventData);
+    Super::ActivateAbility(Handle, ActorInfo, ActivationInfo, TriggerEventData);        
+}
 
-    const bool bIsServer = HasAuthority(&ActivationInfo);
+void UTDRPGProjectileSpell::SpawnProjectile()
+{
+    const bool bIsServer = GetAvatarActorFromActorInfo()->HasAuthority();
     if(!bIsServer) return;
 
     ITDRPGCombatInterface* CombatInterface = Cast<ITDRPGCombatInterface>(GetAvatarActorFromActorInfo());
@@ -33,5 +36,5 @@ void UTDRPGProjectileSpell::ActivateAbility(const FGameplayAbilitySpecHandle Han
         //TODO: Give the Projectile a Gameplay Effect Spec for causing Damage.
         
         Projectile->FinishSpawning(SpawnTransform);
-    }    
+    }
 }
