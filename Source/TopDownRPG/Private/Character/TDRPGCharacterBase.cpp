@@ -3,11 +3,15 @@
 #include "Character/TDRPGCharacterBase.h"
 #include "AbilitySystemComponent.h"
 #include "TDRPGAbilitySystemComponent.h"
+#include "Components/CapsuleComponent.h"
 
 ATDRPGCharacterBase::ATDRPGCharacterBase()
 {
     PrimaryActorTick.bCanEverTick = false;
 
+    GetCapsuleComponent()->SetCollisionResponseToChannel(ECC_Camera, ECR_Ignore);
+    GetMesh()->SetCollisionResponseToChannel(ECC_Camera, ECR_Ignore);
+    
     WeaponSkeletalMesh = CreateDefaultSubobject<USkeletalMeshComponent>("WeaponSkeletalMesh");
     WeaponSkeletalMesh->SetupAttachment(GetMesh(), FName("WeaponHandSocket"));
     WeaponSkeletalMesh->SetCollisionEnabled(ECollisionEnabled::NoCollision);

@@ -85,7 +85,8 @@ void ATDRPGPlayerController::SetupInputComponent()
 
      UTDRPGInputComponent* TDRPGInputComponent = CastChecked<UTDRPGInputComponent>(InputComponent);
      TDRPGInputComponent->BindAction(MoveAction, ETriggerEvent::Triggered, this, &ATDRPGPlayerController::Move);
-
+     TDRPGInputComponent->BindAction(ShiftAction, ETriggerEvent::Started, this, &ATDRPGPlayerController::ShiftPressed);
+     TDRPGInputComponent->BindAction(ShiftAction, ETriggerEvent::Completed, this, &ATDRPGPlayerController::ShiftReleased);
      TDRPGInputComponent->BindAbilityActions(InputConfig, this, &ThisClass::AbilityInputTagPressed, &ThisClass::AbilityInputTagReleased, &ThisClass::AbilityInputTagHeld);
 }
 
@@ -122,12 +123,10 @@ void ATDRPGPlayerController::AbilityInputTagReleased(FGameplayTag InputTag)
         return;
     }
 
-    if(bTargeting)
-    {
-        if(GetASC()) GetASC()->AbilityInputTagReleased(InputTag);
-    }
-    else
-    {
+    if(GetASC()) GetASC()->AbilityInputTagReleased(InputTag);
+    
+    if(!bTargeting && !bShiftKeyDown)
+    {   
         APawn* ControlledPawn = GetPawn<APawn>();
         if(FollowTime <= ShortPressThreshold && ControlledPawn)
         {
@@ -156,7 +155,7 @@ void ATDRPGPlayerController::AbilityInputTagHeld(FGameplayTag InputTag)
         return;
     }
 
-    if(bTargeting)
+    if(bTargeting || bShiftKeyDown)
     {
         if(GetASC()) GetASC()->AbilityInputTagHeld(InputTag);
     }
