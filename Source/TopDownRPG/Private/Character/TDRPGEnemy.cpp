@@ -28,6 +28,8 @@ void ATDRPGEnemy::InitAbilityActorInfo()
 {
     AbilitySystemComponent->InitAbilityActorInfo(this, this);
     Cast<UTDRPGAbilitySystemComponent>(AbilitySystemComponent)->AbilityActorInfoSet();
+
+    InitializeDefaultAttributes();
 }
 
 void ATDRPGEnemy::HighlightActor()

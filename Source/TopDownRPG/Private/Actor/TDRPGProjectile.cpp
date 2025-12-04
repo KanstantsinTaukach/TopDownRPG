@@ -1,6 +1,8 @@
 // Copyright K.Taukach
 
 #include "Actor/TDRPGProjectile.h"
+#include "AbilitySystemBlueprintLibrary.h"
+#include "AbilitySystemComponent.h"
 #include "NiagaraFunctionLibrary.h"
 #include "Components/AudioComponent.h"
 #include "Components/SphereComponent.h"
@@ -55,6 +57,11 @@ void ATDRPGProjectile::OnSphereOverlap(UPrimitiveComponent* OverlappedComponent,
 
     if(HasAuthority())
     {
+        UAbilitySystemComponent* TargetASC = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(OtherActor);
+        if(TargetASC)
+        {
+            TargetASC->ApplyGameplayEffectSpecToSelf(*DamageEffectSpecHandle.Data.Get());
+        }        
         Destroy();
     }
     else

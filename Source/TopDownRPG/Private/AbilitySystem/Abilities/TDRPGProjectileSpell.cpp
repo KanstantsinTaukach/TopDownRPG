@@ -1,6 +1,8 @@
 // Copyright K.Taukach
 
 #include "AbilitySystem/Abilities/TDRPGProjectileSpell.h"
+#include "AbilitySystemBlueprintLibrary.h"
+#include "AbilitySystemComponent.h"
 #include "Actor/TDRPGProjectile.h"
 #include "Interaction/TDRPGCombatInterface.h"
 
@@ -35,7 +37,9 @@ void UTDRPGProjectileSpell::SpawnProjectile(const FVector& ProjectileTargetLocat
             Cast<APawn>(OwningActor),
             ESpawnActorCollisionHandlingMethod::AlwaysSpawn);
 
-        //TODO: Give the Projectile a Gameplay Effect Spec for causing Damage.
+        const UAbilitySystemComponent* SourceASC = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(GetAvatarActorFromActorInfo());
+        const FGameplayEffectSpecHandle SpecHandle = SourceASC->MakeOutgoingSpec(DamageEffectClass, GetAbilityLevel(), SourceASC->MakeEffectContext());
+        Projectile->DamageEffectSpecHandle = SpecHandle;
         
         Projectile->FinishSpawning(SpawnTransform);
     }
