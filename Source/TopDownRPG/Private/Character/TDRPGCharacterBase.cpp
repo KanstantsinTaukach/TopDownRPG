@@ -4,6 +4,7 @@
 #include "AbilitySystemComponent.h"
 #include "TDRPGAbilitySystemComponent.h"
 #include "Components/CapsuleComponent.h"
+#include "TopDownRPG/TopDownRPG.h"
 
 ATDRPGCharacterBase::ATDRPGCharacterBase()
 {
@@ -11,6 +12,8 @@ ATDRPGCharacterBase::ATDRPGCharacterBase()
 
     GetCapsuleComponent()->SetCollisionResponseToChannel(ECC_Camera, ECR_Ignore);
     GetMesh()->SetCollisionResponseToChannel(ECC_Camera, ECR_Ignore);
+    GetMesh()->SetCollisionResponseToChannel(ECC_Projectile, ECR_Overlap);
+    GetMesh()->SetGenerateOverlapEvents(true);
     
     WeaponSkeletalMesh = CreateDefaultSubobject<USkeletalMeshComponent>("WeaponSkeletalMesh");
     WeaponSkeletalMesh->SetupAttachment(GetMesh(), FName("WeaponHandSocket"));
