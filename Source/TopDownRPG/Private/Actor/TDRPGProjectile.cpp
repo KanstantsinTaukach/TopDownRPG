@@ -1,8 +1,11 @@
 // Copyright K.Taukach
 
 #include "Actor/TDRPGProjectile.h"
+#include "NiagaraFunctionLibrary.h"
+#include "Components/AudioComponent.h"
 #include "Components/SphereComponent.h"
 #include "GameFramework/ProjectileMovementComponent.h"
+#include "Kismet/GameplayStatics.h"
 
 ATDRPGProjectile::ATDRPGProjectile()
 {
@@ -26,12 +29,41 @@ ATDRPGProjectile::ATDRPGProjectile()
 void ATDRPGProjectile::BeginPlay()
 {
 	Super::BeginPlay();
+    SetLifeSpan(LifeSpan);
+
+    LoopingSoundComponent = UGameplayStatics::SpawnSoundAttached(LoopingSound, GetRootComponent());
 
     SphereComponent->OnComponentBeginOverlap.AddDynamic(this, &ATDRPGProjectile::OnSphereOverlap);
+}
+
+void ATDRPGProjectile::Destroyed()
+{
+    if(!bHit && !HasAuthority())
+    {
+        PlayImpactEffects();
+    }
+    
+    Super::Destroyed();
 }
 
 void ATDRPGProjectile::OnSphereOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp,
     int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
-    
+    PlayImpactEffects();
+
+    if(HasAuthority())
+    {
+        Destroy();
+    }
+    else
+    {
+        bHit = true;
+    }
+}
+
+void ATDRPGProjectile::PlayImpactEffects() const
+{
+    UGameplayStatics::PlaySoundAtLocation(this, ImpactSound, GetActorLocation(), FRotator::ZeroRotator);
+    UNiagaraFunctionLibrary::SpawnSystemAtLocation(this, ImpactEffect, GetActorLocation());
+    LoopingSoundComponent->Stop();
 }
