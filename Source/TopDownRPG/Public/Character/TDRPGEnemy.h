@@ -5,7 +5,10 @@
 #include "CoreMinimal.h"
 #include "Character/TDRPGCharacterBase.h"
 #include "Interaction/TDRPGEnemyInterface.h"
+#include "UI/WidgetController/OverlayWidgetController.h"
 #include "TDRPGEnemy.generated.h"
+
+class UWidgetComponent;
 
 UCLASS()
 class TOPDOWNRPG_API ATDRPGEnemy : public ATDRPGCharacterBase, public ITDRPGEnemyInterface
@@ -14,6 +17,11 @@ class TOPDOWNRPG_API ATDRPGEnemy : public ATDRPGCharacterBase, public ITDRPGEnem
 
 public:
     ATDRPGEnemy();
+
+    UPROPERTY(BlueprintAssignable)
+    FOnAttributeChangedSignature OnHealthChanged;
+    UPROPERTY(BlueprintAssignable)
+    FOnAttributeChangedSignature OnMaxHealthChanged;
 
     /** Enemy Interface */
     virtual void HighlightActor() override;
@@ -31,4 +39,7 @@ protected:
     
     UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "CharacterClassDefaults")
     int32 Level = 1;
+
+    UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+    TObjectPtr<UWidgetComponent> HealthBar;
 };
