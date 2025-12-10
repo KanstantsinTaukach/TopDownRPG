@@ -1,6 +1,7 @@
 // Copyright K.Taukach
 
 #include "Character/TDRPGEnemy.h"
+#include "AbilitySystem/TDRPGAbilitySystemLibrary.h"
 #include "AbilitySystem/TDRPGAttributeSet.h"
 #include "AbilitySystem/TDRPGAbilitySystemComponent.h"
 #include "Components/WidgetComponent.h"
@@ -56,6 +57,11 @@ void ATDRPGEnemy::InitAbilityActorInfo()
     Cast<UTDRPGAbilitySystemComponent>(AbilitySystemComponent)->AbilityActorInfoSet();
 
     InitializeDefaultAttributes();
+}
+
+void ATDRPGEnemy::InitializeDefaultAttributes() const
+{
+    UTDRPGAbilitySystemLibrary::InitializeDefaultAttributes(this, CharacterClass, Level, AbilitySystemComponent);
 }
 
 void ATDRPGEnemy::HighlightActor()

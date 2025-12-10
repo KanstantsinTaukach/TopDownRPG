@@ -6,6 +6,7 @@
 #include "Character/TDRPGCharacterBase.h"
 #include "Interaction/TDRPGEnemyInterface.h"
 #include "UI/WidgetController/OverlayWidgetController.h"
+#include "AbilitySystem/Data/CharacterClassInfo.h"
 #include "TDRPGEnemy.generated.h"
 
 class UWidgetComponent;
@@ -36,9 +37,14 @@ protected:
     virtual void BeginPlay() override;
 
     virtual void InitAbilityActorInfo() override;
+
+    virtual void InitializeDefaultAttributes() const override;
     
     UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "CharacterClassDefaults")
     int32 Level = 1;
+
+    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "CharacterClassDefaults")
+    ECharacterClass CharacterClass = ECharacterClass::Warrior;
 
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
     TObjectPtr<UWidgetComponent> HealthBar;

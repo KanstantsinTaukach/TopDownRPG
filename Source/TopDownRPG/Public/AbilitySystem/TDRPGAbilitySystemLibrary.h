@@ -3,9 +3,11 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "AbilitySystem/Data/CharacterClassInfo.h"
 #include "Kismet/BlueprintFunctionLibrary.h"
 #include "TDRPGAbilitySystemLibrary.generated.h"
 
+class UAbilitySystemComponent;
 class UAttributeWidgetController;
 class UOverlayWidgetController;
 
@@ -20,4 +22,7 @@ public:
 
     UFUNCTION(BlueprintPure, Category = "TDRPGAbilitySystemLibrary|WidgetController")
     static UAttributeWidgetController* GetAttributeWidgetController (const UObject* WorldContextObject);
+
+    UFUNCTION(BlueprintCallable, Category = "TDRPGAbilitySystemLibrary|CharacterClassDefaults")
+    static void InitializeDefaultAttributes(const UObject* WorldContextObject, ECharacterClass CharacterClass, float Level, UAbilitySystemComponent* ASC);
 };
