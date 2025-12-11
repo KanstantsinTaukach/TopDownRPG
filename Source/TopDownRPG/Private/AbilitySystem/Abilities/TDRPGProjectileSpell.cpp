@@ -5,6 +5,7 @@
 #include "AbilitySystemComponent.h"
 #include "Actor/TDRPGProjectile.h"
 #include "Interaction/TDRPGCombatInterface.h"
+#include "TDRPGGameplayTags.h"
 
 void UTDRPGProjectileSpell::ActivateAbility(const FGameplayAbilitySpecHandle Handle, const FGameplayAbilityActorInfo* ActorInfo,
     const FGameplayAbilityActivationInfo ActivationInfo, const FGameplayEventData* TriggerEventData)
@@ -39,6 +40,9 @@ void UTDRPGProjectileSpell::SpawnProjectile(const FVector& ProjectileTargetLocat
 
         const UAbilitySystemComponent* SourceASC = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(GetAvatarActorFromActorInfo());
         const FGameplayEffectSpecHandle SpecHandle = SourceASC->MakeOutgoingSpec(DamageEffectClass, GetAbilityLevel(), SourceASC->MakeEffectContext());
+
+        FTDRPGGameplayTags GameplayTags = FTDRPGGameplayTags::Get();
+        UAbilitySystemBlueprintLibrary::AssignTagSetByCallerMagnitude(SpecHandle, GameplayTags.Damage, 50.0f);        
         Projectile->DamageEffectSpecHandle = SpecHandle;
         
         Projectile->FinishSpawning(SpawnTransform);

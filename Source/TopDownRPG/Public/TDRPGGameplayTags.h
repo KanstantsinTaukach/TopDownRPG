@@ -4,7 +4,6 @@
 
 #include "CoreMinimal.h"
 #include "GameplayTagContainer.h"
-#include "GameplayAbilities/Private/Tests/GameplayCueTests.h"
 
 /**
  * TDRPG GameplayTags
@@ -41,6 +40,8 @@ public:
     FGameplayTag InputTag_3;
     FGameplayTag InputTag_4;
 
+    FGameplayTag Damage;
+    
 private:
     static FTDRPGGameplayTags GameplayTags;
 };
