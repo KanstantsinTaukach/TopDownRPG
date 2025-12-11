@@ -138,6 +138,13 @@ public:
     FGameplayAttributeData CriticalHitResistance;
     ATTRIBUTE_ACCESSORS(UTDRPGAttributeSet, CriticalHitResistance);
 
+    /*
+     * Meta Attributes
+     */   
+
+    UPROPERTY(BlueprintReadOnly, Category = "Meta Attributes")
+    FGameplayAttributeData IncomingDamage;
+    ATTRIBUTE_ACCESSORS(UTDRPGAttributeSet, IncomingDamage);
     
     UFUNCTION()
     void OnRep_Strength(const FGameplayAttributeData& OldStrength) const;
