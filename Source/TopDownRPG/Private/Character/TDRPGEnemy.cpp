@@ -7,6 +7,8 @@
 #include "Components/WidgetComponent.h"
 #include "TopDownRPG/TopDownRPG.h"
 #include "UI/Widget/TDRPGUserWidget.h"
+#include "TDRPGGameplayTags.h"
+#include "GameFramework/CharacterMovementComponent.h"
 
 ATDRPGEnemy::ATDRPGEnemy()
 {
@@ -26,6 +28,8 @@ void ATDRPGEnemy::BeginPlay()
 {
     Super::BeginPlay();
 
+    GetCharacterMovement()->MaxWalkSpeed = BaseWalkSpeed;
+    
     InitAbilityActorInfo();
 
     if (UTDRPGUserWidget* TDRPGUserWidget = Cast<UTDRPGUserWidget>(HealthBar->GetUserWidgetObject()))
@@ -45,6 +49,11 @@ void ATDRPGEnemy::BeginPlay()
         {
             OnMaxHealthChanged.Broadcast(Data.NewValue);
         });
+        
+        AbilitySystemComponent->RegisterGameplayTagEvent(FTDRPGGameplayTags::Get().Effects_HitReact, EGameplayTagEventType::NewOrRemoved).AddUObject(
+            this,
+            &ThisClass::HitReactTagChanged
+        );
 
         OnHealthChanged.Broadcast(TDRPGAttributeSet->GetHealth());
         OnMaxHealthChanged.Broadcast(TDRPGAttributeSet->GetMaxHealth());
@@ -62,6 +71,12 @@ void ATDRPGEnemy::InitAbilityActorInfo()
 void ATDRPGEnemy::InitializeDefaultAttributes() const
 {
     UTDRPGAbilitySystemLibrary::InitializeDefaultAttributes(this, CharacterClass, Level, AbilitySystemComponent);
+}
+
+void ATDRPGEnemy::HitReactTagChanged(const FGameplayTag CallbackTag, int32 NewCount)
+{
+    bHitReacting = NewCount > 0;
+    GetCharacterMovement()->MaxWalkSpeed = bHitReacting ? 0.0f : BaseWalkSpeed;
 }
 
 void ATDRPGEnemy::HighlightActor()

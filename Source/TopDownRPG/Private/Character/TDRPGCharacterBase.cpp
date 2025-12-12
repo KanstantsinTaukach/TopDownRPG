@@ -42,6 +42,11 @@ FVector ATDRPGCharacterBase::GetCombatSocketLocation()
     return WeaponSkeletalMesh->GetSocketLocation(WeaponTipSocketName);
 }
 
+UAnimMontage* ATDRPGCharacterBase::GetHitReactMontage_Implementation()
+{
+    return HitReactMontage;
+}
+
 void ATDRPGCharacterBase::ApplyEffectToSelf(TSubclassOf<UGameplayEffect> GameplayEffectClass, float Level) const
 {
     check(IsValid(GetAbilitySystemComponent()));

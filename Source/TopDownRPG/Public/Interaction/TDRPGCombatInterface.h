@@ -6,6 +6,8 @@
 #include "UObject/Interface.h"
 #include "TDRPGCombatInterface.generated.h"
 
+class UAnimMontage;
+
 UINTERFACE(MinimalAPI, BlueprintType)
 class UTDRPGCombatInterface : public UInterface
 {
@@ -23,4 +25,7 @@ public:
 
      UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
      void UpdateFacingTarget(const FVector& TargetLocation);
+
+    UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
+    UAnimMontage* GetHitReactMontage();
 };

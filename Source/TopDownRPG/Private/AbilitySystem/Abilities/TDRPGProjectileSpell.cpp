@@ -43,7 +43,7 @@ void UTDRPGProjectileSpell::SpawnProjectile(const FVector& ProjectileTargetLocat
 
         const FTDRPGGameplayTags GameplayTags = FTDRPGGameplayTags::Get();
         const float ScaledDamage = Damage.GetValueAtLevel(GetAbilityLevel());
-        GEngine->AddOnScreenDebugMessage(-1, 3.0f, FColor::Red, FString::Printf(TEXT("FireBolt Damage: %f"), ScaledDamage));
+
         UAbilitySystemBlueprintLibrary::AssignTagSetByCallerMagnitude(SpecHandle, GameplayTags.Damage, ScaledDamage);        
         Projectile->DamageEffectSpecHandle = SpecHandle;
         
