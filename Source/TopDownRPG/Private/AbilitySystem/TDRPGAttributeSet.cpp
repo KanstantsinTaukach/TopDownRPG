@@ -93,6 +93,12 @@ void UTDRPGAttributeSet::PostGameplayEffectExecute(const struct FGameplayEffectM
             SetHealth(FMath::Clamp(NewHealth, 0.0f, GetMaxHealth()));
 
             const bool bFatal = NewHealth <= 0.0f;
+            if(!bFatal)
+            {
+                FGameplayTagContainer TagContainer;
+                TagContainer.AddTag(FTDRPGGameplayTags::Get().Effects_HitReact);
+                Props.TargetASC->TryActivateAbilitiesByTag(TagContainer);
+            }
         }
     }
 }

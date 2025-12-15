@@ -67,3 +67,16 @@ void UTDRPGAbilitySystemLibrary::InitializeDefaultAttributes(const UObject* Worl
     const FGameplayEffectSpecHandle VitalAttributeSpecHandle = ASC->MakeOutgoingSpec(CharacterClassInfo->VitalAttributes, Level, EffectContextHandle);
     ASC->ApplyGameplayEffectSpecToSelf(*VitalAttributeSpecHandle.Data.Get());
 }
+
+void UTDRPGAbilitySystemLibrary::GiveStartupAbilities(const UObject* WorldContextObject, UAbilitySystemComponent* ASC)
+{
+    ATDRPGGameModeBase* TDRPGGameMode = Cast<ATDRPGGameModeBase>(UGameplayStatics::GetGameMode(WorldContextObject));
+    if(TDRPGGameMode == nullptr) return;
+
+    UCharacterClassInfo* CharacterClassInfo = TDRPGGameMode->CharacterClassInfo;
+    for(TSubclassOf<UGameplayAbility> AbilityClass : CharacterClassInfo->CommonAbilities)
+    {
+        FGameplayAbilitySpec AbilitySpec = FGameplayAbilitySpec(AbilityClass, 1);
+        ASC->GiveAbility(AbilitySpec);
+    }
+}
