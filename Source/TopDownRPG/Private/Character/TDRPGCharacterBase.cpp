@@ -47,6 +47,26 @@ UAnimMontage* ATDRPGCharacterBase::GetHitReactMontage_Implementation()
     return HitReactMontage;
 }
 
+void ATDRPGCharacterBase::Die()
+{
+    WeaponSkeletalMesh->DetachFromComponent(FDetachmentTransformRules(EDetachmentRule::KeepWorld, true));
+    MulticastHandleDeath();
+}
+
+void ATDRPGCharacterBase::MulticastHandleDeath_Implementation()
+{
+    WeaponSkeletalMesh->SetSimulatePhysics(true);
+    WeaponSkeletalMesh->SetEnableGravity(true);
+    WeaponSkeletalMesh->SetCollisionEnabled(ECollisionEnabled::PhysicsOnly);
+
+    GetMesh()->SetSimulatePhysics(true);
+    GetMesh()->SetEnableGravity(true);
+    GetMesh()->SetCollisionEnabled(ECollisionEnabled::PhysicsOnly);
+    GetMesh()->SetCollisionResponseToChannel(ECC_WorldStatic, ECR_Block);
+
+    GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+}
+
 void ATDRPGCharacterBase::ApplyEffectToSelf(TSubclassOf<UGameplayEffect> GameplayEffectClass, float Level) const
 {
     check(IsValid(GetAbilitySystemComponent()));

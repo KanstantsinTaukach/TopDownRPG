@@ -74,6 +74,13 @@ void ATDRPGEnemy::InitializeDefaultAttributes() const
     UTDRPGAbilitySystemLibrary::InitializeDefaultAttributes(this, CharacterClass, Level, AbilitySystemComponent);
 }
 
+void ATDRPGEnemy::Die()
+{
+    SetLifeSpan(LifeSpan);
+    
+    Super::Die();
+}
+
 void ATDRPGEnemy::HitReactTagChanged(const FGameplayTag CallbackTag, int32 NewCount)
 {
     bHitReacting = NewCount > 0;

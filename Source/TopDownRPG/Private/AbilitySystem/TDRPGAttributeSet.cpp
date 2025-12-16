@@ -1,10 +1,10 @@
 // Copyright K.Taukach
 
 #include "AbilitySystem/TDRPGAttributeSet.h"
-
 #include "AbilitySystemBlueprintLibrary.h"
 #include "GameFramework/Character.h"
 #include "GameplayEffectExtension.h"
+#include "Interaction/TDRPGCombatInterface.h"
 #include "Net/UnrealNetwork.h"
 #include "TDRPGGameplayTags.h"
 
@@ -93,7 +93,16 @@ void UTDRPGAttributeSet::PostGameplayEffectExecute(const struct FGameplayEffectM
             SetHealth(FMath::Clamp(NewHealth, 0.0f, GetMaxHealth()));
 
             const bool bFatal = NewHealth <= 0.0f;
-            if(!bFatal)
+            
+            if(bFatal)
+            {
+                ITDRPGCombatInterface* CombatInterface = Cast<ITDRPGCombatInterface>(Props.TargetAvatarActor);
+                if(CombatInterface)
+                {
+                    CombatInterface->Die();
+                }
+            }
+            else
             {
                 FGameplayTagContainer TagContainer;
                 TagContainer.AddTag(FTDRPGGameplayTags::Get().Effects_HitReact);

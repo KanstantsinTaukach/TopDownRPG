@@ -19,13 +19,15 @@ class TOPDOWNRPG_API ITDRPGCombatInterface
 	GENERATED_BODY()
 
 public:
-     virtual int32 GetPlayerLevel() const;
+    virtual int32 GetPlayerLevel() const;
 
-     virtual FVector GetCombatSocketLocation();
+    virtual FVector GetCombatSocketLocation();
 
-     UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
-     void UpdateFacingTarget(const FVector& TargetLocation);
+    UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
+    void UpdateFacingTarget(const FVector& TargetLocation);
 
     UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
     UAnimMontage* GetHitReactMontage();
+
+    virtual void Die() = 0;
 };
