@@ -65,6 +65,8 @@ void ATDRPGCharacterBase::MulticastHandleDeath_Implementation()
     GetMesh()->SetCollisionResponseToChannel(ECC_WorldStatic, ECR_Block);
 
     GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+
+    Dissolve();
 }
 
 void ATDRPGCharacterBase::ApplyEffectToSelf(TSubclassOf<UGameplayEffect> GameplayEffectClass, float Level) const
@@ -90,4 +92,20 @@ void ATDRPGCharacterBase::AddCharacterAbilities()
 
     UTDRPGAbilitySystemComponent* TDRPGASC = Cast<UTDRPGAbilitySystemComponent>(AbilitySystemComponent);
     TDRPGASC->AddCharacterAbilities(StartupAbilities);
+}
+
+void ATDRPGCharacterBase::Dissolve()
+{
+    if(MeshDissolveMaterialInstance)
+    {
+        UMaterialInstanceDynamic* MeshDynamicMaterialInstance = UMaterialInstanceDynamic::Create(MeshDissolveMaterialInstance, this);
+        GetMesh()->SetMaterial(0, MeshDynamicMaterialInstance);
+        StartMeshDissolveTimeline(MeshDynamicMaterialInstance);
+    }
+    if(WeaponDissolveMaterialInstance)
+    {
+        UMaterialInstanceDynamic* WeaponDynamicMaterialInstance = UMaterialInstanceDynamic::Create(WeaponDissolveMaterialInstance, this);
+        WeaponSkeletalMesh->SetMaterial(0, WeaponDynamicMaterialInstance);
+        StartWeaponDissolveTimeline(WeaponDynamicMaterialInstance);
+    }
 }
