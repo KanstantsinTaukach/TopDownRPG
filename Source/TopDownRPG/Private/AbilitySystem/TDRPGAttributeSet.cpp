@@ -7,6 +7,8 @@
 #include "Interaction/TDRPGCombatInterface.h"
 #include "Net/UnrealNetwork.h"
 #include "TDRPGGameplayTags.h"
+#include "Player/TDRPGPlayerController.h"
+#include "Kismet/GameplayStatics.h"
 
 UTDRPGAttributeSet::UTDRPGAttributeSet()
 {
@@ -108,6 +110,20 @@ void UTDRPGAttributeSet::PostGameplayEffectExecute(const struct FGameplayEffectM
                 TagContainer.AddTag(FTDRPGGameplayTags::Get().Effects_HitReact);
                 Props.TargetASC->TryActivateAbilitiesByTag(TagContainer);
             }
+
+            ShowFloatingText(Props, LocalIncomingDamage);
+        }
+    }
+}
+
+void UTDRPGAttributeSet::ShowFloatingText(FEffectProperties& Props, float Damage) const
+{
+    if(Props.SourceCharacter != Props.TargetCharacter)
+    {
+        ATDRPGPlayerController* PC = Cast<ATDRPGPlayerController>(UGameplayStatics::GetPlayerController(Props.SourceController, 0));
+        if(PC)
+        {
+            PC->ShowDamageNumber(Props.TargetCharacter, Damage);
         }
     }
 }

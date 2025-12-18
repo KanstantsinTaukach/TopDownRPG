@@ -10,6 +10,8 @@
 #include "Interaction/TDRPGEnemyInterface.h"
 #include "Input/TDRPGInputComponent.h"
 #include "Components/SplineComponent.h"
+#include "GameFramework/Character.h"
+#include "UI/Widget/TDRPGDamageTextComponent.h"
 
 ATDRPGPlayerController::ATDRPGPlayerController()
 {
@@ -181,4 +183,16 @@ UTDRPGAbilitySystemComponent* ATDRPGPlayerController::GetASC()
     }
 
     return AbilitySystemComponent;
+}
+
+void ATDRPGPlayerController::ShowDamageNumber_Implementation(ACharacter* TargetCharacter, float DamageAmount)
+{
+    if(IsValid(TargetCharacter) && DamageTextComponentClass)
+    {
+        UTDRPGDamageTextComponent* DamageTextComponent = NewObject<UTDRPGDamageTextComponent>(TargetCharacter, DamageTextComponentClass);
+        DamageTextComponent->RegisterComponent();
+        DamageTextComponent->AttachToComponent(TargetCharacter->GetRootComponent(), FAttachmentTransformRules::KeepRelativeTransform);
+        DamageTextComponent->DetachFromComponent(FDetachmentTransformRules::KeepWorldTransform);
+        DamageTextComponent->SetDamageText(DamageAmount);        
+    }
 }

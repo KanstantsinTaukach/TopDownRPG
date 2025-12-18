@@ -7,6 +7,7 @@
 #include "GameplayTagContainer.h"
 #include "TDRPGPlayerController.generated.h"
 
+class UTDRPGDamageTextComponent;
 class UTDRPGInputConfig;
 class UInputMappingContext;
 class UInputAction;
@@ -24,6 +25,9 @@ class TOPDOWNRPG_API ATDRPGPlayerController : public APlayerController
 public:
     ATDRPGPlayerController();
     virtual void PlayerTick(float DeltaTime) override;
+
+    UFUNCTION(Client, Reliable)
+    void ShowDamageNumber(ACharacter* TargetCharacter, float DamageAmount);
     
 protected:
     virtual void BeginPlay() override;
@@ -75,4 +79,7 @@ private:
     TObjectPtr<USplineComponent> Spline;
 
     void AutoRun();
+
+    UPROPERTY(EditDefaultsOnly)
+    TSubclassOf<UTDRPGDamageTextComponent> DamageTextComponentClass;
 };
