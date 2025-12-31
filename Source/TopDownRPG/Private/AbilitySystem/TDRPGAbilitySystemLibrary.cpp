@@ -48,10 +48,9 @@ UAttributeWidgetController* UTDRPGAbilitySystemLibrary::GetAttributeWidgetContro
 
 void UTDRPGAbilitySystemLibrary::InitializeDefaultAttributes(const UObject* WorldContextObject, ECharacterClass CharacterClass, float Level, UAbilitySystemComponent* ASC)
 {
-    ATDRPGGameModeBase* TDRPGGameMode = Cast<ATDRPGGameModeBase>(UGameplayStatics::GetGameMode(WorldContextObject));
-    if(TDRPGGameMode == nullptr) return;    
+    UCharacterClassInfo* CharacterClassInfo = GetCharacterClassInfo(WorldContextObject);
+    if(!CharacterClassInfo) return;
     
-    UCharacterClassInfo* CharacterClassInfo = TDRPGGameMode->CharacterClassInfo;
     FCharacterClassDefaultInfo ClassDefaultInfo = CharacterClassInfo->GetClassDefaultInfo(CharacterClass);
 
     AActor* AvatarActor = ASC->GetAvatarActor();
@@ -70,13 +69,19 @@ void UTDRPGAbilitySystemLibrary::InitializeDefaultAttributes(const UObject* Worl
 
 void UTDRPGAbilitySystemLibrary::GiveStartupAbilities(const UObject* WorldContextObject, UAbilitySystemComponent* ASC)
 {
-    ATDRPGGameModeBase* TDRPGGameMode = Cast<ATDRPGGameModeBase>(UGameplayStatics::GetGameMode(WorldContextObject));
-    if(TDRPGGameMode == nullptr) return;
-
-    UCharacterClassInfo* CharacterClassInfo = TDRPGGameMode->CharacterClassInfo;
+    UCharacterClassInfo* CharacterClassInfo = GetCharacterClassInfo(WorldContextObject);
+    if(!CharacterClassInfo) return;
+    
     for(TSubclassOf<UGameplayAbility> AbilityClass : CharacterClassInfo->CommonAbilities)
     {
         FGameplayAbilitySpec AbilitySpec = FGameplayAbilitySpec(AbilityClass, 1);
         ASC->GiveAbility(AbilitySpec);
     }
+}
+
+UCharacterClassInfo* UTDRPGAbilitySystemLibrary::GetCharacterClassInfo(const UObject* WorldContextObject)
+{
+    ATDRPGGameModeBase* TDRPGGameMode = Cast<ATDRPGGameModeBase>(UGameplayStatics::GetGameMode(WorldContextObject));
+    if(TDRPGGameMode == nullptr) return nullptr;
+    return TDRPGGameMode->CharacterClassInfo;
 }

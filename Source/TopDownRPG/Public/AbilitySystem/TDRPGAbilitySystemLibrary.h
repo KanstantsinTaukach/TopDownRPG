@@ -28,4 +28,7 @@ public:
 
     UFUNCTION(BlueprintCallable, Category = "TDRPGAbilitySystemLibrary|CharacterClassDefaults")
     static void GiveStartupAbilities(const UObject* WorldContextObject, UAbilitySystemComponent* ASC);
+
+    UFUNCTION(BlueprintCallable, Category = "TDRPGAbilitySystemLibrary|CharacterClassDefaults")
+    static UCharacterClassInfo* GetCharacterClassInfo(const UObject* WorldContextObject);
 };
