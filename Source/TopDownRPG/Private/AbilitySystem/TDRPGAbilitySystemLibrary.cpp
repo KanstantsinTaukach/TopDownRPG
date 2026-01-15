@@ -3,6 +3,7 @@
 
 #include "AbilitySystem/TDRPGAbilitySystemLibrary.h"
 #include "AbilitySystemComponent.h"
+#include "TDRPGAbilityTypes.h"
 #include "Game/TDRPGGameModeBase.h"
 #include "UI/HUD/TDRPGHUD.h"
 #include "UI/WidgetController/TDRPGWidgetController.h"
@@ -84,4 +85,38 @@ UCharacterClassInfo* UTDRPGAbilitySystemLibrary::GetCharacterClassInfo(const UOb
     ATDRPGGameModeBase* TDRPGGameMode = Cast<ATDRPGGameModeBase>(UGameplayStatics::GetGameMode(WorldContextObject));
     if(TDRPGGameMode == nullptr) return nullptr;
     return TDRPGGameMode->CharacterClassInfo;
+}
+
+bool UTDRPGAbilitySystemLibrary::IsBlockedHit(const FGameplayEffectContextHandle& EffectContextHandle)
+{
+    if(const FTDRPGGameplayEffectContext* TDRPGEffectContext = static_cast<const FTDRPGGameplayEffectContext*>(EffectContextHandle.Get()))
+    {
+        return TDRPGEffectContext->IsBlockedHit();
+    }
+    return false;
+}
+
+bool UTDRPGAbilitySystemLibrary::IsCriticalHit(const FGameplayEffectContextHandle& EffectContextHandle)
+{
+    if(const FTDRPGGameplayEffectContext* TDRPGEffectContext = static_cast<const FTDRPGGameplayEffectContext*>(EffectContextHandle.Get()))
+    {
+        return TDRPGEffectContext->IsCriticalHit();
+    }
+    return false;
+}
+
+void UTDRPGAbilitySystemLibrary::SetIsBlockedHit(FGameplayEffectContextHandle& EffectContextHandle, bool bInIsBlockedHit)
+{
+    if(FTDRPGGameplayEffectContext* TDRPGEffectContext = static_cast<FTDRPGGameplayEffectContext*>(EffectContextHandle.Get()))
+    {
+        TDRPGEffectContext->SetIsBlockedHit(bInIsBlockedHit);
+    }
+}
+
+void UTDRPGAbilitySystemLibrary::SetIsCriticalHit(FGameplayEffectContextHandle& EffectContextHandle, bool bInIsCriticalHit)
+{
+    if(FTDRPGGameplayEffectContext* TDRPGEffectContext = static_cast<FTDRPGGameplayEffectContext*>(EffectContextHandle.Get()))
+    {
+        TDRPGEffectContext->SetIsCriticalHit(bInIsCriticalHit);
+    }
 }

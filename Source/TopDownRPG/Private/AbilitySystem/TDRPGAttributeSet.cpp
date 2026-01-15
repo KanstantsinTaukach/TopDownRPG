@@ -4,6 +4,7 @@
 #include "AbilitySystemBlueprintLibrary.h"
 #include "GameFramework/Character.h"
 #include "GameplayEffectExtension.h"
+#include "TDRPGAbilitySystemLibrary.h"
 #include "Interaction/TDRPGCombatInterface.h"
 #include "Net/UnrealNetwork.h"
 #include "TDRPGGameplayTags.h"
@@ -111,12 +112,14 @@ void UTDRPGAttributeSet::PostGameplayEffectExecute(const struct FGameplayEffectM
                 Props.TargetASC->TryActivateAbilitiesByTag(TagContainer);
             }
 
-            ShowFloatingText(Props, LocalIncomingDamage);
+            const bool bBlock = UTDRPGAbilitySystemLibrary::IsBlockedHit(Props.EffectContextHandle);
+            const bool bCriticalHit = UTDRPGAbilitySystemLibrary::IsCriticalHit(Props.EffectContextHandle);
+            ShowFloatingText(Props, LocalIncomingDamage, bBlock, bCriticalHit);
         }
     }
 }
 
-void UTDRPGAttributeSet::ShowFloatingText(FEffectProperties& Props, float Damage) const
+void UTDRPGAttributeSet::ShowFloatingText(FEffectProperties& Props, float Damage, bool bBlockedHit, bool bCriticalHit) const
 {
     if(Props.SourceCharacter != Props.TargetCharacter)
     {

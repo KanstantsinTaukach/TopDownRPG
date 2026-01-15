@@ -11,6 +11,8 @@ class UAbilitySystemComponent;
 class UAttributeWidgetController;
 class UOverlayWidgetController;
 
+struct FGameplayEffectContextHandle;
+
 UCLASS()
 class TOPDOWNRPG_API UTDRPGAbilitySystemLibrary : public UBlueprintFunctionLibrary
 {
@@ -31,4 +33,16 @@ public:
 
     UFUNCTION(BlueprintCallable, Category = "TDRPGAbilitySystemLibrary|CharacterClassDefaults")
     static UCharacterClassInfo* GetCharacterClassInfo(const UObject* WorldContextObject);
+
+    UFUNCTION(BlueprintPure, Category = "TDRPGAbilitySystemLibrary|GameplayEffects")
+    static bool IsBlockedHit(const FGameplayEffectContextHandle& EffectContextHandle);
+
+    UFUNCTION(BlueprintPure, Category = "TDRPGAbilitySystemLibrary|GameplayEffects")
+    static bool IsCriticalHit(const FGameplayEffectContextHandle& EffectContextHandle);
+
+    UFUNCTION(BlueprintCallable, Category = "TDRPGAbilitySystemLibrary|GameplayEffects")
+    static void SetIsBlockedHit(UPARAM(ref) FGameplayEffectContextHandle& EffectContextHandle, bool bInIsBlockedHit);
+
+    UFUNCTION(BlueprintCallable, Category = "TDRPGAbilitySystemLibrary|GameplayEffects")
+    static void SetIsCriticalHit(UPARAM(ref) FGameplayEffectContextHandle& EffectContextHandle, bool bInIsCriticalHit);
 };

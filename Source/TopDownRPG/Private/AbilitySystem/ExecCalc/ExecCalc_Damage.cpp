@@ -74,6 +74,9 @@ void UExecCalc_Damage::Execute_Implementation(const FGameplayEffectCustomExecuti
     TargetBlockChance = FMath::Max<float>(0.0f, TargetBlockChance);
     
     const bool bBlocked = FMath::FRandRange(0.0f, 100.0f) < TargetBlockChance;
+
+    FGameplayEffectContextHandle EffectContextHandle = Spec.GetContext();
+    UTDRPGAbilitySystemLibrary::SetIsBlockedHit(EffectContextHandle, bBlocked);
     
     // If Block, halve the damage.
     Damage = bBlocked ? Damage / 2.0f : Damage;
@@ -115,6 +118,9 @@ void UExecCalc_Damage::Execute_Implementation(const FGameplayEffectCustomExecuti
     const float EffectiveCriticalHitChance = SourceCriticalHitChance  - TargetCriticalHitResistance * CriticalHitResistanceCoefficient;
 
     const bool bCriticalHit = FMath::FRandRange(0.0f, 100.0f) < EffectiveCriticalHitChance;
+
+    UTDRPGAbilitySystemLibrary::SetIsCriticalHit(EffectContextHandle, bCriticalHit);
+    
     if(bCriticalHit)
     {
         float SourceCriticalHitDamage = 0.0f;
