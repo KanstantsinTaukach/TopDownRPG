@@ -51,10 +51,12 @@ void UTDRPGProjectileSpell::SpawnProjectile(const FVector& ProjectileTargetLocat
         
         const FGameplayEffectSpecHandle SpecHandle = SourceASC->MakeOutgoingSpec(DamageEffectClass, GetAbilityLevel(), EffectContextHandle);
 
-        const FTDRPGGameplayTags GameplayTags = FTDRPGGameplayTags::Get();
-        const float ScaledDamage = Damage.GetValueAtLevel(GetAbilityLevel());
-
-        UAbilitySystemBlueprintLibrary::AssignTagSetByCallerMagnitude(SpecHandle, GameplayTags.Damage, ScaledDamage);        
+        for(auto& Pair : DamageTypes)
+        {
+            const float ScaledDamage = Pair.Value.GetValueAtLevel(GetAbilityLevel());
+            UAbilitySystemBlueprintLibrary::AssignTagSetByCallerMagnitude(SpecHandle, Pair.Key, ScaledDamage);
+        }
+          
         Projectile->DamageEffectSpecHandle = SpecHandle;
         
         Projectile->FinishSpawning(SpawnTransform);
