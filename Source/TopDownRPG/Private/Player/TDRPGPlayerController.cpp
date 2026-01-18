@@ -185,7 +185,7 @@ UTDRPGAbilitySystemComponent* ATDRPGPlayerController::GetASC()
     return AbilitySystemComponent;
 }
 
-void ATDRPGPlayerController::ShowDamageNumber_Implementation(ACharacter* TargetCharacter, float DamageAmount)
+void ATDRPGPlayerController::ShowDamageNumber_Implementation(ACharacter* TargetCharacter, float DamageAmount, bool bBlockedHit, bool bCriticalHit)
 {
     if(IsValid(TargetCharacter) && DamageTextComponentClass)
     {
@@ -193,6 +193,6 @@ void ATDRPGPlayerController::ShowDamageNumber_Implementation(ACharacter* TargetC
         DamageTextComponent->RegisterComponent();
         DamageTextComponent->AttachToComponent(TargetCharacter->GetRootComponent(), FAttachmentTransformRules::KeepRelativeTransform);
         DamageTextComponent->DetachFromComponent(FDetachmentTransformRules::KeepWorldTransform);
-        DamageTextComponent->SetDamageText(DamageAmount);        
+        DamageTextComponent->SetDamageText(DamageAmount, bBlockedHit, bCriticalHit);        
     }
 }
