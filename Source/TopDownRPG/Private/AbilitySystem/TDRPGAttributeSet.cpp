@@ -30,6 +30,11 @@ UTDRPGAttributeSet::UTDRPGAttributeSet()
     TagsToAttributes.Add(GameplayTags.Attributes_Secondary_CriticalHitChance, GetCriticalHitChanceAttribute);
     TagsToAttributes.Add(GameplayTags.Attributes_Secondary_CriticalHitDamage, GetCriticalHitDamageAttribute);
     TagsToAttributes.Add(GameplayTags.Attributes_Secondary_CriticalHitResistance, GetCriticalHitResistanceAttribute);
+    
+    TagsToAttributes.Add(GameplayTags.Attributes_Resistance_Fire, GetFireResistanceAttribute);
+    TagsToAttributes.Add(GameplayTags.Attributes_Resistance_Lightning, GetLightningResistanceAttribute);
+    TagsToAttributes.Add(GameplayTags.Attributes_Resistance_Arcane, GetArcaneResistanceAttribute);
+    TagsToAttributes.Add(GameplayTags.Attributes_Resistance_Physical, GetPhysicalResistanceAttribute);
 }
 
 void UTDRPGAttributeSet::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
@@ -54,6 +59,11 @@ void UTDRPGAttributeSet::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& O
     DOREPLIFETIME_CONDITION_NOTIFY(UTDRPGAttributeSet, CriticalHitChance, COND_None, REPNOTIFY_Always);
     DOREPLIFETIME_CONDITION_NOTIFY(UTDRPGAttributeSet, CriticalHitDamage, COND_None, REPNOTIFY_Always);
     DOREPLIFETIME_CONDITION_NOTIFY(UTDRPGAttributeSet, CriticalHitResistance, COND_None, REPNOTIFY_Always);
+
+    DOREPLIFETIME_CONDITION_NOTIFY(UTDRPGAttributeSet, FireResistance, COND_None, REPNOTIFY_Always);
+    DOREPLIFETIME_CONDITION_NOTIFY(UTDRPGAttributeSet, LightningResistance, COND_None, REPNOTIFY_Always);
+    DOREPLIFETIME_CONDITION_NOTIFY(UTDRPGAttributeSet, ArcaneResistance, COND_None, REPNOTIFY_Always);
+    DOREPLIFETIME_CONDITION_NOTIFY(UTDRPGAttributeSet, PhysicalResistance, COND_None, REPNOTIFY_Always);
 }
 
 void UTDRPGAttributeSet::PreAttributeChange(const FGameplayAttribute& Attribute, float& NewValue)
@@ -246,4 +256,24 @@ void UTDRPGAttributeSet::OnRep_CriticalHitDamage(const FGameplayAttributeData& O
 void UTDRPGAttributeSet::OnRep_CriticalHitResistance(const FGameplayAttributeData& OldCriticalHitResistance) const
 {
     GAMEPLAYATTRIBUTE_REPNOTIFY(UTDRPGAttributeSet, CriticalHitResistance, OldCriticalHitResistance);
+}
+
+void UTDRPGAttributeSet::OnRep_FireResistance(const FGameplayAttributeData& OldFireResistance) const
+{
+    GAMEPLAYATTRIBUTE_REPNOTIFY(UTDRPGAttributeSet, FireResistance, OldFireResistance);
+}
+
+void UTDRPGAttributeSet::OnRep_LightningResistance(const FGameplayAttributeData& OldLightningResistance) const
+{
+    GAMEPLAYATTRIBUTE_REPNOTIFY(UTDRPGAttributeSet, LightningResistance, OldLightningResistance);
+}
+
+void UTDRPGAttributeSet::OnRep_ArcaneResistance(const FGameplayAttributeData& OldArcaneResistance) const
+{
+    GAMEPLAYATTRIBUTE_REPNOTIFY(UTDRPGAttributeSet, ArcaneResistance, OldArcaneResistance);
+}
+
+void UTDRPGAttributeSet::OnRep_PhysicalResistance(const FGameplayAttributeData& OldPhysicalResistance) const
+{
+    GAMEPLAYATTRIBUTE_REPNOTIFY(UTDRPGAttributeSet, CriticalHitResistance, OldPhysicalResistance);
 }
