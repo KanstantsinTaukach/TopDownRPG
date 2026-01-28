@@ -187,7 +187,7 @@ UTDRPGAbilitySystemComponent* ATDRPGPlayerController::GetASC()
 
 void ATDRPGPlayerController::ShowDamageNumber_Implementation(ACharacter* TargetCharacter, float DamageAmount, bool bBlockedHit, bool bCriticalHit)
 {
-    if(IsValid(TargetCharacter) && DamageTextComponentClass)
+    if(IsValid(TargetCharacter) && DamageTextComponentClass && IsLocalController())
     {
         UTDRPGDamageTextComponent* DamageTextComponent = NewObject<UTDRPGDamageTextComponent>(TargetCharacter, DamageTextComponentClass);
         DamageTextComponent->RegisterComponent();

@@ -31,7 +31,10 @@ void ATDRPGEnemy::BeginPlay()
     GetCharacterMovement()->MaxWalkSpeed = BaseWalkSpeed;
     
     InitAbilityActorInfo();
-    UTDRPGAbilitySystemLibrary::GiveStartupAbilities(this, AbilitySystemComponent);
+    if(HasAuthority())
+    {
+        UTDRPGAbilitySystemLibrary::GiveStartupAbilities(this, AbilitySystemComponent);
+    }    
 
     if (UTDRPGUserWidget* TDRPGUserWidget = Cast<UTDRPGUserWidget>(HealthBar->GetUserWidgetObject()))
     {
@@ -66,7 +69,10 @@ void ATDRPGEnemy::InitAbilityActorInfo()
     AbilitySystemComponent->InitAbilityActorInfo(this, this);
     Cast<UTDRPGAbilitySystemComponent>(AbilitySystemComponent)->AbilityActorInfoSet();
 
-    InitializeDefaultAttributes();
+    if(HasAuthority())
+    {
+        InitializeDefaultAttributes();
+    }
 }
 
 void ATDRPGEnemy::InitializeDefaultAttributes() const

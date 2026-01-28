@@ -132,9 +132,8 @@ void UTDRPGAttributeSet::PostGameplayEffectExecute(const struct FGameplayEffectM
 void UTDRPGAttributeSet::ShowFloatingText(FEffectProperties& Props, float Damage, bool bBlockedHit, bool bCriticalHit) const
 {
     if(Props.SourceCharacter != Props.TargetCharacter)
-    {
-        ATDRPGPlayerController* PC = Cast<ATDRPGPlayerController>(UGameplayStatics::GetPlayerController(Props.SourceController, 0));
-        if(PC)
+    {        
+        if(ATDRPGPlayerController* PC = Cast<ATDRPGPlayerController>(Props.SourceCharacter->Controller))
         {
             PC->ShowDamageNumber(Props.TargetCharacter, Damage, bBlockedHit, bCriticalHit);
         }
