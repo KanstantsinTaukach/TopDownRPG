@@ -10,6 +10,8 @@
 #include "TDRPGEnemy.generated.h"
 
 class UWidgetComponent;
+class UBehaviorTree;
+class ATDRPGAIController;
 
 UCLASS()
 class TOPDOWNRPG_API ATDRPGEnemy : public ATDRPGCharacterBase, public ITDRPGEnemyInterface
@@ -18,6 +20,8 @@ class TOPDOWNRPG_API ATDRPGEnemy : public ATDRPGCharacterBase, public ITDRPGEnem
 
 public:
     ATDRPGEnemy();
+
+    virtual void PossessedBy(AController* NewController) override;
 
     UPROPERTY(BlueprintAssignable)
     FOnAttributeChangedSignature OnHealthChanged;
@@ -61,4 +65,10 @@ protected:
 
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
     TObjectPtr<UWidgetComponent> HealthBar;
+
+    UPROPERTY(EditAnywhere, Category="AI")
+    TObjectPtr<UBehaviorTree> BehaviorTree;
+
+    UPROPERTY()
+    TObjectPtr<ATDRPGAIController> TDRPGAIController;
 };

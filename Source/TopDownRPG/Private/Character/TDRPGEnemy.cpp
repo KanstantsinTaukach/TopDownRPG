@@ -8,6 +8,9 @@
 #include "TopDownRPG/TopDownRPG.h"
 #include "UI/Widget/TDRPGUserWidget.h"
 #include "TDRPGGameplayTags.h"
+#include "AI/TDRPGAIController.h"
+#include "BehaviorTree/BehaviorTree.h"
+#include "BehaviorTree/BlackboardComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 
 ATDRPGEnemy::ATDRPGEnemy()
@@ -22,6 +25,17 @@ ATDRPGEnemy::ATDRPGEnemy()
 
     HealthBar = CreateDefaultSubobject<UWidgetComponent>("HealthBar");
     HealthBar->SetupAttachment(GetRootComponent());
+}
+
+void ATDRPGEnemy::PossessedBy(AController* NewController)
+{
+    Super::PossessedBy(NewController);
+
+    if(!HasAuthority()) return;
+    
+    TDRPGAIController = Cast<ATDRPGAIController>(NewController);
+    TDRPGAIController->GetBlackboardComponent()->InitializeBlackboard(*BehaviorTree->BlackboardAsset);
+    TDRPGAIController->RunBehaviorTree(BehaviorTree);
 }
 
 void ATDRPGEnemy::BeginPlay()
