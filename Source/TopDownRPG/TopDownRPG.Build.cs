@@ -29,7 +29,9 @@ public class TopDownRPG : ModuleRules
 			"TopDownRPG/Public/UI/Widget",
 			"TopDownRPG/Public/UI/WidgetController",
 			"TopDownRPG/Public/UI/HUD",
-			"TopDownRPG/Public/Input"
+			"TopDownRPG/Public/Input",
+			"TopDownRPG/Public/AI",
+			"TopDownRPG/Public/AI/Service"
 		});
 
 		// Uncomment if you are using Slate UI
