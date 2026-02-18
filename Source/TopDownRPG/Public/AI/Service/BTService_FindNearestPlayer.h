@@ -13,4 +13,10 @@ class TOPDOWNRPG_API UBTService_FindNearestPlayer : public UBTService_BlueprintB
 
 protected:
     virtual void TickNode(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory, float DeltaSeconds) override;
+
+    UPROPERTY(EditAnywhere, BlueprintReadOnly)
+    FBlackboardKeySelector TargetToFollowSelector;
+
+    UPROPERTY(EditAnywhere, BlueprintReadOnly)
+    FBlackboardKeySelector DistanceToTargetSelector;
 };
