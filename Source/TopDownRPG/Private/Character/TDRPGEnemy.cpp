@@ -41,6 +41,9 @@ void ATDRPGEnemy::PossessedBy(AController* NewController)
     TDRPGAIController = Cast<ATDRPGAIController>(NewController);
     TDRPGAIController->GetBlackboardComponent()->InitializeBlackboard(*BehaviorTree->BlackboardAsset);
     TDRPGAIController->RunBehaviorTree(BehaviorTree);
+
+    TDRPGAIController->GetBlackboardComponent()->SetValueAsBool(FName("HitReacting"), false);
+    TDRPGAIController->GetBlackboardComponent()->SetValueAsBool(FName("RangedAttacker"), CharacterClass != ECharacterClass::Warrior);
 }
 
 void ATDRPGEnemy::BeginPlay()
@@ -110,6 +113,7 @@ void ATDRPGEnemy::HitReactTagChanged(const FGameplayTag CallbackTag, int32 NewCo
 {
     bHitReacting = NewCount > 0;
     GetCharacterMovement()->MaxWalkSpeed = bHitReacting ? 0.0f : BaseWalkSpeed;
+    TDRPGAIController->GetBlackboardComponent()->SetValueAsBool(FName("HitReacting"), bHitReacting);
 }
 
 void ATDRPGEnemy::HighlightActor()
