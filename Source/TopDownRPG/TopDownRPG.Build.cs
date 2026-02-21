@@ -31,7 +31,8 @@ public class TopDownRPG : ModuleRules
 			"TopDownRPG/Public/UI/HUD",
 			"TopDownRPG/Public/Input",
 			"TopDownRPG/Public/AI",
-			"TopDownRPG/Public/AI/Service"
+			"TopDownRPG/Public/AI/Service",
+			"TopDownRPG/Public/AI/Task"
 		});
 
 		// Uncomment if you are using Slate UI
