@@ -4,6 +4,7 @@
 #include "AbilitySystem/TDRPGAbilitySystemLibrary.h"
 #include "AbilitySystemComponent.h"
 #include "TDRPGAbilityTypes.h"
+#include "Interaction/TDRPGCombatInterface.h"
 #include "Game/TDRPGGameModeBase.h"
 #include "UI/HUD/TDRPGHUD.h"
 #include "UI/WidgetController/TDRPGWidgetController.h"
@@ -68,15 +69,26 @@ void UTDRPGAbilitySystemLibrary::InitializeDefaultAttributes(const UObject* Worl
     ASC->ApplyGameplayEffectSpecToSelf(*VitalAttributeSpecHandle.Data.Get());
 }
 
-void UTDRPGAbilitySystemLibrary::GiveStartupAbilities(const UObject* WorldContextObject, UAbilitySystemComponent* ASC)
+void UTDRPGAbilitySystemLibrary::GiveStartupAbilities(const UObject* WorldContextObject, UAbilitySystemComponent* ASC, ECharacterClass CharacterClass)
 {
     UCharacterClassInfo* CharacterClassInfo = GetCharacterClassInfo(WorldContextObject);
-    if(!CharacterClassInfo) return;
+    if(CharacterClassInfo == nullptr) return;
     
     for(TSubclassOf<UGameplayAbility> AbilityClass : CharacterClassInfo->CommonAbilities)
     {
         FGameplayAbilitySpec AbilitySpec = FGameplayAbilitySpec(AbilityClass, 1);
         ASC->GiveAbility(AbilitySpec);
+    }
+
+    const FCharacterClassDefaultInfo& DefaultInfo = CharacterClassInfo->GetClassDefaultInfo(CharacterClass);
+    for(TSubclassOf<UGameplayAbility> AbilityClass : DefaultInfo.StartupAbilities)
+    {
+        ITDRPGCombatInterface* CombatInterface = Cast<ITDRPGCombatInterface>(ASC->GetAvatarActor());
+        if(CombatInterface)
+        {
+            FGameplayAbilitySpec AbilitySpec = FGameplayAbilitySpec(AbilityClass, CombatInterface->GetPlayerLevel());
+            ASC->GiveAbility(AbilitySpec);
+        }
     }
 }
 

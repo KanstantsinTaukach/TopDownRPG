@@ -55,7 +55,7 @@ void ATDRPGEnemy::BeginPlay()
     InitAbilityActorInfo();
     if(HasAuthority())
     {
-        UTDRPGAbilitySystemLibrary::GiveStartupAbilities(this, AbilitySystemComponent);
+        UTDRPGAbilitySystemLibrary::GiveStartupAbilities(this, AbilitySystemComponent, CharacterClass);
     }    
 
     if (UTDRPGUserWidget* TDRPGUserWidget = Cast<UTDRPGUserWidget>(HealthBar->GetUserWidgetObject()))

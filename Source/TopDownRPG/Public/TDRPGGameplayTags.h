@@ -50,10 +50,12 @@ public:
     FGameplayTag Damage_Lightning;
     FGameplayTag Damage_Arcane;
     FGameplayTag Damage_Physical;
-
+    
     TMap<FGameplayTag, FGameplayTag> DamageTypesToResistances;
 
     FGameplayTag Effects_HitReact;
+
+    FGameplayTag Abilities_Attack;
     
 private:
     static FTDRPGGameplayTags GameplayTags;
