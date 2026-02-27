@@ -22,10 +22,11 @@ class TOPDOWNRPG_API ATDRPGCharacterBase : public ACharacter, public IAbilitySys
 public:
     ATDRPGCharacterBase();
     
-    virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
+    virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override { return AbilitySystemComponent; };
     UAttributeSet* GetAttributeSet() const { return AttributeSet; };
 
-    virtual  UAnimMontage* GetHitReactMontage_Implementation() override;
+    virtual  UAnimMontage* GetHitReactMontage_Implementation() override { return HitReactMontage; };
+    virtual UAnimMontage* GetAttackMontage_Implementation() override { return AttackMontage; };
     
     virtual void Die() override;
 
@@ -88,4 +89,7 @@ private:
 
     UPROPERTY(EditAnywhere, Category = "Combat")
     TObjectPtr<UAnimMontage> HitReactMontage;
+
+    UPROPERTY(EditAnywhere, Category = "Combat")
+    TObjectPtr<UAnimMontage> AttackMontage;
 };

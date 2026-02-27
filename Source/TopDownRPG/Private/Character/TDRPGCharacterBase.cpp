@@ -27,11 +27,6 @@ void ATDRPGCharacterBase::BeginPlay()
     Super::BeginPlay();
 }
 
-UAbilitySystemComponent* ATDRPGCharacterBase::GetAbilitySystemComponent() const
-{
-    return AbilitySystemComponent;
-}
-
 void ATDRPGCharacterBase::InitAbilityActorInfo()
 {
     
@@ -40,11 +35,6 @@ void ATDRPGCharacterBase::InitAbilityActorInfo()
 FVector ATDRPGCharacterBase::GetCombatSocketLocation()
 {
     return WeaponSkeletalMesh->GetSocketLocation(WeaponTipSocketName);
-}
-
-UAnimMontage* ATDRPGCharacterBase::GetHitReactMontage_Implementation()
-{
-    return HitReactMontage;
 }
 
 void ATDRPGCharacterBase::Die()
