@@ -131,3 +131,13 @@ void ATDRPGEnemy::UnHighlightActor()
 
     WeaponSkeletalMesh->SetRenderCustomDepth(false);
 }
+
+void ATDRPGEnemy::SetCombatTarget_Implementation(AActor* InCombatTarget)
+{
+    CombatTarget = InCombatTarget;
+}
+
+AActor* ATDRPGEnemy::GetCombatTarget_Implementation() const
+{
+    return CombatTarget;
+}
