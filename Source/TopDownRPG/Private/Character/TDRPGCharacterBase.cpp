@@ -32,8 +32,9 @@ void ATDRPGCharacterBase::InitAbilityActorInfo()
     
 }
 
-FVector ATDRPGCharacterBase::GetCombatSocketLocation()
+FVector ATDRPGCharacterBase::GetCombatSocketLocation_Implementation()
 {
+    check(WeaponSkeletalMesh);
     return WeaponSkeletalMesh->GetSocketLocation(WeaponTipSocketName);
 }
 
