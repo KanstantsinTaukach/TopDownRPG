@@ -58,6 +58,17 @@ void ATDRPGCharacterBase::MulticastHandleDeath_Implementation()
     GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 
     Dissolve();
+    bDead = true;
+}
+
+bool ATDRPGCharacterBase::IsDead_Implementation() const
+{
+    return bDead;
+}
+
+AActor* ATDRPGCharacterBase::GetAvatar_Implementation()
+{
+    return this;
 }
 
 void ATDRPGCharacterBase::ApplyEffectToSelf(TSubclassOf<UGameplayEffect> GameplayEffectClass, float Level) const

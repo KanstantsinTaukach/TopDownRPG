@@ -34,4 +34,10 @@ public:
     UAnimMontage* GetAttackMontage();
 
     virtual void Die() = 0;
+
+    UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
+    bool IsDead() const;
+
+    UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
+    AActor* GetAvatar();
 };
