@@ -136,6 +136,11 @@ void UTDRPGAttributeSet::ShowFloatingText(FEffectProperties& Props, float Damage
         if(ATDRPGPlayerController* PC = Cast<ATDRPGPlayerController>(Props.SourceCharacter->Controller))
         {
             PC->ShowDamageNumber(Props.TargetCharacter, Damage, bBlockedHit, bCriticalHit);
+            return;
+        }
+        if(ATDRPGPlayerController* PC = Cast<ATDRPGPlayerController>(Props.TargetCharacter->Controller))
+        {
+            PC->ShowDamageNumber(Props.TargetCharacter, Damage, bBlockedHit, bCriticalHit);
         }
     }
 }
