@@ -3,10 +3,23 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "GameplayTagContainer.h"
 #include "UObject/Interface.h"
 #include "TDRPGCombatInterface.generated.h"
 
 class UAnimMontage;
+
+USTRUCT(BlueprintType)
+struct FTaggedMontage
+{
+    GENERATED_BODY()
+
+    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+    UAnimMontage* Montage = nullptr;
+
+    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+    FGameplayTag MontageTag;
+};
 
 UINTERFACE(MinimalAPI, BlueprintType)
 class UTDRPGCombatInterface : public UInterface
@@ -31,7 +44,7 @@ public:
     UAnimMontage* GetHitReactMontage();
 
     UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
-    UAnimMontage* GetAttackMontage();
+    TArray<FTaggedMontage> GetAttackMontages();
 
     virtual void Die() = 0;
 

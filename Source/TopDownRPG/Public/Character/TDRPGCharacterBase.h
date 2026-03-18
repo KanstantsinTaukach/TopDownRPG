@@ -27,7 +27,7 @@ public:
 
     /** Combat Interface */
     virtual  UAnimMontage* GetHitReactMontage_Implementation() override { return HitReactMontage; };
-    virtual UAnimMontage* GetAttackMontage_Implementation() override { return AttackMontage; };
+    virtual TArray<FTaggedMontage> GetAttackMontages_Implementation() override { return AttackMontages; };
 
     virtual FVector GetCombatSocketLocation_Implementation() override;
     virtual void Die() override;        
@@ -48,6 +48,9 @@ protected:
 
     UPROPERTY(EditAnywhere, Category = "Combat")
     FName WeaponTipSocketName;
+    
+    UPROPERTY(EditAnywhere, Category = "Combat")
+    TArray<FTaggedMontage> AttackMontages;
 
     UPROPERTY()
     TObjectPtr<UAbilitySystemComponent> AbilitySystemComponent;
@@ -92,9 +95,6 @@ private:
 
     UPROPERTY(EditAnywhere, Category = "Combat")
     TObjectPtr<UAnimMontage> HitReactMontage;
-
-    UPROPERTY(EditAnywhere, Category = "Combat")
-    TObjectPtr<UAnimMontage> AttackMontage;
-
+    
     bool bDead = false;
 };
