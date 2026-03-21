@@ -3,6 +3,7 @@
 #include "Character/TDRPGCharacterBase.h"
 #include "AbilitySystemComponent.h"
 #include "TDRPGAbilitySystemComponent.h"
+#include "TDRPGGameplayTags.h"
 #include "Components/CapsuleComponent.h"
 #include "TopDownRPG/TopDownRPG.h"
 
@@ -32,10 +33,23 @@ void ATDRPGCharacterBase::InitAbilityActorInfo()
     
 }
 
-FVector ATDRPGCharacterBase::GetCombatSocketLocation_Implementation()
+FVector ATDRPGCharacterBase::GetCombatSocketLocation_Implementation(const FGameplayTag& MontageTag)
 {
-    check(WeaponSkeletalMesh);
-    return WeaponSkeletalMesh->GetSocketLocation(WeaponTipSocketName);
+    const FTDRPGGameplayTags& GameplayTags = FTDRPGGameplayTags::Get();
+    if(MontageTag.MatchesTagExact(GameplayTags.Montage_Attack_Weapon) && IsValid(WeaponSkeletalMesh))
+    {
+        return WeaponSkeletalMesh->GetSocketLocation(WeaponTipSocketName);
+    }
+    if(MontageTag.MatchesTagExact(GameplayTags.Montage_Attack_LeftHand))
+    {
+        return GetMesh()->GetSocketLocation(LeftHandSocketName);
+    }
+    if(MontageTag.MatchesTagExact(GameplayTags.Montage_Attack_RightHand))
+    {
+        return GetMesh()->GetSocketLocation(RightHandSocketName);
+    }
+
+    return FVector();
 }
 
 void ATDRPGCharacterBase::Die()
