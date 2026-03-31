@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "TDRPGCombatInterface.h"
 #include "AbilitySystem/Abilities/TDRPGGameplayAbility.h"
 #include "TDRPGDamageGameplayAbility.generated.h"
 
@@ -21,4 +22,7 @@ protected:
 
     UPROPERTY(EditDefaultsOnly, Category = "Damage")
     TMap<FGameplayTag, FScalableFloat> DamageTypes;
+
+    UFUNCTION(BlueprintPure)
+    FTaggedMontage GetRandomTaggedMontageFromAttay(const TArray<FTaggedMontage>& TaggedMontages) const;
 };

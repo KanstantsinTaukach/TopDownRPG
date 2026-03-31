@@ -15,3 +15,13 @@ void UTDRPGDamageGameplayAbility::CauseDamage(AActor* TargetActor)
 GetAbilitySystemComponentFromActorInfo()->ApplyGameplayEffectSpecToTarget(*DamageSpecHandle.Data.Get(), UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(TargetActor));
     
 }
+
+FTaggedMontage UTDRPGDamageGameplayAbility::GetRandomTaggedMontageFromAttay(const TArray<FTaggedMontage>& TaggedMontages) const
+{
+    if(TaggedMontages.Num() > 0)
+    {
+        const int32 Selection = FMath::RandRange(0, TaggedMontages.Num() - 1);
+        return TaggedMontages[Selection];
+    }
+    return FTaggedMontage();
+}
