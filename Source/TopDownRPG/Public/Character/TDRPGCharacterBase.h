@@ -43,7 +43,7 @@ protected:
 
     virtual void InitAbilityActorInfo();
 
-    UPROPERTY(EditAnywhere, Category = "Combat")
+    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Combat")
     TObjectPtr<USkeletalMeshComponent> WeaponSkeletalMesh;
 
     UPROPERTY(EditAnywhere, Category = "Combat")
