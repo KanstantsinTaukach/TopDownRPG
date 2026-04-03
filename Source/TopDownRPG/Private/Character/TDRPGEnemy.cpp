@@ -105,7 +105,12 @@ void ATDRPGEnemy::InitializeDefaultAttributes() const
 void ATDRPGEnemy::Die()
 {
     SetLifeSpan(LifeSpan);
-    
+
+    if(TDRPGAIController)
+    {
+        TDRPGAIController->GetBlackboardComponent()->SetValueAsBool(FName("Dead"), true);
+    }
+
     Super::Die();
 }
 
