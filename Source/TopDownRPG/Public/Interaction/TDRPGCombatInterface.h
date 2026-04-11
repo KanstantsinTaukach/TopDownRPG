@@ -8,6 +8,7 @@
 #include "TDRPGCombatInterface.generated.h"
 
 class UAnimMontage;
+class UNiagaraSystem;
 
 USTRUCT(BlueprintType)
 struct FTaggedMontage
@@ -15,10 +16,13 @@ struct FTaggedMontage
     GENERATED_BODY()
 
     UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
-    UAnimMontage* Montage = nullptr;
+    TObjectPtr<UAnimMontage> Montage = nullptr;
 
     UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
     FGameplayTag MontageTag;
+
+    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+    TObjectPtr<USoundBase> ImpactSound = nullptr;
 };
 
 UINTERFACE(MinimalAPI, BlueprintType)
@@ -53,4 +57,7 @@ public:
 
     UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
     AActor* GetAvatar();
+
+    UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
+    UNiagaraSystem* GetBloodEffect();
 };
