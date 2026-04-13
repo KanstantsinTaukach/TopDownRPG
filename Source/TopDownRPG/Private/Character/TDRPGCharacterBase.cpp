@@ -33,18 +33,18 @@ void ATDRPGCharacterBase::InitAbilityActorInfo()
     
 }
 
-FVector ATDRPGCharacterBase::GetCombatSocketLocation_Implementation(const FGameplayTag& MontageTag)
+FVector ATDRPGCharacterBase::GetCombatSocketLocation_Implementation(const FGameplayTag& SocketTag)
 {
     const FTDRPGGameplayTags& GameplayTags = FTDRPGGameplayTags::Get();
-    if(MontageTag.MatchesTagExact(GameplayTags.Montage_Attack_Weapon) && IsValid(WeaponSkeletalMesh))
+    if(SocketTag.MatchesTagExact(GameplayTags.CombatSocket_Weapon) && IsValid(WeaponSkeletalMesh))
     {
         return WeaponSkeletalMesh->GetSocketLocation(WeaponTipSocketName);
     }
-    if(MontageTag.MatchesTagExact(GameplayTags.Montage_Attack_LeftHand))
+    if(SocketTag.MatchesTagExact(GameplayTags.CombatSocket_LeftHand))
     {
         return GetMesh()->GetSocketLocation(LeftHandSocketName);
     }
-    if(MontageTag.MatchesTagExact(GameplayTags.Montage_Attack_RightHand))
+    if(SocketTag.MatchesTagExact(GameplayTags.CombatSocket_RightHand))
     {
         return GetMesh()->GetSocketLocation(RightHandSocketName);
     }
@@ -83,6 +83,18 @@ bool ATDRPGCharacterBase::IsDead_Implementation() const
 AActor* ATDRPGCharacterBase::GetAvatar_Implementation()
 {
     return this;
+}
+
+FTaggedMontage ATDRPGCharacterBase::GetTaggedMontageByTag_Implementation(const FGameplayTag& MontageTag)
+{
+    for(FTaggedMontage TaggedMontage : AttackMontages)
+    {
+        if(TaggedMontage.MontageTag == MontageTag)
+        {
+            return TaggedMontage;
+        }
+    } 
+    return FTaggedMontage();
 }
 
 void ATDRPGCharacterBase::ApplyEffectToSelf(TSubclassOf<UGameplayEffect> GameplayEffectClass, float Level) const

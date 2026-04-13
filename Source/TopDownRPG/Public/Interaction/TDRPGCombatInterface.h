@@ -20,6 +20,9 @@ struct FTaggedMontage
 
     UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
     FGameplayTag MontageTag;
+    
+    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+    FGameplayTag SocketTag;
 
     UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
     TObjectPtr<USoundBase> ImpactSound = nullptr;
@@ -39,7 +42,7 @@ public:
     virtual int32 GetPlayerLevel() const;
 
     UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
-    FVector GetCombatSocketLocation(const FGameplayTag& MontageTag);
+    FVector GetCombatSocketLocation(const FGameplayTag& SocketTag);
 
     UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
     void UpdateFacingTarget(const FVector& TargetLocation);
@@ -60,4 +63,7 @@ public:
 
     UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
     UNiagaraSystem* GetBloodEffect();
+
+    UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
+    FTaggedMontage GetTaggedMontageByTag(const FGameplayTag& MontageTag);
 };
