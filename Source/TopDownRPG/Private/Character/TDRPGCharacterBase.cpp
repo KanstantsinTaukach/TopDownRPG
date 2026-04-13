@@ -2,9 +2,10 @@
 
 #include "Character/TDRPGCharacterBase.h"
 #include "AbilitySystemComponent.h"
-#include "TDRPGAbilitySystemComponent.h"
+#include "AbilitySystem/TDRPGAbilitySystemComponent.h"
 #include "TDRPGGameplayTags.h"
 #include "Components/CapsuleComponent.h"
+#include "Kismet/GameplayStatics.h"
 #include "TopDownRPG/TopDownRPG.h"
 
 ATDRPGCharacterBase::ATDRPGCharacterBase()
@@ -60,6 +61,11 @@ void ATDRPGCharacterBase::Die()
 
 void ATDRPGCharacterBase::MulticastHandleDeath_Implementation()
 {
+    if(DeathSound)
+    {
+        UGameplayStatics::PlaySoundAtLocation(this, DeathSound, GetActorLocation(), GetActorRotation());
+    }
+    
     WeaponSkeletalMesh->SetSimulatePhysics(true);
     WeaponSkeletalMesh->SetEnableGravity(true);
     WeaponSkeletalMesh->SetCollisionEnabled(ECollisionEnabled::PhysicsOnly);

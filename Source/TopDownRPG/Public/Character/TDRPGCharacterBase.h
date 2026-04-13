@@ -104,6 +104,9 @@ protected:
 
     UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Combat")
     TObjectPtr<UNiagaraSystem> BloodEffect;
+
+    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Combat")
+    USoundBase* DeathSound;
     
 private:
     UPROPERTY(EditAnywhere, Category = "Abilities")
