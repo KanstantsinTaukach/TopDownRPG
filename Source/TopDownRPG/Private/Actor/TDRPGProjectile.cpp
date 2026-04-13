@@ -46,6 +46,7 @@ void ATDRPGProjectile::Destroyed()
     if(!bHit && !HasAuthority())
     {
         PlayImpactEffects();
+        bHit = true;
     }
     
     Super::Destroyed();
@@ -67,6 +68,7 @@ void ATDRPGProjectile::OnSphereOverlap(UPrimitiveComponent* OverlappedComponent,
     if(!bHit)
     {
         PlayImpactEffects();
+        bHit = true;
     }    
 
     if(HasAuthority())
@@ -92,5 +94,5 @@ void ATDRPGProjectile::PlayImpactEffects() const
     if(LoopingSoundComponent)
     {
         LoopingSoundComponent->Stop(); 
-    }    
+    }
 }
