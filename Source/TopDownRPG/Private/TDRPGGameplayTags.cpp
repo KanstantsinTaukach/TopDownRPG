@@ -105,7 +105,8 @@ void FTDRPGGameplayTags::InitializeNativeGameplayTags()
         FName("CombatSocket.RightHand"), FString("Right hand"));
     GameplayTags.CombatSocket_LeftHand = UGameplayTagsManager::Get().AddNativeGameplayTag(
         FName("CombatSocket.LeftHand"), FString("Left hand"));
-
+    GameplayTags.CombatSocket_Tail = UGameplayTagsManager::Get().AddNativeGameplayTag(
+        FName("CombatSocket.Tail"), FString("Tail"));
 
     
     GameplayTags.Abilities_Attack = UGameplayTagsManager::Get().AddNativeGameplayTag(
@@ -121,4 +122,6 @@ void FTDRPGGameplayTags::InitializeNativeGameplayTags()
        FName("Montage.Attack.2"), FString("Attack 2"));
     GameplayTags.Montage_Attack_3 = UGameplayTagsManager::Get().AddNativeGameplayTag(
        FName("Montage.Attack.3"), FString("Attack 3"));
+    GameplayTags.Montage_Attack_4 = UGameplayTagsManager::Get().AddNativeGameplayTag(
+       FName("Montage.Attack.4"), FString("Attack 4"));
 }
