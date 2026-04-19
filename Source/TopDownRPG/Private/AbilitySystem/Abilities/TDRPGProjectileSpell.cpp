@@ -13,12 +13,12 @@ void UTDRPGProjectileSpell::ActivateAbility(const FGameplayAbilitySpecHandle Han
     Super::ActivateAbility(Handle, ActorInfo, ActivationInfo, TriggerEventData);        
 }
 
-void UTDRPGProjectileSpell::SpawnProjectile(const FVector& ProjectileTargetLocation)
+void UTDRPGProjectileSpell::SpawnProjectile(const FVector& ProjectileTargetLocation, const FGameplayTag& SocketTag)
 {
     const bool bIsServer = GetAvatarActorFromActorInfo()->HasAuthority();
     if(!bIsServer) return;
 
-    const FVector SocketLocation = ITDRPGCombatInterface::Execute_GetCombatSocketLocation(GetAvatarActorFromActorInfo(), FTDRPGGameplayTags::Get().CombatSocket_Weapon);
+    const FVector SocketLocation = ITDRPGCombatInterface::Execute_GetCombatSocketLocation(GetAvatarActorFromActorInfo(), SocketTag);
     FRotator Rotation = (ProjectileTargetLocation - SocketLocation).Rotation();
         
     FTransform SpawnTransform;
