@@ -1,7 +1,6 @@
 // Copyright K.Taukach
 
 #include "AbilitySystem/Abilities/TDRPGSummonAbility.h"
-#include "Kismet/KismetSystemLibrary.h"
 
 TArray<FVector> UTDRPGSummonAbility::GetSpawnLocations()
 {
@@ -9,18 +8,20 @@ TArray<FVector> UTDRPGSummonAbility::GetSpawnLocations()
     const FVector Location = GetAvatarActorFromActorInfo()->GetActorLocation();
     const float DeltaSpread = SpawnSpread / NumMinions;
 
-    const FVector LeftOfSpread = Forward.RotateAngleAxis(-SpawnSpread / 2.0f, FVector::UpVector);
+    const FVector LeftOfSpread = Forward.RotateAngleAxis(-SpawnSpread / 2.0, FVector::UpVector);
     TArray<FVector> SpawnLocations;
     for (int32 i = 0; i < NumMinions; ++i)
     {
-        const FVector Direction = LeftOfSpread.RotateAngleAxis(DeltaSpread * (i + 0.5f), FVector::UpVector);
-        const FVector ChosenSpawnLocation = Location + Direction * FMath::FRandRange(MinSpawnDistance, MaxSpawnDistance);
+        const FVector Direction = LeftOfSpread.RotateAngleAxis(DeltaSpread * (i + 0.5), FVector::UpVector);
+        FVector ChosenSpawnLocation = Location + Direction * FMath::FRandRange(MinSpawnDistance, MaxSpawnDistance);
+
+        FHitResult Hit;
+        GetWorld()->LineTraceSingleByChannel(Hit, ChosenSpawnLocation + FVector(0.0, 0.0, 400.0), ChosenSpawnLocation - FVector(0.0, 0.0, 400.0), ECC_Visibility);
+        if(Hit.bBlockingHit)
+        {
+            ChosenSpawnLocation = Hit.ImpactPoint;
+        }
         SpawnLocations.Add(ChosenSpawnLocation);
-        
-        DrawDebugSphere(GetWorld(), ChosenSpawnLocation, 15.0f, 12, FColor::Cyan, false, 3.0f);
-        UKismetSystemLibrary::DrawDebugArrow(GetAvatarActorFromActorInfo(),Location, Location + Direction * MaxSpawnDistance, 4.0f, FLinearColor::Green, 3.0f);
-        DrawDebugSphere(GetWorld(), Location + Direction * MinSpawnDistance, 7.0f, 12, FColor::Silver, false, 3.0f);
-        DrawDebugSphere(GetWorld(), Location + Direction * MaxSpawnDistance, 7.0f, 12, FColor::Silver, false, 3.0f);
     }
  
     return SpawnLocations;
