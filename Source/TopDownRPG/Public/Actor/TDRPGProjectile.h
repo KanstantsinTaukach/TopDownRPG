@@ -32,14 +32,14 @@ protected:
     UFUNCTION()
     void OnSphereOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
 
+    UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+    TObjectPtr<USphereComponent> SphereComponent;
+    
 private:
     bool bHit = false;
 
     UPROPERTY(EditDefaultsOnly)
     float LifeSpan = 5.0f;
-    
-    UPROPERTY(VisibleAnywhere)
-    TObjectPtr<USphereComponent> SphereComponent;
 
     UPROPERTY(EditAnywhere)
     TObjectPtr<UNiagaraSystem> ImpactEffect;
