@@ -27,10 +27,13 @@ public:
     UAttributeSet* GetAttributeSet() const { return AttributeSet; };
 
     /** Combat Interface */
+    
     virtual  UAnimMontage* GetHitReactMontage_Implementation() override { return HitReactMontage; };
     virtual TArray<FTaggedMontage> GetAttackMontages_Implementation() override { return AttackMontages; };
 
     virtual UNiagaraSystem* GetBloodEffect_Implementation() override { return BloodEffect; };
+    
+    virtual int32 GetMinionCount_Implementation() override { return MinionCount; };
 
     virtual FVector GetCombatSocketLocation_Implementation(const FGameplayTag& SocketTag) override;
     
@@ -40,6 +43,7 @@ public:
     virtual AActor* GetAvatar_Implementation() override;   
 
     virtual FTaggedMontage GetTaggedMontageByTag_Implementation(const FGameplayTag& MontageTag);
+    
     /** end Combat Interface */
 
     UFUNCTION(NetMulticast, Reliable)
@@ -110,6 +114,10 @@ protected:
 
     UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Combat")
     USoundBase* DeathSound;
+
+    /* Minions */
+
+    int32 MinionCount = 0;
     
 private:
     UPROPERTY(EditAnywhere, Category = "Abilities")
