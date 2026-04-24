@@ -42,16 +42,16 @@ public:
     virtual int32 GetPlayerLevel() const;
 
     UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
-    FVector GetCombatSocketLocation(const FGameplayTag& SocketTag);
+    FVector GetCombatSocketLocation(const FGameplayTag& SocketTag) const;
 
     UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
     void UpdateFacingTarget(const FVector& TargetLocation);
 
     UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
-    UAnimMontage* GetHitReactMontage();
+    UAnimMontage* GetHitReactMontage() const;
 
     UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
-    TArray<FTaggedMontage> GetAttackMontages();
+    TArray<FTaggedMontage> GetAttackMontages() const;
 
     virtual void Die() = 0;
 
@@ -68,5 +68,8 @@ public:
     FTaggedMontage GetTaggedMontageByTag(const FGameplayTag& MontageTag);
 
     UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
-    int32 GetMinionCount();
+    int32 GetMinionCount() const;
+
+    UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
+    void AddMinionCount(int32 Amount);
 };

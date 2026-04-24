@@ -28,21 +28,22 @@ public:
 
     /** Combat Interface */
     
-    virtual  UAnimMontage* GetHitReactMontage_Implementation() override { return HitReactMontage; };
-    virtual TArray<FTaggedMontage> GetAttackMontages_Implementation() override { return AttackMontages; };
+    virtual  UAnimMontage* GetHitReactMontage_Implementation() const override { return HitReactMontage; };
+    virtual TArray<FTaggedMontage> GetAttackMontages_Implementation() const override { return AttackMontages; };
 
     virtual UNiagaraSystem* GetBloodEffect_Implementation() override { return BloodEffect; };
     
-    virtual int32 GetMinionCount_Implementation() override { return MinionCount; };
+    virtual int32 GetMinionCount_Implementation() const override { return MinionCount; };
+    virtual void AddMinionCount_Implementation(int32 Amount) override { MinionCount += Amount; };
 
-    virtual FVector GetCombatSocketLocation_Implementation(const FGameplayTag& SocketTag) override;
+    virtual FVector GetCombatSocketLocation_Implementation(const FGameplayTag& SocketTag) const override;
     
     virtual void Die() override;        
     virtual bool IsDead_Implementation() const override;
     
     virtual AActor* GetAvatar_Implementation() override;   
 
-    virtual FTaggedMontage GetTaggedMontageByTag_Implementation(const FGameplayTag& MontageTag);
+    virtual FTaggedMontage GetTaggedMontageByTag_Implementation(const FGameplayTag& MontageTag) override;
     
     /** end Combat Interface */
 

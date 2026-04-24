@@ -34,7 +34,7 @@ void ATDRPGCharacterBase::InitAbilityActorInfo()
     
 }
 
-FVector ATDRPGCharacterBase::GetCombatSocketLocation_Implementation(const FGameplayTag& SocketTag)
+FVector ATDRPGCharacterBase::GetCombatSocketLocation_Implementation(const FGameplayTag& SocketTag) const
 {
     const FTDRPGGameplayTags& GameplayTags = FTDRPGGameplayTags::Get();
     if(SocketTag.MatchesTagExact(GameplayTags.CombatSocket_Weapon) && IsValid(WeaponSkeletalMesh))
