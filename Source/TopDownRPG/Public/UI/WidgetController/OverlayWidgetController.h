@@ -8,6 +8,7 @@
 #include "OverlayWidgetController.generated.h"
 
 class UTDRPGUserWidget;
+class UAbilityInfo;
 struct FOnAttributeChangeData;
 
 USTRUCT(BlueprintType)
@@ -53,6 +54,9 @@ public:
     FMessageWidgetRowSignature MessageWidgetRowDelegate;
     
 protected:
+    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "WidgetData")
+    TObjectPtr<UAbilityInfo> AbilityInfo;
+    
     UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "WidgetData")
     TObjectPtr<UDataTable> MessageWidgetDataTable;
 

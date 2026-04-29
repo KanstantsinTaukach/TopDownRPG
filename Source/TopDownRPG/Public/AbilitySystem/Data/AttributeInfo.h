@@ -33,6 +33,6 @@ class TOPDOWNRPG_API UAttributeInfo : public UDataAsset
 public:
     FTDRPGAttributeInfo FindAttributeInfoForTag(const FGameplayTag& AttributeTag, bool bLogNotFound = false) const;
     
-    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "AttributeInformation")
     TArray<FTDRPGAttributeInfo> AttributeInformation;
 };
