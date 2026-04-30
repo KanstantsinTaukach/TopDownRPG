@@ -22,6 +22,9 @@ void UTDRPGAbilitySystemComponent::AddCharacterAbilities(const TArray<TSubclassO
             GiveAbility(AbilitySpec);
         }
     }
+
+    bStartupAbilitiesGiven = true;
+    AbilitiesGiven.Broadcast(this);
 }
 
 void UTDRPGAbilitySystemComponent::AbilityInputTagHeld(const FGameplayTag& InputTag)

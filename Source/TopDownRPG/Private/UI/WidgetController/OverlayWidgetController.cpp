@@ -42,23 +42,43 @@ void UOverlayWidgetController::BindCallbacksToDependencies()
     {
         OnMaxManaChanged.Broadcast(Data.NewValue);
     });
-        
-    Cast<UTDRPGAbilitySystemComponent>(AbilitySystemComponent)->EffectAssetTags.AddLambda(
-    [this](const FGameplayTagContainer& AssetTags)
-    {
-        for(const FGameplayTag& Tag : AssetTags)
-        {
-            // "Message.HealthPotion".MatchesTag("Message") will return true, "Message".MatchesTag("Message.HealthPotion") will return false
 
-            FGameplayTag MessageTag = FGameplayTag::RequestGameplayTag(FName("Message"));
-            if(Tag.MatchesTag(MessageTag))
-            {
-                const FUIWidgetRow* Row = GetDataTableRowByTag<FUIWidgetRow>(MessageWidgetDataTable, Tag);
-                if(Row != nullptr)
-                {
-                    MessageWidgetRowDelegate.Broadcast(*Row);
-                }                    
-            }
+    if(UTDRPGAbilitySystemComponent* TDRPGASC = Cast<UTDRPGAbilitySystemComponent>(AbilitySystemComponent))
+    {
+        if(TDRPGASC->IsStartupAbilitiesGiven())
+        {
+            OnInitializeStartupAbilities(TDRPGASC);
         }
-    });
+        else
+        {
+            TDRPGASC->AbilitiesGiven.AddUObject(this, &UOverlayWidgetController::OnInitializeStartupAbilities);
+        }        
+    
+        TDRPGASC->EffectAssetTags.AddLambda(
+        [this](const FGameplayTagContainer& AssetTags)
+        {
+            for(const FGameplayTag& Tag : AssetTags)
+            {
+                // "Message.HealthPotion".MatchesTag("Message") will return true, "Message".MatchesTag("Message.HealthPotion") will return false
+
+                FGameplayTag MessageTag = FGameplayTag::RequestGameplayTag(FName("Message"));
+                if(Tag.MatchesTag(MessageTag))
+                {
+                    const FUIWidgetRow* Row = GetDataTableRowByTag<FUIWidgetRow>(MessageWidgetDataTable, Tag);
+                    if(Row != nullptr)
+                    {
+                        MessageWidgetRowDelegate.Broadcast(*Row);
+                    }                    
+                }
+            }
+        });
+    }    
+}
+
+void UOverlayWidgetController::OnInitializeStartupAbilities(UTDRPGAbilitySystemComponent* TDRPGAbilitySystemComponent)
+{
+    // TODO Get information about all given abilities, look up their Ability Info, and broadcast it to widgets.
+    if(!TDRPGAbilitySystemComponent->IsStartupAbilitiesGiven()) return;
+
+    
 }

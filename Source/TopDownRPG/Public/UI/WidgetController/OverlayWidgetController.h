@@ -4,12 +4,12 @@
 
 #include "CoreMinimal.h"
 #include "UI/WidgetController/TDRPGWidgetController.h"
-#include "AbilitySystem/TDRPGAbilitySystemComponent.h"
+#include "GameplayTagContainer.h"
 #include "OverlayWidgetController.generated.h"
 
 class UTDRPGUserWidget;
 class UAbilityInfo;
-struct FOnAttributeChangeData;
+class UTDRPGAbilitySystemComponent;
 
 USTRUCT(BlueprintType)
 struct FUIWidgetRow : public FTableRowBase
@@ -53,15 +53,17 @@ public:
     UPROPERTY(BlueprintAssignable, Category = "GAS|Messages")
     FMessageWidgetRowSignature MessageWidgetRowDelegate;
     
-protected:
-    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "WidgetData")
-    TObjectPtr<UAbilityInfo> AbilityInfo;
-    
+protected:    
     UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "WidgetData")
     TObjectPtr<UDataTable> MessageWidgetDataTable;
 
     template<typename T>
     T* GetDataTableRowByTag(UDataTable* DataTable, const FGameplayTag& Tag);
+
+    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "WidgetData")
+    TObjectPtr<UAbilityInfo> AbilityInfo;
+
+    void OnInitializeStartupAbilities(UTDRPGAbilitySystemComponent* TDRPGAbilitySystemComponent);
 };
 
 template <typename T>
