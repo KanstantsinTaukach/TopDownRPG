@@ -11,6 +11,8 @@ class UTDRPGUserWidget;
 class UAbilityInfo;
 class UTDRPGAbilitySystemComponent;
 
+struct FTDRPGAbilityInfo;
+
 USTRUCT(BlueprintType)
 struct FUIWidgetRow : public FTableRowBase
 {
@@ -31,6 +33,7 @@ struct FUIWidgetRow : public FTableRowBase
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnAttributeChangedSignature, float, NewValue);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FMessageWidgetRowSignature, FUIWidgetRow, Row);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FAbilityInfoSignature, const FTDRPGAbilityInfo&, Info);
 
 UCLASS(BlueprintType, Blueprintable)
 class TOPDOWNRPG_API UOverlayWidgetController : public UTDRPGWidgetController
@@ -52,6 +55,9 @@ public:
 
     UPROPERTY(BlueprintAssignable, Category = "GAS|Messages")
     FMessageWidgetRowSignature MessageWidgetRowDelegate;
+
+    UPROPERTY(BlueprintAssignable, Category = "GAS|Abilities")
+    FAbilityInfoSignature AbilityInfoDelegate;
     
 protected:    
     UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "WidgetData")

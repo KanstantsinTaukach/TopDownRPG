@@ -3,6 +3,7 @@
 
 #include "AbilitySystem/TDRPGAbilitySystemComponent.h"
 #include "AbilitySystem/Abilities/TDRPGGameplayAbility.h"
+#include "TopDownRPG/TDRPGLogChannels.h"
 #include "TDRPGGameplayTags.h"
 
 void UTDRPGAbilitySystemComponent::AbilityActorInfoSet()
@@ -55,6 +56,45 @@ void UTDRPGAbilitySystemComponent::AbilityInputTagReleased(const FGameplayTag& I
             AbilitySpecInputReleased(AbilitySpec);
         }
     }
+}
+
+void UTDRPGAbilitySystemComponent::ForEachAbility(const FForEachAbility& Delegate)
+{
+    FScopedAbilityListLock ActiveScopeLock(*this);
+    for(const FGameplayAbilitySpec& AbilitySpec : GetActivatableAbilities())
+    {
+        if(!Delegate.ExecuteIfBound(AbilitySpec))
+        {
+            UE_LOG(LogTDRPG, Error, TEXT("Failed to execute delegate in %hs"), __FUNCTION__);
+        }
+    }
+}
+
+FGameplayTag UTDRPGAbilitySystemComponent::GetAbilityTagFromSpec(const FGameplayAbilitySpec& AbilitySpec)
+{
+    if (AbilitySpec.Ability)
+    {
+        for(FGameplayTag Tag : AbilitySpec.Ability.Get()->AbilityTags)
+        {
+            if(Tag.MatchesTag(FGameplayTag::RequestGameplayTag("Abilities")))
+            {
+                return Tag;
+            }
+        }
+    }
+    return FGameplayTag();
+}
+
+FGameplayTag UTDRPGAbilitySystemComponent::GetInputTagFromSpec(const FGameplayAbilitySpec& AbilitySpec)
+{
+    for(FGameplayTag Tag : AbilitySpec.GetDynamicSpecSourceTags())
+    {
+        if(Tag.MatchesTag(FGameplayTag::RequestGameplayTag(FName("InputTag"))))
+        {
+            return Tag;
+        }
+    }
+    return FGameplayTag();
 }
 
 void UTDRPGAbilitySystemComponent::ClientEffectApplied_Implementation(UAbilitySystemComponent* AbilitySystemComponent, const FGameplayEffectSpec& EffectSpec,

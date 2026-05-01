@@ -3,6 +3,7 @@
 #include "UI/WidgetController/OverlayWidgetController.h"
 #include "AbilitySystem/TDRPGAttributeSet.h"
 #include "AbilitySystem/TDRPGAbilitySystemComponent.h"
+#include "AbilitySystem/Data/AbilityInfo.h"
 
 void UOverlayWidgetController::BroadcastInitialValues()
 {
@@ -80,5 +81,13 @@ void UOverlayWidgetController::OnInitializeStartupAbilities(UTDRPGAbilitySystemC
     // TODO Get information about all given abilities, look up their Ability Info, and broadcast it to widgets.
     if(!TDRPGAbilitySystemComponent->IsStartupAbilitiesGiven()) return;
 
-    
+    FForEachAbility BroadcastDelegate;
+    BroadcastDelegate.BindLambda([this, TDRPGAbilitySystemComponent](const FGameplayAbilitySpec& AbilitySpec)
+    {
+        // TODO need a way to figure out the ability tag for a given ability spec.
+        FTDRPGAbilityInfo Info = AbilityInfo->FindAbilityInfoForTag(TDRPGAbilitySystemComponent->GetAbilityTagFromSpec(AbilitySpec));
+        Info.InputTag = TDRPGAbilitySystemComponent->GetInputTagFromSpec(AbilitySpec);
+        AbilityInfoDelegate.Broadcast(Info);
+    });
+    TDRPGAbilitySystemComponent->ForEachAbility(BroadcastDelegate);
 }
