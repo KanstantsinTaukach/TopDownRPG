@@ -36,6 +36,8 @@ protected:
     UFUNCTION(Client, Reliable)
     void ClientEffectApplied(UAbilitySystemComponent* AbilitySystemComponent, const FGameplayEffectSpec& EffectSpec, FActiveGameplayEffectHandle ActiveEffectHandle);
 
+    virtual void OnRep_ActivateAbilities() override;
+    
 private:
     bool bStartupAbilitiesGiven = false;
 };

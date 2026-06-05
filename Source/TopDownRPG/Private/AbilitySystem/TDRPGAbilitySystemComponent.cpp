@@ -105,3 +105,14 @@ void UTDRPGAbilitySystemComponent::ClientEffectApplied_Implementation(UAbilitySy
 
     EffectAssetTags.Broadcast(TagContainer);
 }
+
+void UTDRPGAbilitySystemComponent::OnRep_ActivateAbilities()
+{
+    Super::OnRep_ActivateAbilities();
+
+    if(!bStartupAbilitiesGiven)
+    {
+        bStartupAbilitiesGiven = true;
+        AbilitiesGiven.Broadcast(this);
+    }    
+}
