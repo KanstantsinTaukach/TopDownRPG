@@ -1,6 +1,5 @@
 // Copyright K.Taukach
 
-
 #include "AbilitySystem/TDRPGAbilitySystemComponent.h"
 #include "AbilitySystem/Abilities/TDRPGGameplayAbility.h"
 #include "TopDownRPG/TDRPGLogChannels.h"
