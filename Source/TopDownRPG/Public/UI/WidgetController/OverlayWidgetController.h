@@ -34,6 +34,7 @@ struct FUIWidgetRow : public FTableRowBase
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnAttributeChangedSignature, float, NewValue);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FMessageWidgetRowSignature, FUIWidgetRow, Row);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FAbilityInfoSignature, const FTDRPGAbilityInfo&, Info);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnXPPercentChangedSignature, float, NewValue);
 
 UCLASS(BlueprintType, Blueprintable)
 class TOPDOWNRPG_API UOverlayWidgetController : public UTDRPGWidgetController
@@ -58,6 +59,9 @@ public:
 
     UPROPERTY(BlueprintAssignable, Category = "GAS|Abilities")
     FAbilityInfoSignature AbilityInfoDelegate;
+
+    UPROPERTY(BlueprintAssignable, Category = "GAS|XP")
+    FOnXPPercentChangedSignature OnXPPercentChanged;
     
 protected:    
     UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "WidgetData")
@@ -70,6 +74,8 @@ protected:
     TObjectPtr<UAbilityInfo> AbilityInfo;
 
     void OnInitializeStartupAbilities(UTDRPGAbilitySystemComponent* TDRPGAbilitySystemComponent);
+
+    void OnXPChanged(int32 NewXP) const;
 };
 
 template <typename T>
