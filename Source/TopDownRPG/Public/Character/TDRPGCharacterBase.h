@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "AbilitySystemInterface.h"
+#include "AbilitySystem/Data/CharacterClassInfo.h"
 #include "Interaction/TDRPGCombatInterface.h"
 #include "GameFramework/Character.h"
 #include "TDRPGCharacterBase.generated.h"
@@ -36,6 +37,8 @@ public:
     virtual int32 GetMinionCount_Implementation() const override { return MinionCount; };
     virtual void AddMinionCount_Implementation(int32 Amount) override { MinionCount += Amount; };
 
+    virtual ECharacterClass GetCharacterClass_Implementation() { return CharacterClass; };
+
     virtual FVector GetCombatSocketLocation_Implementation(const FGameplayTag& SocketTag) const override;
     
     virtual void Die() override;        
@@ -44,7 +47,7 @@ public:
     virtual AActor* GetAvatar_Implementation() override;   
 
     virtual FTaggedMontage GetTaggedMontageByTag_Implementation(const FGameplayTag& MontageTag) override;
-    
+        
     /** end Combat Interface */
 
     UFUNCTION(NetMulticast, Reliable)
@@ -54,6 +57,9 @@ protected:
     virtual void BeginPlay() override;
 
     virtual void InitAbilityActorInfo();
+    
+    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "CharacterClassDefaults")
+    ECharacterClass CharacterClass = ECharacterClass::Warrior;
 
     UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Combat")
     TObjectPtr<USkeletalMeshComponent> WeaponSkeletalMesh;

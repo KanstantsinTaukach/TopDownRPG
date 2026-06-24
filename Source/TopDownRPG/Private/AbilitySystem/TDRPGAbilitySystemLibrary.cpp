@@ -92,6 +92,17 @@ void UTDRPGAbilitySystemLibrary::GiveStartupAbilities(const UObject* WorldContex
     }
 }
 
+int32 UTDRPGAbilitySystemLibrary::GetXPRewardForClassAndLevel(const UObject* WorldContextObject, ECharacterClass CharacterClass, int32 CharacterLevel)
+{
+    const UCharacterClassInfo* CharacterClassInfo = UTDRPGAbilitySystemLibrary::GetCharacterClassInfo(WorldContextObject);
+    if(CharacterClassInfo == nullptr) return 0;
+
+    const FCharacterClassDefaultInfo& DefaultInfo = CharacterClassInfo->GetClassDefaultInfo(CharacterClass);
+    const float XPReward = DefaultInfo.XPReward.GetValueAtLevel(CharacterLevel);
+    
+    return static_cast<int32>(XPReward);
+}
+
 UCharacterClassInfo* UTDRPGAbilitySystemLibrary::GetCharacterClassInfo(const UObject* WorldContextObject)
 {
     ATDRPGGameModeBase* TDRPGGameMode = Cast<ATDRPGGameModeBase>(UGameplayStatics::GetGameMode(WorldContextObject));

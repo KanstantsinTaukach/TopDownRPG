@@ -51,4 +51,7 @@ public:
 
     UFUNCTION(BlueprintPure, Category = "TDRPGAbilitySystemLibrary|GameplayMechanics")
     static bool IsNotFriend(AActor* FirstActor, AActor* SecondActor);
+
+    UFUNCTION(BlueprintCallable, Category = "TDRPGAbilitySystemLibrary|XP")
+    static int32 GetXPRewardForClassAndLevel(const UObject* WorldContextObject, ECharacterClass CharacterClass, int32 CharacterLevel);
 };

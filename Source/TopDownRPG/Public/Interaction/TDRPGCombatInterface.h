@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameplayTagContainer.h"
 #include "UObject/Interface.h"
+#include "AbilitySystem/Data/CharacterClassInfo.h"
 #include "TDRPGCombatInterface.generated.h"
 
 class UAnimMontage;
@@ -72,4 +73,7 @@ public:
 
     UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
     void AddMinionCount(int32 Amount);
+
+    UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
+    ECharacterClass GetCharacterClass();
 };
