@@ -10,6 +10,7 @@
 #include "TDRPGGameplayTags.h"
 #include "Player/TDRPGPlayerController.h"
 #include "Kismet/GameplayStatics.h"
+#include "TopDownRPG/TDRPGLogChannels.h"
 
 UTDRPGAttributeSet::UTDRPGAttributeSet()
 {
@@ -90,7 +91,6 @@ void UTDRPGAttributeSet::PostGameplayEffectExecute(const struct FGameplayEffectM
     if(Data.EvaluatedData.Attribute == GetHealthAttribute())
     {
         SetHealth(FMath::Clamp(GetHealth(), 0.0f, GetMaxHealth()));
-        UE_LOG(LogTemp, Warning, TEXT("Changed Health on %s, Health: %f"), *Props.TargetAvatarActor->GetName(), GetHealth());
     }
     if(Data.EvaluatedData.Attribute == GetManaAttribute())
     {
@@ -126,6 +126,12 @@ void UTDRPGAttributeSet::PostGameplayEffectExecute(const struct FGameplayEffectM
             const bool bCriticalHit = UTDRPGAbilitySystemLibrary::IsCriticalHit(Props.EffectContextHandle);
             ShowFloatingText(Props, LocalIncomingDamage, bBlock, bCriticalHit);
         }
+    }
+    if(Data.EvaluatedData.Attribute == GetIncomingXPAttribute())
+    {
+        const float LocalIncomingXP = GetIncomingXP();
+        SetIncomingXP(0.0f);
+        UE_LOG(LogTDRPG, Log, TEXT("Incoming XP: %f"), LocalIncomingXP);
     }
 }
 

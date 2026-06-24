@@ -165,6 +165,10 @@ public:
     UPROPERTY(BlueprintReadOnly, Category = "Meta Attributes")
     FGameplayAttributeData IncomingDamage;
     ATTRIBUTE_ACCESSORS(UTDRPGAttributeSet, IncomingDamage);
+
+    UPROPERTY(BlueprintReadOnly, Category = "Meta Attributes")
+    FGameplayAttributeData IncomingXP;
+    ATTRIBUTE_ACCESSORS(UTDRPGAttributeSet, IncomingXP);
     
     UFUNCTION()
     void OnRep_Strength(const FGameplayAttributeData& OldStrength) const;
