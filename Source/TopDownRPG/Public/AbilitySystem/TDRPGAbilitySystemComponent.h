@@ -22,6 +22,7 @@ public:
     FAbilitiesGivenSignature AbilitiesGiven;
 
     void AddCharacterAbilities(const TArray<TSubclassOf<UGameplayAbility>>& StartupAbilities);
+    void AddCharacterPassiveAbilities(const TArray<TSubclassOf<UGameplayAbility>>& StartupPassiveAbilities);
     bool IsStartupAbilitiesGiven() const { return bStartupAbilitiesGiven; };
 
     void AbilityInputTagHeld(const FGameplayTag& InputTag);

@@ -130,6 +130,7 @@ void ATDRPGCharacterBase::AddCharacterAbilities()
 
     UTDRPGAbilitySystemComponent* TDRPGASC = Cast<UTDRPGAbilitySystemComponent>(AbilitySystemComponent);
     TDRPGASC->AddCharacterAbilities(StartupAbilities);
+    TDRPGASC->AddCharacterPassiveAbilities(StartupPassiveAbilities);
 }
 
 void ATDRPGCharacterBase::Dissolve()

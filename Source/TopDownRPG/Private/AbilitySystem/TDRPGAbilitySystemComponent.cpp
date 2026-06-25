@@ -27,6 +27,15 @@ void UTDRPGAbilitySystemComponent::AddCharacterAbilities(const TArray<TSubclassO
     AbilitiesGiven.Broadcast(this);
 }
 
+void UTDRPGAbilitySystemComponent::AddCharacterPassiveAbilities(const TArray<TSubclassOf<UGameplayAbility>>& StartupPassiveAbilities)
+{
+    for(const TSubclassOf<UGameplayAbility> AbilityClass : StartupPassiveAbilities)
+    {
+        FGameplayAbilitySpec AbilitySpec = FGameplayAbilitySpec(AbilityClass, 1);
+        GiveAbilityAndActivateOnce(AbilitySpec);
+    }
+}
+
 void UTDRPGAbilitySystemComponent::AbilityInputTagHeld(const FGameplayTag& InputTag)
 {
     if(!InputTag.IsValid()) return;

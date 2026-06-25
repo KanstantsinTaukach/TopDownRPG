@@ -138,4 +138,11 @@ void FTDRPGGameplayTags::InitializeNativeGameplayTags()
        FName("Montage.Attack.3"), FString("Attack 3"));
     GameplayTags.Montage_Attack_4 = UGameplayTagsManager::Get().AddNativeGameplayTag(
        FName("Montage.Attack.4"), FString("Attack 4"));
+
+    /*
+    * Meta Attributes
+    */
+
+    GameplayTags.Attributes_Meta_IncomingXP = UGameplayTagsManager::Get().AddNativeGameplayTag(
+       FName("Attributes.Meta.IncomingXP"), FString("Incoming XP Meta Attribute"));
 }
