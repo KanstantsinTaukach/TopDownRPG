@@ -114,6 +114,7 @@ void UTDRPGAttributeSet::PostGameplayEffectExecute(const struct FGameplayEffectM
                 {
                     CombatInterface->Die();
                 }
+                SendXPEvent(Props);
             }
             else
             {
@@ -131,7 +132,22 @@ void UTDRPGAttributeSet::PostGameplayEffectExecute(const struct FGameplayEffectM
     {
         const float LocalIncomingXP = GetIncomingXP();
         SetIncomingXP(0.0f);
-        UE_LOG(LogTDRPG, Log, TEXT("Incoming XP: %f"), LocalIncomingXP);
+    }
+}
+
+void UTDRPGAttributeSet::SendXPEvent(const FEffectProperties& Props)
+{
+    if(ITDRPGCombatInterface* CombatInterface = Cast<ITDRPGCombatInterface>(Props.TargetCharacter))
+    {
+        const int32 TargetLevel = CombatInterface->GetPlayerLevel();
+        const ECharacterClass TargetClass = ITDRPGCombatInterface::Execute_GetCharacterClass(Props.TargetCharacter);
+        const int32 XPReward = UTDRPGAbilitySystemLibrary::GetXPRewardForClassAndLevel(Props.TargetCharacter, TargetClass, TargetLevel);
+
+        const FTDRPGGameplayTags& GameplayTags = FTDRPGGameplayTags::Get();
+        FGameplayEventData Payload;
+        Payload.EventTag = GameplayTags.Attributes_Meta_IncomingXP;
+        Payload.EventMagnitude = XPReward;
+        UAbilitySystemBlueprintLibrary::SendGameplayEventToActor(Props.SourceCharacter, GameplayTags.Attributes_Meta_IncomingXP, Payload);
     }
 }
 
