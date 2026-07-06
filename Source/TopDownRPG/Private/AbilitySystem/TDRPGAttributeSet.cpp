@@ -8,6 +8,7 @@
 #include "Interaction/TDRPGCombatInterface.h"
 #include "Net/UnrealNetwork.h"
 #include "TDRPGGameplayTags.h"
+#include "TDRPGPlayerInterface.h"
 #include "Player/TDRPGPlayerController.h"
 #include "Kismet/GameplayStatics.h"
 #include "TopDownRPG/TDRPGLogChannels.h"
@@ -132,6 +133,13 @@ void UTDRPGAttributeSet::PostGameplayEffectExecute(const struct FGameplayEffectM
     {
         const float LocalIncomingXP = GetIncomingXP();
         SetIncomingXP(0.0f);
+
+        // TODO: see if we should level up
+
+        if(Props.SourceCharacter->Implements<UTDRPGPlayerInterface>())
+        {
+            ITDRPGPlayerInterface::Execute_AddToXP(Props.SourceCharacter, LocalIncomingXP);
+        }        
     }
 }
 

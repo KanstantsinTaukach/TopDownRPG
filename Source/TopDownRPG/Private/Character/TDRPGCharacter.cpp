@@ -76,3 +76,10 @@ int32 ATDRPGCharacter::GetPlayerLevel() const
     check(TDRPGPlayerState);
     return TDRPGPlayerState->GetPlayerLevel();
 }
+
+void ATDRPGCharacter::AddToXP_Implementation(int32 InXP)
+{
+    ATDRPGPlayerState* TDRPGPlayerState = GetPlayerState<ATDRPGPlayerState>();
+    check(TDRPGPlayerState);
+    TDRPGPlayerState->AddToXP(InXP);
+}
