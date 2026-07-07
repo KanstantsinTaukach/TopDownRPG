@@ -83,10 +83,9 @@ void UTDRPGAbilitySystemLibrary::GiveStartupAbilities(const UObject* WorldContex
     const FCharacterClassDefaultInfo& DefaultInfo = CharacterClassInfo->GetClassDefaultInfo(CharacterClass);
     for(TSubclassOf<UGameplayAbility> AbilityClass : DefaultInfo.StartupAbilities)
     {
-        ITDRPGCombatInterface* CombatInterface = Cast<ITDRPGCombatInterface>(ASC->GetAvatarActor());
-        if(CombatInterface)
+        if(ASC->GetAvatarActor()->Implements<UTDRPGCombatInterface>())
         {
-            FGameplayAbilitySpec AbilitySpec = FGameplayAbilitySpec(AbilityClass, CombatInterface->GetPlayerLevel());
+            FGameplayAbilitySpec AbilitySpec = FGameplayAbilitySpec(AbilityClass, ITDRPGCombatInterface::Execute_GetPlayerLevel(ASC->GetAvatarActor()));
             ASC->GiveAbility(AbilitySpec);
         }
     }

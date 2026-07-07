@@ -70,7 +70,7 @@ void ATDRPGCharacter::InitAbilityActorInfo()
     InitializeDefaultAttributes();
 }
 
-int32 ATDRPGCharacter::GetPlayerLevel() const
+int32 ATDRPGCharacter::GetPlayerLevel_Implementation() const
 {
     const ATDRPGPlayerState* TDRPGPlayerState = GetPlayerState<ATDRPGPlayerState>();
     check(TDRPGPlayerState);
@@ -82,4 +82,9 @@ void ATDRPGCharacter::AddToXP_Implementation(int32 InXP)
     ATDRPGPlayerState* TDRPGPlayerState = GetPlayerState<ATDRPGPlayerState>();
     check(TDRPGPlayerState);
     TDRPGPlayerState->AddToXP(InXP);
+}
+
+void ATDRPGCharacter::LevelUp_Implementation()
+{
+    
 }

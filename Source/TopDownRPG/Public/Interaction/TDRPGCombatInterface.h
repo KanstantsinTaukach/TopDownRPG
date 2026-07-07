@@ -40,7 +40,8 @@ class TOPDOWNRPG_API ITDRPGCombatInterface
 	GENERATED_BODY()
 
 public:
-    virtual int32 GetPlayerLevel() const;
+    UFUNCTION(BlueprintNativeEvent)
+    int32 GetPlayerLevel() const;
 
     UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
     FVector GetCombatSocketLocation(const FGameplayTag& SocketTag) const;

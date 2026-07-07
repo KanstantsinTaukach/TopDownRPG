@@ -145,9 +145,9 @@ void UTDRPGAttributeSet::PostGameplayEffectExecute(const struct FGameplayEffectM
 
 void UTDRPGAttributeSet::SendXPEvent(const FEffectProperties& Props)
 {
-    if(ITDRPGCombatInterface* CombatInterface = Cast<ITDRPGCombatInterface>(Props.TargetCharacter))
+    if(Props.TargetCharacter->Implements<UTDRPGCombatInterface>())
     {
-        const int32 TargetLevel = CombatInterface->GetPlayerLevel();
+        const int32 TargetLevel = ITDRPGCombatInterface::Execute_GetPlayerLevel(Props.TargetCharacter);
         const ECharacterClass TargetClass = ITDRPGCombatInterface::Execute_GetCharacterClass(Props.TargetCharacter);
         const int32 XPReward = UTDRPGAbilitySystemLibrary::GetXPRewardForClassAndLevel(Props.TargetCharacter, TargetClass, TargetLevel);
 
