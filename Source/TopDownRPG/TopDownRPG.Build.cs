@@ -21,6 +21,7 @@ public class TopDownRPG : ModuleRules
 			"TopDownRPG/Public/AbilitySystem",
 			"TopDownRPG/Public/AbilitySystem/Abilities",
 			"TopDownRPG/Public/AbilitySystem/AbilityTasks",
+			"TopDownRPG/Public/AbilitySystem/AsyncTasks",
 			"TopDownRPG/Public/AbilitySystem/Data",
 			"TopDownRPG/Public/AbilitySystem/MMC",
 			"TopDownRPG/Public/AbilitySystem/ExecCalc",

@@ -2,6 +2,7 @@
 
 #include "Character/TDRPGCharacter.h"
 #include "AbilitySystemComponent.h"
+#include "LevelUpInfo.h"
 #include "AbilitySystem/TDRPGAbilitySystemComponent.h"
 #include "UI/HUD/TDRPGHUD.h"
 #include "Player/TDRPGPlayerController.h"
@@ -77,6 +78,13 @@ int32 ATDRPGCharacter::GetPlayerLevel_Implementation() const
     return TDRPGPlayerState->GetPlayerLevel();
 }
 
+int32 ATDRPGCharacter::GetXP_Implementation() const
+{
+    const ATDRPGPlayerState* TDRPGPlayerState = GetPlayerState<ATDRPGPlayerState>();
+    check(TDRPGPlayerState);
+    return TDRPGPlayerState->GetXP();
+}
+
 void ATDRPGCharacter::AddToXP_Implementation(int32 InXP)
 {
     ATDRPGPlayerState* TDRPGPlayerState = GetPlayerState<ATDRPGPlayerState>();
@@ -84,7 +92,45 @@ void ATDRPGCharacter::AddToXP_Implementation(int32 InXP)
     TDRPGPlayerState->AddToXP(InXP);
 }
 
+int32 ATDRPGCharacter::GetAttributePointsReward_Implementation(int32 Level) const
+{
+    const ATDRPGPlayerState* TDRPGPlayerState = GetPlayerState<ATDRPGPlayerState>();
+    check(TDRPGPlayerState);
+    return TDRPGPlayerState->LevelUpInfo->LevelUpInformation[Level].AttributePointAward;
+}
+
+void ATDRPGCharacter::AddToAttributePoints_Implementation(int32 InAttributePoints)
+{
+    //TODO: Add AttributePoints to PlayerState
+}
+
+int32 ATDRPGCharacter::GetSpellPointsReward_Implementation(int32 Level) const
+{
+    const ATDRPGPlayerState* TDRPGPlayerState = GetPlayerState<ATDRPGPlayerState>();
+    check(TDRPGPlayerState);
+    return TDRPGPlayerState->LevelUpInfo->LevelUpInformation[Level].SpellPointAward;
+}
+
+void ATDRPGCharacter::AddToSpellPoints_Implementation(int32 InSpellPoints)
+{
+    //TODO: Add SpellPoints to PlayerState
+}
+
 void ATDRPGCharacter::LevelUp_Implementation()
 {
     
+}
+
+int32 ATDRPGCharacter::FindLevelForXP_Implementation(int32 InXP) const
+{
+    const ATDRPGPlayerState* TDRPGPlayerState = GetPlayerState<ATDRPGPlayerState>();
+    check(TDRPGPlayerState);
+    return TDRPGPlayerState->LevelUpInfo->FindLevelForXP(InXP);    
+}
+
+void ATDRPGCharacter::AddToPlayerLevel_Implementation(int32 InPlayerLevel)
+{
+    ATDRPGPlayerState* TDRPGPlayerState = GetPlayerState<ATDRPGPlayerState>();
+    check(TDRPGPlayerState);
+    return TDRPGPlayerState->AddToLevel(InPlayerLevel);
 }

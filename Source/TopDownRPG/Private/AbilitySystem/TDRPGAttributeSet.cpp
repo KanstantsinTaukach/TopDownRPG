@@ -6,12 +6,10 @@
 #include "GameplayEffectExtension.h"
 #include "TDRPGAbilitySystemLibrary.h"
 #include "Interaction/TDRPGCombatInterface.h"
+#include "Interaction/TDRPGPlayerInterface.h"
 #include "Net/UnrealNetwork.h"
 #include "TDRPGGameplayTags.h"
-#include "TDRPGPlayerInterface.h"
 #include "Player/TDRPGPlayerController.h"
-#include "Kismet/GameplayStatics.h"
-#include "TopDownRPG/TDRPGLogChannels.h"
 
 UTDRPGAttributeSet::UTDRPGAttributeSet()
 {
@@ -134,10 +132,29 @@ void UTDRPGAttributeSet::PostGameplayEffectExecute(const struct FGameplayEffectM
         const float LocalIncomingXP = GetIncomingXP();
         SetIncomingXP(0.0f);
 
-        // TODO: see if we should level up
-
-        if(Props.SourceCharacter->Implements<UTDRPGPlayerInterface>())
+        // Source character is the owner, since GA_ListenForEvents applies GE_EventBasedEffect, adding to IncomingXP
+        if(Props.SourceCharacter->Implements<UTDRPGPlayerInterface>() && Props.SourceCharacter->Implements<UTDRPGCombatInterface>())
         {
+            const int32 CurrentLevel = ITDRPGCombatInterface::Execute_GetPlayerLevel(Props.SourceCharacter);
+            const int32 CurrentXP = ITDRPGPlayerInterface::Execute_GetXP(Props.SourceCharacter);
+
+            const int32 NewLevel = ITDRPGPlayerInterface::Execute_FindLevelForXP(Props.SourceCharacter, CurrentXP + static_cast<int32>(LocalIncomingXP));
+            const int32 NumLevelUps = NewLevel - CurrentLevel;
+            if(NumLevelUps > 0)
+            {
+                const int32 AttributePointsReward = ITDRPGPlayerInterface::Execute_GetAttributePointsReward(Props.SourceCharacter, CurrentLevel);
+                const int32 SpellPointsReward = ITDRPGPlayerInterface::Execute_GetSpellPointsReward(Props.SourceCharacter, CurrentLevel);
+
+                ITDRPGPlayerInterface::Execute_AddToPlayerLevel(Props.SourceCharacter, NumLevelUps);
+                ITDRPGPlayerInterface::Execute_AddToAttributePoints(Props.SourceCharacter, AttributePointsReward);
+                ITDRPGPlayerInterface::Execute_AddToSpellPoints(Props.SourceCharacter, SpellPointsReward);
+
+                SetHealth(GetMaxHealth());
+                SetMana(GetMaxMana());
+                
+                ITDRPGPlayerInterface::Execute_LevelUp(Props.SourceCharacter);
+            }
+            
             ITDRPGPlayerInterface::Execute_AddToXP(Props.SourceCharacter, LocalIncomingXP);
         }        
     }
