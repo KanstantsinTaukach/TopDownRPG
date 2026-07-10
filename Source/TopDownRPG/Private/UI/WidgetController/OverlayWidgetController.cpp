@@ -23,6 +23,10 @@ void UOverlayWidgetController::BindCallbacksToDependencies()
 {    
     ATDRPGPlayerState* TDRPGPlayerState = CastChecked<ATDRPGPlayerState>(PlayerState);
     TDRPGPlayerState->OnXPChangedDelegate.AddUObject(this, &UOverlayWidgetController::OnXPChanged);
+    TDRPGPlayerState->OnLevelChangedDelegate.AddLambda([this](int32 NewLevel)
+    {
+        OnPlayerLevelChangedDelegate.Broadcast(NewLevel);
+    });
     
     const UTDRPGAttributeSet* TDRPGAttributeSet = CastChecked<UTDRPGAttributeSet>(AttributeSet);
 
