@@ -3,6 +3,7 @@
 #include "Character/TDRPGCharacter.h"
 #include "AbilitySystemComponent.h"
 #include "LevelUpInfo.h"
+#include "NiagaraComponent.h"
 #include "AbilitySystem/TDRPGAbilitySystemComponent.h"
 #include "UI/HUD/TDRPGHUD.h"
 #include "Player/TDRPGPlayerController.h"
@@ -16,10 +17,17 @@ ATDRPGCharacter::ATDRPGCharacter()
     PrimaryActorTick.bCanEverTick = false;
     
     SpringArmComponent = CreateDefaultSubobject<USpringArmComponent>("SpringArmComponent");
-    SpringArmComponent->SetupAttachment(RootComponent);
+    SpringArmComponent->SetupAttachment(GetRootComponent());
+    SpringArmComponent->SetUsingAbsoluteRotation(true);
+    SpringArmComponent->bDoCollisionTest = false;
     
     CameraComponent = CreateDefaultSubobject<UCameraComponent>("CameraComponent");
-    CameraComponent->SetupAttachment(SpringArmComponent);
+    CameraComponent->SetupAttachment(SpringArmComponent, USpringArmComponent::SocketName);
+    CameraComponent->bUsePawnControlRotation = false;
+
+    LevelUpNiagaraComponent = CreateDefaultSubobject<UNiagaraComponent>("LevelUpNiagaraComponent");
+    LevelUpNiagaraComponent->SetupAttachment(GetRootComponent());
+    LevelUpNiagaraComponent->bAutoActivate = false;
 
     GetCharacterMovement()->bOrientRotationToMovement = true;
     GetCharacterMovement()->RotationRate = FRotator(0.0, 400.0, 0.0);
@@ -118,7 +126,19 @@ void ATDRPGCharacter::AddToSpellPoints_Implementation(int32 InSpellPoints)
 
 void ATDRPGCharacter::LevelUp_Implementation()
 {
-    
+    MulticastLevelUpParticles();
+}
+
+void ATDRPGCharacter::MulticastLevelUpParticles_Implementation() const
+{
+    if(IsValid(LevelUpNiagaraComponent))
+    {
+        const FVector CameraLocation = CameraComponent->GetComponentLocation();
+        const FVector NiagaraSystemLocation = LevelUpNiagaraComponent->GetComponentLocation();
+        const FRotator ToCameraRotation = (CameraLocation - NiagaraSystemLocation).Rotation();
+        LevelUpNiagaraComponent->SetWorldRotation(ToCameraRotation);
+        LevelUpNiagaraComponent->Activate(true);
+    }
 }
 
 int32 ATDRPGCharacter::FindLevelForXP_Implementation(int32 InXP) const

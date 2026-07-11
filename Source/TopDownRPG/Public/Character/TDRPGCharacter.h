@@ -9,6 +9,7 @@
 
 class USpringArmComponent;
 class UCameraComponent;
+class UNiagaraComponent;
 
 UCLASS()
 class TOPDOWNRPG_API ATDRPGCharacter : public ATDRPGCharacterBase, public ITDRPGPlayerInterface
@@ -48,6 +49,12 @@ protected:
     UPROPERTY(VisibleAnywhere)
     TObjectPtr<UCameraComponent> CameraComponent;
 
+    UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+    TObjectPtr<UNiagaraComponent> LevelUpNiagaraComponent;
+
 private:
     virtual void InitAbilityActorInfo() override;
+
+    UFUNCTION(NetMulticast, Reliable)
+    void MulticastLevelUpParticles() const;
 };
