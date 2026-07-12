@@ -2,6 +2,7 @@
 
 
 #include "UI/WidgetController/AttributeWidgetController.h"
+#include "Player/TDRPGPlayerState.h"
 #include "AbilitySystem/TDRPGAttributeSet.h"
 #include "AbilitySystem/Data/AttributeInfo.h"
 
@@ -29,6 +30,16 @@ void UAttributeWidgetController::BindCallbacksToDependencies()
             BroadcastAttributeInfo(Pair.Key, Pair.Value());
         });
     }
+
+    ATDRPGPlayerState* TDRPGPlayerState = CastChecked<ATDRPGPlayerState>(PlayerState);
+    TDRPGPlayerState->OnAttributePointsChangedDelegate.AddLambda([this](int32 AttributePoints)
+    {
+       OnPlayerAttributePointsChangedDelegate.Broadcast(AttributePoints);
+    });
+    TDRPGPlayerState->OnSpellPointsChangedDelegate.AddLambda([this](int32 SpellPoints)
+    {
+        OnPlayerSpellPointsChangedDelegate.Broadcast(SpellPoints);
+    });
 }
 
 void UAttributeWidgetController::BroadcastAttributeInfo(const FGameplayTag& AttributeTag, const FGameplayAttribute& Attribute) const

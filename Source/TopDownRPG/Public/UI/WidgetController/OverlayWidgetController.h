@@ -35,7 +35,6 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnAttributeChangedSignature, float,
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FMessageWidgetRowSignature, FUIWidgetRow, Row);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FAbilityInfoSignature, const FTDRPGAbilityInfo&, Info);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnXPPercentChangedSignature, float, NewValue);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnPlayerStatChanged, int32, NewValue);
 
 UCLASS(BlueprintType, Blueprintable)
 class TOPDOWNRPG_API UOverlayWidgetController : public UTDRPGWidgetController
@@ -65,7 +64,7 @@ public:
     FOnXPPercentChangedSignature OnXPPercentChanged;
 
     UPROPERTY(BlueprintAssignable, Category = "GAS|Level")
-    FOnPlayerStatChanged OnPlayerLevelChangedDelegate;
+    FOnPlayerStatChangedSignature OnPlayerLevelChangedDelegate;
     
 protected:    
     UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "WidgetData")
