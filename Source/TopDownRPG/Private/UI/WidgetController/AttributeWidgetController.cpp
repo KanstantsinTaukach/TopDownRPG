@@ -47,4 +47,7 @@ void UAttributeWidgetController::BroadcastAttributeInfo(const FGameplayTag& Attr
     FTDRPGAttributeInfo Info = AttributeInfo->FindAttributeInfoForTag(AttributeTag);
     Info.AttributeValue = Attribute.GetNumericValue(AttributeSet);
     AttributeInfoDelegate.Broadcast(Info);
+
+    ATDRPGPlayerState* TDRPGPlayerState = CastChecked<ATDRPGPlayerState>(PlayerState);
+    OnPlayerAttributePointsChangedDelegate.Broadcast(TDRPGPlayerState->GetAttributePoints());
 }

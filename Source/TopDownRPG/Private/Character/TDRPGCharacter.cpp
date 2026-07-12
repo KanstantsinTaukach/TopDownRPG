@@ -109,7 +109,9 @@ int32 ATDRPGCharacter::GetAttributePointsReward_Implementation(int32 Level) cons
 
 void ATDRPGCharacter::AddToAttributePoints_Implementation(int32 InAttributePoints)
 {
-    //TODO: Add AttributePoints to PlayerState
+    ATDRPGPlayerState* TDRPGPlayerState = GetPlayerState<ATDRPGPlayerState>();
+    check(TDRPGPlayerState);
+    TDRPGPlayerState->AddToAttributePoints(InAttributePoints);
 }
 
 int32 ATDRPGCharacter::GetSpellPointsReward_Implementation(int32 Level) const
@@ -121,7 +123,9 @@ int32 ATDRPGCharacter::GetSpellPointsReward_Implementation(int32 Level) const
 
 void ATDRPGCharacter::AddToSpellPoints_Implementation(int32 InSpellPoints)
 {
-    //TODO: Add SpellPoints to PlayerState
+    ATDRPGPlayerState* TDRPGPlayerState = GetPlayerState<ATDRPGPlayerState>();
+    check(TDRPGPlayerState);
+    TDRPGPlayerState->AddToSpellPoints(InSpellPoints);
 }
 
 void ATDRPGCharacter::LevelUp_Implementation()
