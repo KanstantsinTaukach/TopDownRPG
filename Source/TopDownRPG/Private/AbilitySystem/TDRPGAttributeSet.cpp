@@ -144,10 +144,10 @@ void UTDRPGAttributeSet::PostGameplayEffectExecute(const struct FGameplayEffectM
             {
                 int32 AttributePointsReward = 0;
                 int32 SpellPointsReward = 0;
-                for(int32 i = 0; i < NumLevelUps; ++i)
+                for(int32 i = CurrentLevel; i < NewLevel; ++i)
                 {
-                    AttributePointsReward += ITDRPGPlayerInterface::Execute_GetAttributePointsReward(Props.SourceCharacter, i + 1);
-                    SpellPointsReward += ITDRPGPlayerInterface::Execute_GetSpellPointsReward(Props.SourceCharacter, i + 1);
+                    AttributePointsReward += ITDRPGPlayerInterface::Execute_GetAttributePointsReward(Props.SourceCharacter, i);
+                    SpellPointsReward += ITDRPGPlayerInterface::Execute_GetSpellPointsReward(Props.SourceCharacter, i);
                 }                
 
                 ITDRPGPlayerInterface::Execute_AddToPlayerLevel(Props.SourceCharacter, NumLevelUps);
