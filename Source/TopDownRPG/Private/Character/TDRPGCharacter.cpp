@@ -158,3 +158,17 @@ void ATDRPGCharacter::AddToPlayerLevel_Implementation(int32 InPlayerLevel)
     check(TDRPGPlayerState);
     return TDRPGPlayerState->AddToLevel(InPlayerLevel);
 }
+
+int32 ATDRPGCharacter::GetAttributePoints_Implementation() const
+{
+    const ATDRPGPlayerState* TDRPGPlayerState = GetPlayerState<ATDRPGPlayerState>();
+    check(TDRPGPlayerState);
+    return TDRPGPlayerState->GetAttributePoints();
+}
+
+int32 ATDRPGCharacter::GetSpellPoints_Implementation() const
+{
+    const ATDRPGPlayerState* TDRPGPlayerState = GetPlayerState<ATDRPGPlayerState>();
+    check(TDRPGPlayerState);
+    return TDRPGPlayerState->GetSpellPoints();
+}

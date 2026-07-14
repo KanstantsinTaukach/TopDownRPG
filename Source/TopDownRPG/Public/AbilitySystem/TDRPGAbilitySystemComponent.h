@@ -32,12 +32,17 @@ public:
 
     static FGameplayTag GetAbilityTagFromSpec(const FGameplayAbilitySpec& AbilitySpec);
     static FGameplayTag GetInputTagFromSpec(const FGameplayAbilitySpec& AbilitySpec);
+
+    void UpgradeAttribute(const FGameplayTag& AttributeTag);
     
 protected:
     UFUNCTION(Client, Reliable)
     void ClientEffectApplied(UAbilitySystemComponent* AbilitySystemComponent, const FGameplayEffectSpec& EffectSpec, FActiveGameplayEffectHandle ActiveEffectHandle);
 
     virtual void OnRep_ActivateAbilities() override;
+
+    UFUNCTION(Server, Reliable)
+    void ServerUpgradeAttribute(const FGameplayTag& AttributeTag);
     
 private:
     bool bStartupAbilitiesGiven = false;

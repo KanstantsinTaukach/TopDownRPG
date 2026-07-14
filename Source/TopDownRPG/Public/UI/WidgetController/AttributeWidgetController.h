@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "GameplayTagContainer.h"
 #include "UI/WidgetController/TDRPGWidgetController.h"
 #include "AttributeWidgetController.generated.h"
 
@@ -28,6 +29,9 @@ public:
     FOnPlayerStatChangedSignature OnPlayerAttributePointsChangedDelegate;
     UPROPERTY(BlueprintAssignable, Category = "GAS|SpellPoints")
     FOnPlayerStatChangedSignature OnPlayerSpellPointsChangedDelegate;
+
+    UFUNCTION(BlueprintCallable, Category = "GAS|Attributes")
+    void UpgradeAttribute(const FGameplayTag& AttributeTag);
     
 protected:
     UPROPERTY(EditDefaultsOnly)

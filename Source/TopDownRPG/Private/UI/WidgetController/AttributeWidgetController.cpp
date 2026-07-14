@@ -2,6 +2,7 @@
 
 
 #include "UI/WidgetController/AttributeWidgetController.h"
+#include "AbilitySystem/TDRPGAbilitySystemComponent.h"
 #include "Player/TDRPGPlayerState.h"
 #include "AbilitySystem/TDRPGAttributeSet.h"
 #include "AbilitySystem/Data/AttributeInfo.h"
@@ -50,4 +51,12 @@ void UAttributeWidgetController::BroadcastAttributeInfo(const FGameplayTag& Attr
 
     ATDRPGPlayerState* TDRPGPlayerState = CastChecked<ATDRPGPlayerState>(PlayerState);
     OnPlayerAttributePointsChangedDelegate.Broadcast(TDRPGPlayerState->GetAttributePoints());
+}
+
+void UAttributeWidgetController::UpgradeAttribute(const FGameplayTag& AttributeTag)
+{
+    if(UTDRPGAbilitySystemComponent* ASC = CastChecked<UTDRPGAbilitySystemComponent>(AbilitySystemComponent))
+    {
+        ASC->UpgradeAttribute(AttributeTag);
+    }
 }

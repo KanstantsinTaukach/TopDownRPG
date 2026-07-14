@@ -39,4 +39,9 @@ public:
     int32 FindLevelForXP(int32 InXP) const;
     UFUNCTION(BlueprintNativeEvent)
     void AddToPlayerLevel(int32 InPlayerLevel);
+
+    UFUNCTION(BlueprintNativeEvent)
+    int32 GetAttributePoints() const;
+    UFUNCTION(BlueprintNativeEvent)
+    int32 GetSpellPoints() const;
 };

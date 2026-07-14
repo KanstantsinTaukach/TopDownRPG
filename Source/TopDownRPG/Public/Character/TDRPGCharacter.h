@@ -40,6 +40,9 @@ public:
     virtual void LevelUp_Implementation() override;
     virtual int32 FindLevelForXP_Implementation(int32 InXP) const override;
     virtual void AddToPlayerLevel_Implementation(int32 InPlayerLevel) override;
+
+    virtual int32 GetAttributePoints_Implementation() const override;
+    virtual int32 GetSpellPoints_Implementation() const override;
     /** end Player Interface */
     
 protected:

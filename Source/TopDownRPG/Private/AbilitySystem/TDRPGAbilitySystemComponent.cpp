@@ -1,9 +1,12 @@
 // Copyright K.Taukach
 
 #include "AbilitySystem/TDRPGAbilitySystemComponent.h"
+
+#include "AbilitySystemBlueprintLibrary.h"
 #include "AbilitySystem/Abilities/TDRPGGameplayAbility.h"
 #include "TopDownRPG/TDRPGLogChannels.h"
 #include "TDRPGGameplayTags.h"
+#include "Interaction/TDRPGPlayerInterface.h"
 
 void UTDRPGAbilitySystemComponent::AbilityActorInfoSet()
 {
@@ -123,4 +126,29 @@ void UTDRPGAbilitySystemComponent::OnRep_ActivateAbilities()
         bStartupAbilitiesGiven = true;
         AbilitiesGiven.Broadcast(this);
     }    
+}
+
+void UTDRPGAbilitySystemComponent::UpgradeAttribute(const FGameplayTag& AttributeTag)
+{
+    if(GetAvatarActor()->Implements<UTDRPGPlayerInterface>())
+    {
+        if(ITDRPGPlayerInterface::Execute_GetAttributePoints(GetAvatarActor()) > 0)
+        {
+            ServerUpgradeAttribute_Implementation(AttributeTag);
+        }
+    }
+}
+
+void UTDRPGAbilitySystemComponent::ServerUpgradeAttribute_Implementation(const FGameplayTag& AttributeTag)
+{
+    FGameplayEventData Payload;
+    Payload.EventTag = AttributeTag;
+    Payload.EventMagnitude = 1.0f;
+
+    UAbilitySystemBlueprintLibrary::SendGameplayEventToActor(GetAvatarActor(), AttributeTag, Payload);
+
+    if(GetAvatarActor()->Implements<UTDRPGPlayerInterface>())
+    {
+        ITDRPGPlayerInterface::Execute_AddToAttributePoints(GetAvatarActor(), -1);
+    }
 }
