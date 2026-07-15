@@ -154,14 +154,30 @@ void UTDRPGAttributeSet::PostGameplayEffectExecute(const struct FGameplayEffectM
                 ITDRPGPlayerInterface::Execute_AddToAttributePoints(Props.SourceCharacter, AttributePointsReward);
                 ITDRPGPlayerInterface::Execute_AddToSpellPoints(Props.SourceCharacter, SpellPointsReward);
 
-                SetHealth(GetMaxHealth());
-                SetMana(GetMaxMana());
+                bTopOffHealth = true;
+                bTopOffMana = true;
                 
                 ITDRPGPlayerInterface::Execute_LevelUp(Props.SourceCharacter);
             }
             
             ITDRPGPlayerInterface::Execute_AddToXP(Props.SourceCharacter, LocalIncomingXP);
         }        
+    }
+}
+
+void UTDRPGAttributeSet::PostAttributeChange(const FGameplayAttribute& Attribute, float OldValue, float NewValue)
+{
+    Super::PostAttributeChange(Attribute, OldValue, NewValue);
+
+    if(Attribute == GetMaxHealthAttribute() && bTopOffHealth)
+    {
+        SetHealth(GetMaxHealth());
+        bTopOffHealth = false;
+    }
+    if(Attribute == GetMaxManaAttribute() && bTopOffMana)
+    {
+        SetMana(GetMaxMana());
+        bTopOffMana = false;
     }
 }
 
