@@ -5,67 +5,61 @@
 #include "LevelUpInfo.h"
 #include "AbilitySystem/TDRPGAttributeSet.h"
 #include "AbilitySystem/TDRPGAbilitySystemComponent.h"
-#include "AbilitySystem/Data/AbilityInfo.h"
 #include "Player/TDRPGPlayerState.h"
 
 void UOverlayWidgetController::BroadcastInitialValues()
 {
-    const UTDRPGAttributeSet* TDRPGAttributeSet = CastChecked<UTDRPGAttributeSet>(AttributeSet);
-    
-    OnHealthChanged.Broadcast(TDRPGAttributeSet->GetHealth());
-    OnMaxHealthChanged.Broadcast(TDRPGAttributeSet->GetMaxHealth());
+    OnHealthChanged.Broadcast(GetTDRPGAttributeSet()->GetHealth());
+    OnMaxHealthChanged.Broadcast(GetTDRPGAttributeSet()->GetMaxHealth());
 
-    OnManaChanged.Broadcast(TDRPGAttributeSet->GetMana());
-    OnMaxManaChanged.Broadcast(TDRPGAttributeSet->GetMaxMana());
+    OnManaChanged.Broadcast(GetTDRPGAttributeSet()->GetMana());
+    OnMaxManaChanged.Broadcast(GetTDRPGAttributeSet()->GetMaxMana());
 }
 
 void UOverlayWidgetController::BindCallbacksToDependencies()
 {    
-    ATDRPGPlayerState* TDRPGPlayerState = CastChecked<ATDRPGPlayerState>(PlayerState);
-    TDRPGPlayerState->OnXPChangedDelegate.AddUObject(this, &UOverlayWidgetController::OnXPChanged);
-    TDRPGPlayerState->OnLevelChangedDelegate.AddLambda([this](int32 NewLevel)
+    GetTDRPGPlayerState()->OnXPChangedDelegate.AddUObject(this, &UOverlayWidgetController::OnXPChanged);
+    GetTDRPGPlayerState()->OnLevelChangedDelegate.AddLambda([this](int32 NewLevel)
     {
         OnPlayerLevelChangedDelegate.Broadcast(NewLevel);
     });
     
-    const UTDRPGAttributeSet* TDRPGAttributeSet = CastChecked<UTDRPGAttributeSet>(AttributeSet);
-
-    AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(TDRPGAttributeSet->GetHealthAttribute()).AddLambda(
+    AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(GetTDRPGAttributeSet()->GetHealthAttribute()).AddLambda(
     [this](const FOnAttributeChangeData& Data)
     {
         OnHealthChanged.Broadcast(Data.NewValue);
     });
 
-    AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(TDRPGAttributeSet->GetMaxHealthAttribute()).AddLambda(
+    AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(GetTDRPGAttributeSet()->GetMaxHealthAttribute()).AddLambda(
     [this](const FOnAttributeChangeData& Data)
     {
         OnMaxHealthChanged.Broadcast(Data.NewValue);
     });
 
-    AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(TDRPGAttributeSet->GetManaAttribute()).AddLambda(
+    AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(GetTDRPGAttributeSet()->GetManaAttribute()).AddLambda(
     [this](const FOnAttributeChangeData& Data)
     {
         OnManaChanged.Broadcast(Data.NewValue);
     });
     
-    AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(TDRPGAttributeSet->GetMaxManaAttribute()).AddLambda(
+    AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(GetTDRPGAttributeSet()->GetMaxManaAttribute()).AddLambda(
     [this](const FOnAttributeChangeData& Data)
     {
         OnMaxManaChanged.Broadcast(Data.NewValue);
     });
 
-    if(UTDRPGAbilitySystemComponent* TDRPGASC = Cast<UTDRPGAbilitySystemComponent>(AbilitySystemComponent))
+    if(GetTDRPGAbilitySystemComponent())
     {
-        if(TDRPGASC->IsStartupAbilitiesGiven())
+        if(GetTDRPGAbilitySystemComponent()->IsStartupAbilitiesGiven())
         {
-            OnInitializeStartupAbilities(TDRPGASC);
+            BroadcastAbilityInfo();
         }
         else
         {
-            TDRPGASC->AbilitiesGiven.AddUObject(this, &UOverlayWidgetController::OnInitializeStartupAbilities);
+            GetTDRPGAbilitySystemComponent()->AbilitiesGiven.AddUObject(this, &UOverlayWidgetController::BroadcastAbilityInfo);
         }        
     
-        TDRPGASC->EffectAssetTags.AddLambda(
+        GetTDRPGAbilitySystemComponent()->EffectAssetTags.AddLambda(
         [this](const FGameplayTagContainer& AssetTags)
         {
             for(const FGameplayTag& Tag : AssetTags)
@@ -86,26 +80,9 @@ void UOverlayWidgetController::BindCallbacksToDependencies()
     }
 }
 
-void UOverlayWidgetController::OnInitializeStartupAbilities(UTDRPGAbilitySystemComponent* TDRPGAbilitySystemComponent)
+void UOverlayWidgetController::OnXPChanged(int32 NewXP)
 {
-    // TODO Get information about all given abilities, look up their Ability Info, and broadcast it to widgets.
-    if(!TDRPGAbilitySystemComponent->IsStartupAbilitiesGiven()) return;
-
-    FForEachAbility BroadcastDelegate;
-    BroadcastDelegate.BindLambda([this, TDRPGAbilitySystemComponent](const FGameplayAbilitySpec& AbilitySpec)
-    {
-        // TODO need a way to figure out the ability tag for a given ability spec.
-        FTDRPGAbilityInfo Info = AbilityInfo->FindAbilityInfoForTag(TDRPGAbilitySystemComponent->GetAbilityTagFromSpec(AbilitySpec));
-        Info.InputTag = TDRPGAbilitySystemComponent->GetInputTagFromSpec(AbilitySpec);
-        AbilityInfoDelegate.Broadcast(Info);
-    });
-    TDRPGAbilitySystemComponent->ForEachAbility(BroadcastDelegate);
-}
-
-void UOverlayWidgetController::OnXPChanged(int32 NewXP) const
-{
-    const ATDRPGPlayerState* TDRPGPlayerState = CastChecked<ATDRPGPlayerState>(PlayerState);
-    const ULevelUpInfo* LevelUpInfo = TDRPGPlayerState->LevelUpInfo;
+    const ULevelUpInfo* LevelUpInfo = GetTDRPGPlayerState()->LevelUpInfo;
     checkf(LevelUpInfo, TEXT("Unabled to find LevelUpInfo. Please fill out TDRTGPlayerState Blueprint."));
 
     const int32 PlayerLevel = LevelUpInfo->FindLevelForXP(NewXP);

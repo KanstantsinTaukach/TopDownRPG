@@ -9,21 +9,21 @@
 
 void UAttributeWidgetController::BroadcastInitialValues()
 {
-    UTDRPGAttributeSet* AS = CastChecked<UTDRPGAttributeSet>(AttributeSet);
     check(AttributeInfo);
 
-    for(auto& Pair: AS->TagsToAttributes)
+    for(auto& Pair: GetTDRPGAttributeSet()->TagsToAttributes)
     {
         BroadcastAttributeInfo(Pair.Key, Pair.Value());
     }
+
+    OnPlayerAttributePointsChangedDelegate.Broadcast(GetTDRPGPlayerState()->GetAttributePoints());
 }
 
 void UAttributeWidgetController::BindCallbacksToDependencies()
 {
-    UTDRPGAttributeSet* AS = CastChecked<UTDRPGAttributeSet>(AttributeSet);
     check(AttributeInfo);
     
-    for(auto& Pair: AS->TagsToAttributes)
+    for(auto& Pair: GetTDRPGAttributeSet()->TagsToAttributes)
     {
         AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(Pair.Value()).AddLambda(
             [this, Pair](const FOnAttributeChangeData& Data)
@@ -32,31 +32,29 @@ void UAttributeWidgetController::BindCallbacksToDependencies()
         });
     }
 
-    ATDRPGPlayerState* TDRPGPlayerState = CastChecked<ATDRPGPlayerState>(PlayerState);
-    TDRPGPlayerState->OnAttributePointsChangedDelegate.AddLambda([this](int32 AttributePoints)
+    GetTDRPGPlayerState()->OnAttributePointsChangedDelegate.AddLambda([this](int32 AttributePoints)
     {
        OnPlayerAttributePointsChangedDelegate.Broadcast(AttributePoints);
     });
-    TDRPGPlayerState->OnSpellPointsChangedDelegate.AddLambda([this](int32 SpellPoints)
+    GetTDRPGPlayerState()->OnSpellPointsChangedDelegate.AddLambda([this](int32 SpellPoints)
     {
         OnPlayerSpellPointsChangedDelegate.Broadcast(SpellPoints);
     });
 }
 
-void UAttributeWidgetController::BroadcastAttributeInfo(const FGameplayTag& AttributeTag, const FGameplayAttribute& Attribute) const
+void UAttributeWidgetController::BroadcastAttributeInfo(const FGameplayTag& AttributeTag, const FGameplayAttribute& Attribute)
 {
     FTDRPGAttributeInfo Info = AttributeInfo->FindAttributeInfoForTag(AttributeTag);
     Info.AttributeValue = Attribute.GetNumericValue(AttributeSet);
     AttributeInfoDelegate.Broadcast(Info);
 
-    ATDRPGPlayerState* TDRPGPlayerState = CastChecked<ATDRPGPlayerState>(PlayerState);
-    OnPlayerAttributePointsChangedDelegate.Broadcast(TDRPGPlayerState->GetAttributePoints());
+    OnPlayerAttributePointsChangedDelegate.Broadcast(GetTDRPGPlayerState()->GetAttributePoints());
 }
 
 void UAttributeWidgetController::UpgradeAttribute(const FGameplayTag& AttributeTag)
 {
-    if(UTDRPGAbilitySystemComponent* ASC = CastChecked<UTDRPGAbilitySystemComponent>(AbilitySystemComponent))
+    if(GetTDRPGAbilitySystemComponent())
     {
-        ASC->UpgradeAttribute(AttributeTag);
+        GetTDRPGAbilitySystemComponent()->UpgradeAttribute(AttributeTag);
     }
 }

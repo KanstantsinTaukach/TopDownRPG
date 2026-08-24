@@ -8,6 +8,11 @@
 
 class UAbilitySystemComponent;
 class UAttributeSet;
+class ATDRPGPlayerController;
+class ATDRPGPlayerState;
+class UTDRPGAbilitySystemComponent;
+class UTDRPGAttributeSet;
+class UAbilityInfo;
 
 USTRUCT(BlueprintType)
 struct FWidgetControllerParams
@@ -29,6 +34,7 @@ struct FWidgetControllerParams
 };
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnPlayerStatChangedSignature, int32, NewValue);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FAbilityInfoSignature, const FTDRPGAbilityInfo&, Info);
 
 UCLASS()
 class TOPDOWNRPG_API UTDRPGWidgetController : public UObject
@@ -42,8 +48,16 @@ public:
     UFUNCTION(BlueprintCallable)
     virtual void BroadcastInitialValues();
     virtual void BindCallbacksToDependencies();
+
+    UPROPERTY(BlueprintAssignable, Category = "GAS|Abilities")
+    FAbilityInfoSignature AbilityInfoDelegate;
+
+    void BroadcastAbilityInfo();
     
 protected:
+    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "WidgetData")
+    TObjectPtr<UAbilityInfo> AbilityInfo;
+    
     UPROPERTY(BlueprintReadOnly, Category="WidgetContoller")
     TObjectPtr<APlayerController> PlayerController;
 
@@ -55,4 +69,21 @@ protected:
 
     UPROPERTY(BlueprintReadOnly, Category="WidgetContoller")
     TObjectPtr<UAttributeSet> AttributeSet;
+
+    UPROPERTY(BlueprintReadOnly, Category="WidgetContoller")
+    TObjectPtr<ATDRPGPlayerController> TDRPGPlayerController;
+
+    UPROPERTY(BlueprintReadOnly, Category="WidgetContoller")
+    TObjectPtr<ATDRPGPlayerState> TDRPGPlayerState;
+
+    UPROPERTY(BlueprintReadOnly, Category="WidgetContoller")
+    TObjectPtr<UTDRPGAbilitySystemComponent> TDRPGAbilitySystemComponent;
+
+    UPROPERTY(BlueprintReadOnly, Category="WidgetContoller")
+    TObjectPtr<UTDRPGAttributeSet> TDRPGAttributeSet;
+
+    ATDRPGPlayerController* GetTDRPGPlayerController();
+    ATDRPGPlayerState* GetTDRPGPlayerState();
+    UTDRPGAbilitySystemComponent* GetTDRPGAbilitySystemComponent();
+    UTDRPGAttributeSet* GetTDRPGAttributeSet();
 };

@@ -27,7 +27,7 @@ void UTDRPGAbilitySystemComponent::AddCharacterAbilities(const TArray<TSubclassO
     }
 
     bStartupAbilitiesGiven = true;
-    AbilitiesGiven.Broadcast(this);
+    AbilitiesGiven.Broadcast();
 }
 
 void UTDRPGAbilitySystemComponent::AddCharacterPassiveAbilities(const TArray<TSubclassOf<UGameplayAbility>>& StartupPassiveAbilities)
@@ -124,7 +124,7 @@ void UTDRPGAbilitySystemComponent::OnRep_ActivateAbilities()
     if(!bStartupAbilitiesGiven)
     {
         bStartupAbilitiesGiven = true;
-        AbilitiesGiven.Broadcast(this);
+        AbilitiesGiven.Broadcast();
     }    
 }
 
