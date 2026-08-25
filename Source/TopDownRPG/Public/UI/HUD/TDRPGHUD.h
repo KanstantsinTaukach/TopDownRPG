@@ -6,11 +6,12 @@
 #include "GameFramework/HUD.h"
 #include "TDRPGHUD.generated.h"
 
-class UAttributeWidgetController;
 class UAttributeSet;
 class UAbilitySystemComponent;
-class UOverlayWidgetController;
 class UTDRPGUserWidget;
+class UOverlayWidgetController;
+class UAttributeWidgetController;
+class USpellMenuWidgetController;
 
 struct FWidgetControllerParams;
 
@@ -22,6 +23,7 @@ class TOPDOWNRPG_API ATDRPGHUD : public AHUD
 public:
     UOverlayWidgetController* GetOverlayWidgetController(const FWidgetControllerParams& WidgetControllerParams);
     UAttributeWidgetController* GetAttributeWidgetController(const FWidgetControllerParams& WidgetControllerParams);
+    USpellMenuWidgetController* GetSpellMenuWidgetController(const FWidgetControllerParams& WidgetControllerParams);
     
     void InitOverlay(APlayerController* PC, APlayerState* PS, UAbilitySystemComponent* ASC, UAttributeSet* AS);
 
@@ -40,4 +42,9 @@ private:
     TObjectPtr<UAttributeWidgetController> AttributeWidgetController;    
     UPROPERTY(EditAnywhere)
     TSubclassOf<UAttributeWidgetController> AttributeWidgetControllerClass;
+
+    UPROPERTY()
+    TObjectPtr<USpellMenuWidgetController> SpellMenuWidgetController;    
+    UPROPERTY(EditAnywhere)
+    TSubclassOf<USpellMenuWidgetController> SpellMenuWidgetControllerClass;
 };

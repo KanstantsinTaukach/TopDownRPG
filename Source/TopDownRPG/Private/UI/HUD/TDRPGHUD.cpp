@@ -4,6 +4,7 @@
 #include "UI/Widget/TDRPGUserWidget.h"
 #include "UI/WidgetController/OverlayWidgetController.h"
 #include "UI/WidgetController/AttributeWidgetController.h"
+#include "UI/WidgetController/SpellMenuWidgetController.h"
 
 UOverlayWidgetController* ATDRPGHUD::GetOverlayWidgetController(const FWidgetControllerParams& WidgetControllerParams)
 {
@@ -25,6 +26,17 @@ UAttributeWidgetController* ATDRPGHUD::GetAttributeWidgetController(const FWidge
         AttributeWidgetController->BindCallbacksToDependencies();
     }
     return AttributeWidgetController;
+}
+
+USpellMenuWidgetController* ATDRPGHUD::GetSpellMenuWidgetController(const FWidgetControllerParams& WidgetControllerParams)
+{
+    if(SpellMenuWidgetController == nullptr)
+    {
+        SpellMenuWidgetController = NewObject<USpellMenuWidgetController>(this, SpellMenuWidgetControllerClass);
+        SpellMenuWidgetController->SetWidgetControllerParams(WidgetControllerParams);
+        SpellMenuWidgetController->BindCallbacksToDependencies();
+    }
+    return SpellMenuWidgetController;
 }
 
 void ATDRPGHUD::InitOverlay(APlayerController* PC, APlayerState* PS, UAbilitySystemComponent* ASC, UAttributeSet* AS)

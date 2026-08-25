@@ -6,7 +6,7 @@
 #include "UI/WidgetController/TDRPGWidgetController.h"
 #include "SpellMenuWidgetController.generated.h"
 
-UCLASS()
+UCLASS(BlueprintType, Blueprintable)
 class TOPDOWNRPG_API USpellMenuWidgetController : public UTDRPGWidgetController
 {
 	GENERATED_BODY()

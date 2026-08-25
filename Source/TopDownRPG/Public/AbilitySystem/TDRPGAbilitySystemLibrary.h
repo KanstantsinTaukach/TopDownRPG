@@ -10,8 +10,10 @@
 class UAbilitySystemComponent;
 class UAttributeWidgetController;
 class UOverlayWidgetController;
+class USpellMenuWidgetController;
 
 struct FGameplayEffectContextHandle;
+struct FWidgetControllerParams;
 
 UCLASS()
 class TOPDOWNRPG_API UTDRPGAbilitySystemLibrary : public UBlueprintFunctionLibrary
@@ -19,11 +21,17 @@ class TOPDOWNRPG_API UTDRPGAbilitySystemLibrary : public UBlueprintFunctionLibra
 	GENERATED_BODY()
 
 public:
-    UFUNCTION(BlueprintPure, Category = "TDRPGAbilitySystemLibrary|WidgetController")
+    UFUNCTION(BlueprintPure, Category = "TDRPGAbilitySystemLibrary|WidgetController", meta = (DefaultToSelf = "WorldContextObject"))
+    static bool MakeWidgetControllerParams(const UObject* WorldContextObject, FWidgetControllerParams& OutWCParams, ATDRPGHUD*& OutTDRPGHUD);
+    
+    UFUNCTION(BlueprintPure, Category = "TDRPGAbilitySystemLibrary|WidgetController", meta = (DefaultToSelf = "WorldContextObject"))
     static UOverlayWidgetController* GetOverlayWidgetController(const UObject* WorldContextObject);
 
-    UFUNCTION(BlueprintPure, Category = "TDRPGAbilitySystemLibrary|WidgetController")
+    UFUNCTION(BlueprintPure, Category = "TDRPGAbilitySystemLibrary|WidgetController", meta = (DefaultToSelf = "WorldContextObject"))
     static UAttributeWidgetController* GetAttributeWidgetController (const UObject* WorldContextObject);
+
+    UFUNCTION(BlueprintPure, Category = "TDRPGAbilitySystemLibrary|WidgetController", meta = (DefaultToSelf = "WorldContextObject"))
+    static USpellMenuWidgetController* GetSpellMenuWidgetController (const UObject* WorldContextObject);
 
     UFUNCTION(BlueprintCallable, Category = "TDRPGAbilitySystemLibrary|CharacterClassDefaults")
     static void InitializeDefaultAttributes(const UObject* WorldContextObject, ECharacterClass CharacterClass, float Level, UAbilitySystemComponent* ASC);
