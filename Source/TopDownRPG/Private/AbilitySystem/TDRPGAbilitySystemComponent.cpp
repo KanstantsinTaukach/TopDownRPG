@@ -22,6 +22,7 @@ void UTDRPGAbilitySystemComponent::AddCharacterAbilities(const TArray<TSubclassO
         {
             //AbilitySpec.DynamicAbilityTags.AddTag((TDRPGAbility->StartupInputTag));
             AbilitySpec.GetDynamicSpecSourceTags().AddTag((TDRPGAbility->StartupInputTag));
+            AbilitySpec.GetDynamicSpecSourceTags().AddTag(FTDRPGGameplayTags::Get().Abilities_Status_Equipped);
             GiveAbility(AbilitySpec);
         }
     }
@@ -85,11 +86,11 @@ FGameplayTag UTDRPGAbilitySystemComponent::GetAbilityTagFromSpec(const FGameplay
 {
     if (AbilitySpec.Ability)
     {
-        for(FGameplayTag Tag : AbilitySpec.Ability.Get()->AbilityTags)
+        for(FGameplayTag AbilityTag : AbilitySpec.Ability.Get()->AbilityTags)
         {
-            if(Tag.MatchesTag(FGameplayTag::RequestGameplayTag("Abilities")))
+            if(AbilityTag.MatchesTag(FGameplayTag::RequestGameplayTag("Abilities")))
             {
-                return Tag;
+                return AbilityTag;
             }
         }
     }
@@ -98,11 +99,23 @@ FGameplayTag UTDRPGAbilitySystemComponent::GetAbilityTagFromSpec(const FGameplay
 
 FGameplayTag UTDRPGAbilitySystemComponent::GetInputTagFromSpec(const FGameplayAbilitySpec& AbilitySpec)
 {
-    for(FGameplayTag Tag : AbilitySpec.GetDynamicSpecSourceTags())
+    for(FGameplayTag InputTag : AbilitySpec.GetDynamicSpecSourceTags())
     {
-        if(Tag.MatchesTag(FGameplayTag::RequestGameplayTag(FName("InputTag"))))
+        if(InputTag.MatchesTag(FGameplayTag::RequestGameplayTag(FName("InputTag"))))
         {
-            return Tag;
+            return InputTag;
+        }
+    }
+    return FGameplayTag();
+}
+
+FGameplayTag UTDRPGAbilitySystemComponent::GetStatusTagFromSpec(const FGameplayAbilitySpec& AbilitySpec)
+{
+    for(FGameplayTag StatusTag : AbilitySpec.GetDynamicSpecSourceTags())
+    {
+        if(StatusTag.MatchesTag(FGameplayTag::RequestGameplayTag(FName("Abilities.Status"))))
+        {
+            return StatusTag;
         }
     }
     return FGameplayTag();
