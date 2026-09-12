@@ -32,6 +32,7 @@ void UTDRPGWidgetController::BroadcastAbilityInfo()
     {
         FTDRPGAbilityInfo Info = AbilityInfo->FindAbilityInfoForTag(TDRPGAbilitySystemComponent->GetAbilityTagFromSpec(AbilitySpec));
         Info.InputTag = TDRPGAbilitySystemComponent->GetInputTagFromSpec(AbilitySpec);
+        Info.StatusTag = TDRPGAbilitySystemComponent->GetStatusTagFromSpec(AbilitySpec);
         AbilityInfoDelegate.Broadcast(Info);
     });
     GetTDRPGAbilitySystemComponent()->ForEachAbility(BroadcastDelegate);
