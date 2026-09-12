@@ -127,9 +127,16 @@ int32 UTDRPGAbilitySystemLibrary::GetXPRewardForClassAndLevel(const UObject* Wor
 
 UCharacterClassInfo* UTDRPGAbilitySystemLibrary::GetCharacterClassInfo(const UObject* WorldContextObject)
 {
-    ATDRPGGameModeBase* TDRPGGameMode = Cast<ATDRPGGameModeBase>(UGameplayStatics::GetGameMode(WorldContextObject));
+    const ATDRPGGameModeBase* TDRPGGameMode = Cast<ATDRPGGameModeBase>(UGameplayStatics::GetGameMode(WorldContextObject));
     if(TDRPGGameMode == nullptr) return nullptr;
     return TDRPGGameMode->CharacterClassInfo;
+}
+
+UAbilityInfo* UTDRPGAbilitySystemLibrary::GetAbilityInfo(const UObject* WorldContextObject)
+{
+    const ATDRPGGameModeBase* TDRPGGameMode = Cast<ATDRPGGameModeBase>(UGameplayStatics::GetGameMode(WorldContextObject));
+    if(TDRPGGameMode == nullptr) return nullptr;
+    return TDRPGGameMode->AbilityInfo;
 }
 
 bool UTDRPGAbilitySystemLibrary::IsBlockedHit(const FGameplayEffectContextHandle& EffectContextHandle)

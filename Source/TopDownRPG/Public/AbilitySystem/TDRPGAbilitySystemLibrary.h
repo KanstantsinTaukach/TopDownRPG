@@ -42,6 +42,9 @@ public:
     UFUNCTION(BlueprintCallable, Category = "TDRPGAbilitySystemLibrary|CharacterClassDefaults")
     static UCharacterClassInfo* GetCharacterClassInfo(const UObject* WorldContextObject);
 
+    UFUNCTION(BlueprintCallable, Category = "TDRPGAbilitySystemLibrary|AbilityInfo")
+    static UAbilityInfo* GetAbilityInfo(const UObject* WorldContextObject);
+
     UFUNCTION(BlueprintPure, Category = "TDRPGAbilitySystemLibrary|GameplayEffects")
     static bool IsBlockedHit(const FGameplayEffectContextHandle& EffectContextHandle);
 
