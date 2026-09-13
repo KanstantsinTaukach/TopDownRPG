@@ -3,6 +3,8 @@
 #include "AbilitySystem/TDRPGAbilitySystemComponent.h"
 
 #include "AbilitySystemBlueprintLibrary.h"
+#include "AbilitySystem/TDRPGAbilitySystemLibrary.h"
+#include "AbilitySystem/Data/AbilityInfo.h"
 #include "AbilitySystem/Abilities/TDRPGGameplayAbility.h"
 #include "TopDownRPG/TDRPGLogChannels.h"
 #include "TDRPGGameplayTags.h"
@@ -20,7 +22,6 @@ void UTDRPGAbilitySystemComponent::AddCharacterAbilities(const TArray<TSubclassO
         FGameplayAbilitySpec AbilitySpec = FGameplayAbilitySpec(AbilityClass, 1);
         if(const UTDRPGGameplayAbility* TDRPGAbility = Cast<UTDRPGGameplayAbility>(AbilitySpec.Ability))
         {
-            //AbilitySpec.DynamicAbilityTags.AddTag((TDRPGAbility->StartupInputTag));
             AbilitySpec.GetDynamicSpecSourceTags().AddTag((TDRPGAbility->StartupInputTag));
             AbilitySpec.GetDynamicSpecSourceTags().AddTag(FTDRPGGameplayTags::Get().Abilities_Status_Equipped);
             GiveAbility(AbilitySpec);
@@ -44,7 +45,7 @@ void UTDRPGAbilitySystemComponent::AbilityInputTagHeld(const FGameplayTag& Input
 {
     if(!InputTag.IsValid()) return;
 
-    for (FGameplayAbilitySpec& AbilitySpec : GetActivatableAbilities())
+    for(FGameplayAbilitySpec& AbilitySpec : GetActivatableAbilities())
     {
         if(AbilitySpec.GetDynamicSpecSourceTags().HasTagExact(InputTag))
         {
@@ -61,7 +62,7 @@ void UTDRPGAbilitySystemComponent::AbilityInputTagReleased(const FGameplayTag& I
 {
     if(!InputTag.IsValid()) return;
 
-    for (FGameplayAbilitySpec& AbilitySpec : GetActivatableAbilities())
+    for(FGameplayAbilitySpec& AbilitySpec : GetActivatableAbilities())
     {
         if(AbilitySpec.GetDynamicSpecSourceTags().HasTagExact(InputTag))
         {
@@ -84,7 +85,7 @@ void UTDRPGAbilitySystemComponent::ForEachAbility(const FForEachAbility& Delegat
 
 FGameplayTag UTDRPGAbilitySystemComponent::GetAbilityTagFromSpec(const FGameplayAbilitySpec& AbilitySpec)
 {
-    if (AbilitySpec.Ability)
+    if(AbilitySpec.Ability)
     {
         for(FGameplayTag AbilityTag : AbilitySpec.Ability.Get()->AbilityTags)
         {
@@ -121,6 +122,23 @@ FGameplayTag UTDRPGAbilitySystemComponent::GetStatusTagFromSpec(const FGameplayA
     return FGameplayTag();
 }
 
+FGameplayAbilitySpec* UTDRPGAbilitySystemComponent::GetSpecFromAbilityTag(const FGameplayTag& AbilityTag)
+{
+    FScopedAbilityListLock ActiveScopeLock(*this);
+    for(FGameplayAbilitySpec& AbilitySpec : GetActivatableAbilities())
+    {
+        for(FGameplayTag Tag : AbilitySpec.Ability.Get()->AbilityTags)
+        {
+            if(Tag.MatchesTag(AbilityTag))
+            {
+                return &AbilitySpec;
+            }
+        }
+    }
+
+    return nullptr;
+}
+
 void UTDRPGAbilitySystemComponent::ClientEffectApplied_Implementation(UAbilitySystemComponent* AbilitySystemComponent, const FGameplayEffectSpec& EffectSpec,
     FActiveGameplayEffectHandle ActiveEffectHandle)
 {
@@ -147,7 +165,28 @@ void UTDRPGAbilitySystemComponent::UpgradeAttribute(const FGameplayTag& Attribut
     {
         if(ITDRPGPlayerInterface::Execute_GetAttributePoints(GetAvatarActor()) > 0)
         {
-            ServerUpgradeAttribute_Implementation(AttributeTag);
+            ServerUpgradeAttribute(AttributeTag);
+        }
+    }
+}
+
+void UTDRPGAbilitySystemComponent::UpdateAbilityStatuses(int32 Level)
+{
+    UAbilityInfo* AbilityInfo = UTDRPGAbilitySystemLibrary::GetAbilityInfo(GetAvatarActor());
+    for (const FTDRPGAbilityInfo& Info : AbilityInfo->AbilityInformation)
+    {
+        if(!Info.AbilityTag.IsValid()) continue;
+        
+        if(Info.LevelRequirement <= Level)
+        {
+            if(GetSpecFromAbilityTag(Info.AbilityTag) == nullptr)
+            {
+                FGameplayAbilitySpec AbilitySpec = FGameplayAbilitySpec(Info.Ability, 1);
+                AbilitySpec.GetDynamicSpecSourceTags().AddTag(FTDRPGGameplayTags::Get().Abilities_Status_Eligible);
+                GiveAbility(AbilitySpec);
+
+                MarkAbilitySpecDirty(AbilitySpec);
+            }
         }
     }
 }
