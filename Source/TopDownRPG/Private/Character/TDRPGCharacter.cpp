@@ -156,7 +156,12 @@ void ATDRPGCharacter::AddToPlayerLevel_Implementation(int32 InPlayerLevel)
 {
     ATDRPGPlayerState* TDRPGPlayerState = GetPlayerState<ATDRPGPlayerState>();
     check(TDRPGPlayerState);
-    return TDRPGPlayerState->AddToLevel(InPlayerLevel);
+    TDRPGPlayerState->AddToLevel(InPlayerLevel);
+
+    if(UTDRPGAbilitySystemComponent* TDRPGASC = Cast<UTDRPGAbilitySystemComponent>(GetAbilitySystemComponent()))
+    {
+        TDRPGASC->UpdateAbilityStatuses(TDRPGPlayerState->GetPlayerLevel());
+    }
 }
 
 int32 ATDRPGCharacter::GetAttributePoints_Implementation() const

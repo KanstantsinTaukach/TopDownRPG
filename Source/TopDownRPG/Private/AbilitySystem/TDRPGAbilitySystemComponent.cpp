@@ -186,9 +186,15 @@ void UTDRPGAbilitySystemComponent::UpdateAbilityStatuses(int32 Level)
                 GiveAbility(AbilitySpec);
 
                 MarkAbilitySpecDirty(AbilitySpec);
+                ClientUpdateAbilityStatus(Info.AbilityTag, FTDRPGGameplayTags::Get().Abilities_Status_Eligible);
             }
         }
     }
+}
+
+void UTDRPGAbilitySystemComponent::ClientUpdateAbilityStatus_Implementation(const FGameplayTag& AbilityTag, const FGameplayTag& StatusTag)
+{
+    AbilityStatusChanged.Broadcast(AbilityTag, StatusTag);
 }
 
 void UTDRPGAbilitySystemComponent::ServerUpgradeAttribute_Implementation(const FGameplayTag& AttributeTag)
