@@ -3,10 +3,13 @@
 #include "UI/WidgetController/SpellMenuWidgetController.h"
 #include "AbilitySystem/Data/AbilityInfo.h"
 #include "AbilitySystem/TDRPGAbilitySystemComponent.h"
+#include "Player/TDRPGPlayerState.h"
 
 void USpellMenuWidgetController::BroadcastInitialValues()
 {
     BroadcastAbilityInfo();
+
+    OnPlayerSpellPointsChangedDelegate.Broadcast(GetTDRPGPlayerState()->GetSpellPoints());
 }
 
 void USpellMenuWidgetController::BindCallbacksToDependencies()
@@ -19,5 +22,10 @@ void USpellMenuWidgetController::BindCallbacksToDependencies()
             Info.StatusTag = StatusTag;
             AbilityInfoDelegate.Broadcast(Info);
         }
+    });
+
+    GetTDRPGPlayerState()->OnSpellPointsChangedDelegate.AddLambda([this](int32 SpellPoints)
+    {
+        OnPlayerSpellPointsChangedDelegate.Broadcast(SpellPoints);
     });
 }

@@ -36,10 +36,6 @@ void UAttributeWidgetController::BindCallbacksToDependencies()
     {
        OnPlayerAttributePointsChangedDelegate.Broadcast(AttributePoints);
     });
-    GetTDRPGPlayerState()->OnSpellPointsChangedDelegate.AddLambda([this](int32 SpellPoints)
-    {
-        OnPlayerSpellPointsChangedDelegate.Broadcast(SpellPoints);
-    });
 }
 
 void UAttributeWidgetController::BroadcastAttributeInfo(const FGameplayTag& AttributeTag, const FGameplayAttribute& Attribute)
