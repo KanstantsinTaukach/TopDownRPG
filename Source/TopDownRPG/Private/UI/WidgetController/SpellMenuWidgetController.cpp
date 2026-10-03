@@ -23,11 +23,28 @@ void USpellMenuWidgetController::BindCallbacksToDependencies()
             Info.StatusTag = StatusTag;
             AbilityInfoDelegate.Broadcast(Info);
         }
+
+        if(SelectedAbility.Ability.MatchesTagExact(AbilityTag))
+        {
+            SelectedAbility.Status = StatusTag;
+            bool bEnableSpellPoints = false;
+            bool bEnableEquip = false;
+            ShouldEnableButtons(SelectedAbility.Status, CurrentSpellPoints, bEnableSpellPoints, bEnableEquip);
+            
+            SpellGlobeSelectedDelegate.Broadcast(bEnableSpellPoints, bEnableEquip);
+        }
     });
 
     GetTDRPGPlayerState()->OnSpellPointsChangedDelegate.AddLambda([this](int32 SpellPoints)
     {
         OnPlayerSpellPointsChangedDelegate.Broadcast(SpellPoints);
+        
+        CurrentSpellPoints = SpellPoints;
+        bool bEnableSpellPoints = false;
+        bool bEnableEquip = false;
+        ShouldEnableButtons(SelectedAbility.Status, CurrentSpellPoints, bEnableSpellPoints, bEnableEquip);
+        
+        SpellGlobeSelectedDelegate.Broadcast(bEnableSpellPoints, bEnableEquip);
     });
 }
 
@@ -49,17 +66,21 @@ void USpellMenuWidgetController::SpellGlobeSelected(const FGameplayTag& AbilityT
         AbilityStatusTag = TDRPGASC->GetStatusTagFromSpec(*AbilitySpec);
     }
 
+    SelectedAbility.Ability = AbilityTag;
+    SelectedAbility.Status = AbilityStatusTag;
+    
     const ATDRPGPlayerState* PS = GetTDRPGPlayerState();
-    const bool bHasSpellPoints = PS && PS->GetSpellPoints() > 0;
+    if(!PS) return;
+    const int32 SpellPoints = PS->GetSpellPoints();
     
     bool bEnableSpellPoints = false;
     bool bEnableEquip = false;
-    ShouldEnableButtons(AbilityStatusTag, bHasSpellPoints, bEnableSpellPoints, bEnableEquip);
+    ShouldEnableButtons(AbilityStatusTag, SpellPoints, bEnableSpellPoints, bEnableEquip);
 
     SpellGlobeSelectedDelegate.Broadcast(bEnableSpellPoints, bEnableEquip);
 }
 
-void USpellMenuWidgetController::ShouldEnableButtons(const FGameplayTag& AbilityStatusTag, bool bHasSpellPoints, bool& bShouldEnableSpendPointsButton, bool& bShouldEnableEquipButton)
+void USpellMenuWidgetController::ShouldEnableButtons(const FGameplayTag& AbilityStatusTag, int32 SpellPoints, bool& bShouldEnableSpendPointsButton, bool& bShouldEnableEquipButton)
 {
     const FTDRPGGameplayTags& Tags = FTDRPGGameplayTags::Get();
 
@@ -68,11 +89,11 @@ void USpellMenuWidgetController::ShouldEnableButtons(const FGameplayTag& Ability
     
     if(AbilityStatusTag.MatchesTagExact(Tags.Abilities_Status_Eligible))
     {
-       bShouldEnableSpendPointsButton = bHasSpellPoints;
+       bShouldEnableSpendPointsButton = SpellPoints > 0 ? true : false;
     }
     else if(AbilityStatusTag.MatchesTagExact(Tags.Abilities_Status_Unlocked) || AbilityStatusTag.MatchesTagExact(Tags.Abilities_Status_Equipped))
     {
         bShouldEnableEquipButton = true;        
-        bShouldEnableSpendPointsButton = bHasSpellPoints;
+        bShouldEnableSpendPointsButton = SpellPoints > 0 ? true : false;
     }
 }
