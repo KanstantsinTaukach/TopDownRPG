@@ -9,7 +9,7 @@
 DECLARE_MULTICAST_DELEGATE_OneParam(FEffectAssetTagsSignature, const FGameplayTagContainer& /*AssetTags*/);
 DECLARE_MULTICAST_DELEGATE(FAbilitiesGivenSignature);
 DECLARE_DELEGATE_OneParam(FForEachAbility, const FGameplayAbilitySpec&);
-DECLARE_MULTICAST_DELEGATE_TwoParams(FAbilityStatusChanged, const FGameplayTag& /*AbilityTag*/, const FGameplayTag& /*StatusTag*/);
+DECLARE_MULTICAST_DELEGATE_ThreeParams(FAbilityStatusChanged, const FGameplayTag& /*AbilityTag*/, const FGameplayTag& /*StatusTag*/, int32 /*AbilityLevel*/);
 
 UCLASS()
 class TOPDOWNRPG_API UTDRPGAbilitySystemComponent : public UAbilitySystemComponent
@@ -41,13 +41,16 @@ public:
     void UpgradeAttribute(const FGameplayTag& AttributeTag);
 
     void UpdateAbilityStatuses(int32 Level);
+
+    UFUNCTION(Server, Reliable)
+    void ServerSpendSpellPoint(const FGameplayTag& AbilityTag);
     
 protected:
     UFUNCTION(Client, Reliable)
     void ClientEffectApplied(UAbilitySystemComponent* AbilitySystemComponent, const FGameplayEffectSpec& EffectSpec, FActiveGameplayEffectHandle ActiveEffectHandle);
 
     UFUNCTION(Client, Reliable)
-    void ClientUpdateAbilityStatus(const FGameplayTag& AbilityTag, const FGameplayTag& StatusTag);
+    void ClientUpdateAbilityStatus(const FGameplayTag& AbilityTag, const FGameplayTag& StatusTag, int32 AbilityLevel);
 
     virtual void OnRep_ActivateAbilities() override;
 

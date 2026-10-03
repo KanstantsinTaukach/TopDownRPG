@@ -15,7 +15,7 @@ void USpellMenuWidgetController::BroadcastInitialValues()
 
 void USpellMenuWidgetController::BindCallbacksToDependencies()
 {
-    GetTDRPGAbilitySystemComponent()->AbilityStatusChanged.AddLambda([this](const FGameplayTag& AbilityTag, const FGameplayTag& StatusTag)
+    GetTDRPGAbilitySystemComponent()->AbilityStatusChanged.AddLambda([this](const FGameplayTag& AbilityTag, const FGameplayTag& StatusTag, int32 NewLevel)
     {
         if(AbilityInfo)
         {
@@ -95,5 +95,14 @@ void USpellMenuWidgetController::ShouldEnableButtons(const FGameplayTag& Ability
     {
         bShouldEnableEquipButton = true;        
         bShouldEnableSpendPointsButton = SpellPoints > 0 ? true : false;
+    }
+}
+
+void USpellMenuWidgetController::SpendPointButtonPressed()
+{
+    UTDRPGAbilitySystemComponent* TDRPGASC = GetTDRPGAbilitySystemComponent();
+    if(TDRPGASC)
+    {
+        TDRPGASC->ServerSpendSpellPoint(SelectedAbility.Ability);
     }
 }

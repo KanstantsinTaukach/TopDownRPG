@@ -173,7 +173,7 @@ void UTDRPGAbilitySystemComponent::UpgradeAttribute(const FGameplayTag& Attribut
 void UTDRPGAbilitySystemComponent::UpdateAbilityStatuses(int32 Level)
 {
     UAbilityInfo* AbilityInfo = UTDRPGAbilitySystemLibrary::GetAbilityInfo(GetAvatarActor());
-    for (const FTDRPGAbilityInfo& Info : AbilityInfo->AbilityInformation)
+    for(const FTDRPGAbilityInfo& Info : AbilityInfo->AbilityInformation)
     {
         if(!Info.AbilityTag.IsValid()) continue;
         
@@ -181,20 +181,21 @@ void UTDRPGAbilitySystemComponent::UpdateAbilityStatuses(int32 Level)
         {
             if(GetSpecFromAbilityTag(Info.AbilityTag) == nullptr)
             {
-                FGameplayAbilitySpec AbilitySpec = FGameplayAbilitySpec(Info.Ability, 1);
+                int32 StartAbilityLevel = 1;
+                FGameplayAbilitySpec AbilitySpec = FGameplayAbilitySpec(Info.Ability, StartAbilityLevel);
                 AbilitySpec.GetDynamicSpecSourceTags().AddTag(FTDRPGGameplayTags::Get().Abilities_Status_Eligible);
                 GiveAbility(AbilitySpec);
 
                 MarkAbilitySpecDirty(AbilitySpec);
-                ClientUpdateAbilityStatus(Info.AbilityTag, FTDRPGGameplayTags::Get().Abilities_Status_Eligible);
+                ClientUpdateAbilityStatus(Info.AbilityTag, FTDRPGGameplayTags::Get().Abilities_Status_Eligible, StartAbilityLevel);
             }
         }
     }
 }
 
-void UTDRPGAbilitySystemComponent::ClientUpdateAbilityStatus_Implementation(const FGameplayTag& AbilityTag, const FGameplayTag& StatusTag)
+void UTDRPGAbilitySystemComponent::ClientUpdateAbilityStatus_Implementation(const FGameplayTag& AbilityTag, const FGameplayTag& StatusTag, int32 AbilityLevel)
 {
-    AbilityStatusChanged.Broadcast(AbilityTag, StatusTag);
+    AbilityStatusChanged.Broadcast(AbilityTag, StatusTag, AbilityLevel);
 }
 
 void UTDRPGAbilitySystemComponent::ServerUpgradeAttribute_Implementation(const FGameplayTag& AttributeTag)
@@ -208,5 +209,33 @@ void UTDRPGAbilitySystemComponent::ServerUpgradeAttribute_Implementation(const F
     if(GetAvatarActor()->Implements<UTDRPGPlayerInterface>())
     {
         ITDRPGPlayerInterface::Execute_AddToAttributePoints(GetAvatarActor(), -1);
+    }
+}
+
+void UTDRPGAbilitySystemComponent::ServerSpendSpellPoint_Implementation(const FGameplayTag& AbilityTag)
+{
+    if(FGameplayAbilitySpec* AbilitySpec = GetSpecFromAbilityTag(AbilityTag))
+    {
+        if(GetAvatarActor()->Implements<UTDRPGPlayerInterface>())
+        {
+            ITDRPGPlayerInterface::Execute_AddToSpellPoints(GetAvatarActor(), -1);
+        }
+        
+        const FTDRPGGameplayTags GameplayTags = FTDRPGGameplayTags::Get();
+
+        FGameplayTag StatusTag = GetStatusTagFromSpec(*AbilitySpec);
+        if(StatusTag.MatchesTagExact(GameplayTags.Abilities_Status_Eligible))
+        {
+            AbilitySpec->GetDynamicSpecSourceTags().RemoveTag(GameplayTags.Abilities_Status_Eligible);
+            AbilitySpec->GetDynamicSpecSourceTags().AddTag(GameplayTags.Abilities_Status_Unlocked);
+            StatusTag = GameplayTags.Abilities_Status_Unlocked;
+        }
+        else if(StatusTag.MatchesTagExact(GameplayTags.Abilities_Status_Unlocked) || StatusTag.MatchesTagExact(GameplayTags.Abilities_Status_Equipped))
+        {
+            AbilitySpec->Level += 1;            
+        }
+
+        ClientUpdateAbilityStatus(AbilityTag, StatusTag, AbilitySpec->Level);
+        MarkAbilitySpecDirty(*AbilitySpec);
     }
 }
