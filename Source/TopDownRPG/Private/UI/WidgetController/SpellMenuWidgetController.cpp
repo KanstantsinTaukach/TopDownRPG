@@ -30,8 +30,12 @@ void USpellMenuWidgetController::BindCallbacksToDependencies()
             bool bEnableSpellPoints = false;
             bool bEnableEquip = false;
             ShouldEnableButtons(SelectedAbility.Status, CurrentSpellPoints, bEnableSpellPoints, bEnableEquip);
+
+            FString Description;
+            FString NextLevelDescription;
+            GetTDRPGAbilitySystemComponent()->GetDescriptonsByAbilityTag(AbilityTag, Description, NextLevelDescription);
             
-            SpellGlobeSelectedDelegate.Broadcast(bEnableSpellPoints, bEnableEquip);
+            SpellGlobeSelectedDelegate.Broadcast(bEnableSpellPoints, bEnableEquip, Description, NextLevelDescription);
         }
     });
 
@@ -44,7 +48,11 @@ void USpellMenuWidgetController::BindCallbacksToDependencies()
         bool bEnableEquip = false;
         ShouldEnableButtons(SelectedAbility.Status, CurrentSpellPoints, bEnableSpellPoints, bEnableEquip);
         
-        SpellGlobeSelectedDelegate.Broadcast(bEnableSpellPoints, bEnableEquip);
+        FString Description;
+        FString NextLevelDescription;
+        GetTDRPGAbilitySystemComponent()->GetDescriptonsByAbilityTag(SelectedAbility.Ability, Description, NextLevelDescription);
+            
+        SpellGlobeSelectedDelegate.Broadcast(bEnableSpellPoints, bEnableEquip, Description, NextLevelDescription);
     });
 }
 
@@ -77,7 +85,11 @@ void USpellMenuWidgetController::SpellGlobeSelected(const FGameplayTag& AbilityT
     bool bEnableEquip = false;
     ShouldEnableButtons(AbilityStatusTag, SpellPoints, bEnableSpellPoints, bEnableEquip);
 
-    SpellGlobeSelectedDelegate.Broadcast(bEnableSpellPoints, bEnableEquip);
+    FString Description;
+    FString NextLevelDescription;
+    GetTDRPGAbilitySystemComponent()->GetDescriptonsByAbilityTag(AbilityTag, Description, NextLevelDescription);
+            
+    SpellGlobeSelectedDelegate.Broadcast(bEnableSpellPoints, bEnableEquip, Description, NextLevelDescription);
 }
 
 void USpellMenuWidgetController::ShouldEnableButtons(const FGameplayTag& AbilityStatusTag, int32 SpellPoints, bool& bShouldEnableSpendPointsButton, bool& bShouldEnableEquipButton)

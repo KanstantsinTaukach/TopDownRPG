@@ -239,3 +239,21 @@ void UTDRPGAbilitySystemComponent::ServerSpendSpellPoint_Implementation(const FG
         MarkAbilitySpecDirty(*AbilitySpec);
     }
 }
+
+bool UTDRPGAbilitySystemComponent::GetDescriptonsByAbilityTag(const FGameplayTag& AbilityTag, FString& OutDescription, FString& OutNextLevelDescription)
+{
+    if(const FGameplayAbilitySpec* AbilitySpec = GetSpecFromAbilityTag(AbilityTag))
+    {
+        if(UTDRPGGameplayAbility* TDRPGAbility = Cast<UTDRPGGameplayAbility>(AbilitySpec->Ability))
+        {
+            OutDescription = TDRPGAbility->GetDescription(AbilitySpec->Level);
+            OutNextLevelDescription = TDRPGAbility->GetNextLevelDescription(AbilitySpec->Level + 1);
+            return true;
+        }
+    }
+    
+    const UAbilityInfo* AbilityInfo = UTDRPGAbilitySystemLibrary::GetAbilityInfo(GetAvatarActor());
+    OutDescription = UTDRPGGameplayAbility::GetLockedDescription(AbilityInfo->FindAbilityInfoForTag(AbilityTag).LevelRequirement);
+    OutNextLevelDescription = FString();
+    return false;
+}
