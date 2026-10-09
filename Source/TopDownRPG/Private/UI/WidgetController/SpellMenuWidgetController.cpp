@@ -110,6 +110,15 @@ void USpellMenuWidgetController::ShouldEnableButtons(const FGameplayTag& Ability
     }
 }
 
+void USpellMenuWidgetController::SpellGlobeDeselected()
+{
+    const FTDRPGGameplayTags& Tags = FTDRPGGameplayTags::Get();
+    SelectedAbility.Ability = Tags.Abilities_None;
+    SelectedAbility.Status = Tags.Abilities_Status_Locked;
+
+    SpellGlobeSelectedDelegate.Broadcast(false, false, FString(), FString());
+}
+
 void USpellMenuWidgetController::SpendPointButtonPressed()
 {
     UTDRPGAbilitySystemComponent* TDRPGASC = GetTDRPGAbilitySystemComponent();

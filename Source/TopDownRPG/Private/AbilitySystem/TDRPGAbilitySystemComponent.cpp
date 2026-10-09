@@ -253,7 +253,14 @@ bool UTDRPGAbilitySystemComponent::GetDescriptonsByAbilityTag(const FGameplayTag
     }
     
     const UAbilityInfo* AbilityInfo = UTDRPGAbilitySystemLibrary::GetAbilityInfo(GetAvatarActor());
-    OutDescription = UTDRPGGameplayAbility::GetLockedDescription(AbilityInfo->FindAbilityInfoForTag(AbilityTag).LevelRequirement);
-    OutNextLevelDescription = FString();
+    if(!AbilityTag.IsValid() || AbilityTag.MatchesTagExact(FTDRPGGameplayTags::Get().Abilities_None))
+    {
+        OutDescription = FString();
+    }
+    else
+    {
+        OutDescription = UTDRPGGameplayAbility::GetLockedDescription(AbilityInfo->FindAbilityInfoForTag(AbilityTag).LevelRequirement);
+    }    
+    OutNextLevelDescription = FString();    
     return false;
 }
