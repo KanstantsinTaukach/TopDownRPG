@@ -5,7 +5,6 @@
 #include "AbilitySystemComponent.h"
 #include "Actor/TDRPGProjectile.h"
 #include "Interaction/TDRPGCombatInterface.h"
-#include "TDRPGGameplayTags.h"
 
 void UTDRPGProjectileSpell::ActivateAbility(const FGameplayAbilitySpecHandle Handle, const FGameplayAbilityActorInfo* ActorInfo,
     const FGameplayAbilityActivationInfo ActivationInfo, const FGameplayEventData* TriggerEventData)
@@ -60,40 +59,4 @@ void UTDRPGProjectileSpell::SpawnProjectile(const FVector& ProjectileTargetLocat
     Projectile->DamageEffectSpecHandle = SpecHandle;
         
     Projectile->FinishSpawning(SpawnTransform);
-}
-
-FString UTDRPGProjectileSpell::GetDescription(int32 Level)
-{
-    int32 Damage = 0;
-    if(const FScalableFloat* FireDamage = DamageTypes.Find(FTDRPGGameplayTags::Get().Damage_Fire))
-    {
-        Damage = static_cast<int32>(FireDamage->GetValueAtLevel(Level));
-    }
-    
-    if(Level == 1)
-    {
-        return FString::Printf(TEXT("<Title>FIRE BOLT</>\n\n"
-                                "<Default>Launches a bolt of fire, exploding on impact and dealing: </><Damage>%d</><Default> fire damage with a chance to burn</>\n\n"
-                                "<Small>Level: </><Level>%d</>"), Damage, Level);
-    }
-    else
-    {
-        return FString::Printf(TEXT("<Title>FIRE BOLT</>\n\n"
-                                "<Default>Launches %d bolts of fire, exploding on impact and dealing: </><Damage>%d</><Default> fire damage with a chance to burn</>\n\n"
-                                "<Small>Level: </><Level>%d</>"), FMath::Min(Level, NumProjectiles), Damage, Level);
-    }
-    
-    
-}
-
-FString UTDRPGProjectileSpell::GetNextLevelDescription(int32 Level)
-{
-    int32 Damage = 0;
-    if(const FScalableFloat* FireDamage = DamageTypes.Find(FTDRPGGameplayTags::Get().Damage_Fire))
-    {
-        Damage = static_cast<int32>(FireDamage->GetValueAtLevel(Level));
-    }
-    return FString::Printf(TEXT("<Title>NEXT LEVEL</>\n\n"
-                                "<Default>Launches %d bolts of fire, exploding on impact and dealing: </><Damage>%d</><Default> fire damage with a chance to burn</>\n\n"
-                                "<Small>Level: </><Level>%d</>"), FMath::Min(Level, NumProjectiles), Damage, Level);
 }

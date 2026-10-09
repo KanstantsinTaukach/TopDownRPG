@@ -15,10 +15,6 @@ class TOPDOWNRPG_API UTDRPGProjectileSpell : public UTDRPGDamageGameplayAbility
 {
 	GENERATED_BODY()
     
-public:
-    FString GetDescription (int32 Level) override;
-    FString GetNextLevelDescription (int32 Level) override;
-    
 protected:
     virtual void ActivateAbility(const FGameplayAbilitySpecHandle Handle, const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilityActivationInfo ActivationInfo, const FGameplayEventData* TriggerEventData) override;
 
