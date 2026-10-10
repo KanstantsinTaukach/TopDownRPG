@@ -58,6 +58,13 @@ void USpellMenuWidgetController::BindCallbacksToDependencies()
 
 void USpellMenuWidgetController::SpellGlobeSelected(const FGameplayTag& AbilityTag)
 {
+    if(bWaitingForEquipSelection)
+    {
+        const FGameplayTag SelectedAbilityType = AbilityInfo->FindAbilityInfoForTag(SelectedAbility.Ability).AbilityType;
+        StopWaitingForEquipDelegate.Broadcast(SelectedAbilityType);
+        bWaitingForEquipSelection = false;
+    }
+    
     const FTDRPGGameplayTags& Tags = FTDRPGGameplayTags::Get();
     
     UTDRPGAbilitySystemComponent* TDRPGASC = GetTDRPGAbilitySystemComponent();
@@ -112,6 +119,13 @@ void USpellMenuWidgetController::ShouldEnableButtons(const FGameplayTag& Ability
 
 void USpellMenuWidgetController::SpellGlobeDeselected()
 {
+    if(bWaitingForEquipSelection)
+    {
+        const FGameplayTag SelectedAbilityType = AbilityInfo->FindAbilityInfoForTag(SelectedAbility.Ability).AbilityType;
+        StopWaitingForEquipDelegate.Broadcast(SelectedAbilityType);
+        bWaitingForEquipSelection = false;
+    }
+    
     const FTDRPGGameplayTags& Tags = FTDRPGGameplayTags::Get();
     SelectedAbility.Ability = Tags.Abilities_None;
     SelectedAbility.Status = Tags.Abilities_Status_Locked;
@@ -126,4 +140,12 @@ void USpellMenuWidgetController::SpendPointButtonPressed()
     {
         TDRPGASC->ServerSpendSpellPoint(SelectedAbility.Ability);
     }
+}
+
+void USpellMenuWidgetController::EquipButtonPressed()
+{
+    const FGameplayTag AbilityType = AbilityInfo->FindAbilityInfoForTag(SelectedAbility.Ability).AbilityType;
+
+    WaitForEquipDelegate.Broadcast(AbilityType);
+    bWaitingForEquipSelection = true;
 }
