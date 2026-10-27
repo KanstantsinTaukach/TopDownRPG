@@ -1,8 +1,9 @@
 // Copyright K.Taukach
 
 #include "UI/WidgetController/OverlayWidgetController.h"
-
 #include "LevelUpInfo.h"
+#include "TDRPGGameplayTags.h"
+#include "AbilitySystem/Data/AbilityInfo.h"
 #include "AbilitySystem/TDRPGAttributeSet.h"
 #include "AbilitySystem/TDRPGAbilitySystemComponent.h"
 #include "Player/TDRPGPlayerState.h"
@@ -50,6 +51,8 @@ void UOverlayWidgetController::BindCallbacksToDependencies()
 
     if(GetTDRPGAbilitySystemComponent())
     {
+        GetTDRPGAbilitySystemComponent()->AbilityEquipped.AddUObject(this, &UOverlayWidgetController::OnAbilityEquipped);
+        
         if(GetTDRPGAbilitySystemComponent()->IsStartupAbilitiesGiven())
         {
             BroadcastAbilityInfo();
@@ -77,7 +80,7 @@ void UOverlayWidgetController::BindCallbacksToDependencies()
                 }
             }
         });
-    }
+    }    
 }
 
 void UOverlayWidgetController::OnXPChanged(int32 NewXP)
@@ -99,4 +102,21 @@ void UOverlayWidgetController::OnXPChanged(int32 NewXP)
         const float XPBarPercent = static_cast<float>(XPForThisLevel) / static_cast<float>(DeltaLevelRequirement);
         OnXPPercentChanged.Broadcast(XPBarPercent);
     }
+}
+
+void UOverlayWidgetController::OnAbilityEquipped(const FGameplayTag& AbilityTag, const FGameplayTag& Status, const FGameplayTag& Slot, const FGameplayTag& PreviousSlot) const
+{
+    const FTDRPGGameplayTags& GameplayTags = FTDRPGGameplayTags::Get();
+    
+    FTDRPGAbilityInfo LastSlotInfo;
+    LastSlotInfo.StatusTag = GameplayTags.Abilities_Status_Unlocked;
+    LastSlotInfo.InputTag = PreviousSlot;
+    LastSlotInfo.AbilityTag = GameplayTags.Abilities_None;
+    // Broadcast empty info if PreviousSlot is a valid slot. Only if equipping an already-equipped spell
+    AbilityInfoDelegate.Broadcast(LastSlotInfo);
+
+    FTDRPGAbilityInfo Info = AbilityInfo->FindAbilityInfoForTag(AbilityTag);
+    Info.StatusTag = Status;
+    Info.InputTag = Slot;
+    AbilityInfoDelegate.Broadcast(Info);
 }
