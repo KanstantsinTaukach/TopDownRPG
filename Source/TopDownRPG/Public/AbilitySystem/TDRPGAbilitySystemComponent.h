@@ -10,6 +10,7 @@ DECLARE_MULTICAST_DELEGATE_OneParam(FEffectAssetTagsSignature, const FGameplayTa
 DECLARE_MULTICAST_DELEGATE(FAbilitiesGivenSignature);
 DECLARE_DELEGATE_OneParam(FForEachAbility, const FGameplayAbilitySpec&);
 DECLARE_MULTICAST_DELEGATE_ThreeParams(FAbilityStatusChanged, const FGameplayTag& /*AbilityTag*/, const FGameplayTag& /*StatusTag*/, int32 /*AbilityLevel*/);
+DECLARE_MULTICAST_DELEGATE_FourParams(FAbilityEquipped, const FGameplayTag& /*AbilityTag*/, const FGameplayTag& /*AStatus*/, const FGameplayTag& /*Slot*/, const FGameplayTag& /*PrevSlot*/);
 
 UCLASS()
 class TOPDOWNRPG_API UTDRPGAbilitySystemComponent : public UAbilitySystemComponent
@@ -22,6 +23,7 @@ public:
     FEffectAssetTagsSignature EffectAssetTags;
     FAbilitiesGivenSignature AbilitiesGiven;
     FAbilityStatusChanged AbilityStatusChanged;
+    FAbilityEquipped AbilityEquipped;
 
     void AddCharacterAbilities(const TArray<TSubclassOf<UGameplayAbility>>& StartupAbilities);
     void AddCharacterPassiveAbilities(const TArray<TSubclassOf<UGameplayAbility>>& StartupPassiveAbilities);
@@ -36,6 +38,9 @@ public:
     static FGameplayTag GetInputTagFromSpec(const FGameplayAbilitySpec& AbilitySpec);
     static FGameplayTag GetStatusTagFromSpec(const FGameplayAbilitySpec& AbilitySpec);
 
+    FGameplayTag GetStatusTagFromAbilityTag(const FGameplayTag& AbilityTag);
+    FGameplayTag GetInputTagFromAbilityTag(const FGameplayTag& AbilityTag);
+
     FGameplayAbilitySpec* GetSpecFromAbilityTag(const FGameplayTag& AbilityTag);
 
     void UpgradeAttribute(const FGameplayTag& AttributeTag);
@@ -45,7 +50,14 @@ public:
     UFUNCTION(Server, Reliable)
     void ServerSpendSpellPoint(const FGameplayTag& AbilityTag);
 
-    bool GetDescriptonsByAbilityTag(const FGameplayTag& AbilityTag, FString& OutDescription, FString& OutNextLevelDescription);
+    UFUNCTION(Server, Reliable)
+    void ServerEquipAbility(const FGameplayTag& AbilityTag, const FGameplayTag& Slot);
+
+    bool GetDescriptionsByAbilityTag(const FGameplayTag& AbilityTag, FString& OutDescription, FString& OutNextLevelDescription);
+
+    void ClearSlot(FGameplayAbilitySpec* Spec);
+    void ClearAbilitiesOfSlot(const FGameplayTag& Slot);
+    static bool AbilityHasSlot(FGameplayAbilitySpec* Spec, const FGameplayTag& Slot);
     
 protected:
     UFUNCTION(Client, Reliable)
@@ -58,6 +70,9 @@ protected:
 
     UFUNCTION(Server, Reliable)
     void ServerUpgradeAttribute(const FGameplayTag& AttributeTag);
+
+    UFUNCTION(Client, Reliable)
+    void ClientEquipAbility(const FGameplayTag& AbilityTag, const FGameplayTag& Status, const FGameplayTag& Slot, const FGameplayTag& PreviousSlot); 
     
 private:
     bool bStartupAbilitiesGiven = false;

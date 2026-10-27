@@ -33,11 +33,13 @@ void USpellMenuWidgetController::BindCallbacksToDependencies()
 
             FString Description;
             FString NextLevelDescription;
-            GetTDRPGAbilitySystemComponent()->GetDescriptonsByAbilityTag(AbilityTag, Description, NextLevelDescription);
+            GetTDRPGAbilitySystemComponent()->GetDescriptionsByAbilityTag(AbilityTag, Description, NextLevelDescription);
             
             SpellGlobeSelectedDelegate.Broadcast(bEnableSpellPoints, bEnableEquip, Description, NextLevelDescription);
         }
     });
+
+    GetTDRPGAbilitySystemComponent()->AbilityEquipped.AddUObject(this, &USpellMenuWidgetController::OnAbilityEquipped);
 
     GetTDRPGPlayerState()->OnSpellPointsChangedDelegate.AddLambda([this](int32 SpellPoints)
     {
@@ -50,7 +52,7 @@ void USpellMenuWidgetController::BindCallbacksToDependencies()
         
         FString Description;
         FString NextLevelDescription;
-        GetTDRPGAbilitySystemComponent()->GetDescriptonsByAbilityTag(SelectedAbility.Ability, Description, NextLevelDescription);
+        GetTDRPGAbilitySystemComponent()->GetDescriptionsByAbilityTag(SelectedAbility.Ability, Description, NextLevelDescription);
             
         SpellGlobeSelectedDelegate.Broadcast(bEnableSpellPoints, bEnableEquip, Description, NextLevelDescription);
     });
@@ -94,7 +96,7 @@ void USpellMenuWidgetController::SpellGlobeSelected(const FGameplayTag& AbilityT
 
     FString Description;
     FString NextLevelDescription;
-    GetTDRPGAbilitySystemComponent()->GetDescriptonsByAbilityTag(AbilityTag, Description, NextLevelDescription);
+    GetTDRPGAbilitySystemComponent()->GetDescriptionsByAbilityTag(AbilityTag, Description, NextLevelDescription);
             
     SpellGlobeSelectedDelegate.Broadcast(bEnableSpellPoints, bEnableEquip, Description, NextLevelDescription);
 }
@@ -148,4 +150,42 @@ void USpellMenuWidgetController::EquipButtonPressed()
 
     WaitForEquipDelegate.Broadcast(AbilityType);
     bWaitingForEquipSelection = true;
+
+    const FGameplayTag SelectedStatus = GetTDRPGAbilitySystemComponent()->GetStatusTagFromAbilityTag(SelectedAbility.Ability);
+    if(SelectedStatus.MatchesTagExact(FTDRPGGameplayTags::Get().Abilities_Status_Equipped))
+    {
+        SelectedSlot = GetTDRPGAbilitySystemComponent()->GetInputTagFromAbilityTag(SelectedAbility.Ability);
+    }
+}
+
+void USpellMenuWidgetController::SpellRowGlobePressed(const FGameplayTag& SlotTag, const FGameplayTag& AbilityType)
+{
+    if(!bWaitingForEquipSelection) return;
+
+    // Check selected ability against the slot's ability type.
+    // (don't equip an offensive spell in a passive slot and vice versa)
+    const FGameplayTag& SelectedAbilityType = AbilityInfo->FindAbilityInfoForTag(SelectedAbility.Ability).AbilityType;
+    if(!SelectedAbilityType.MatchesTagExact(AbilityType)) return;
+
+    GetTDRPGAbilitySystemComponent()->ServerEquipAbility(SelectedAbility.Ability, SlotTag);
+}
+
+void USpellMenuWidgetController::OnAbilityEquipped(const FGameplayTag& AbilityTag, const FGameplayTag& Status, const FGameplayTag& Slot, const FGameplayTag& PreviousSlot)
+{
+    bWaitingForEquipSelection = false;
+
+    const FTDRPGGameplayTags& GameplayTags = FTDRPGGameplayTags::Get();
+    FTDRPGAbilityInfo LastSlotInfo;
+    LastSlotInfo.StatusTag = GameplayTags.Abilities_Status_Unlocked;
+    LastSlotInfo.InputTag = PreviousSlot;
+    LastSlotInfo.AbilityTag = GameplayTags.Abilities_None;
+    // Broadcast empty info if PreviousSlot is a valid slot. Only if equipping an already-equipped spell
+    AbilityInfoDelegate.Broadcast(LastSlotInfo);
+
+    FTDRPGAbilityInfo Info = AbilityInfo->FindAbilityInfoForTag(AbilityTag);
+    Info.StatusTag = Status;
+    Info.InputTag = Slot;
+    AbilityInfoDelegate.Broadcast(Info);
+
+    StopWaitingForEquipDelegate.Broadcast(AbilityInfo->FindAbilityInfoForTag(AbilityTag).AbilityType);
 }
