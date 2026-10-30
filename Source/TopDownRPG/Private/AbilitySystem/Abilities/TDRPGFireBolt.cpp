@@ -1,13 +1,12 @@
 // Copyright K.Taukach
 
 #include "AbilitySystem/Abilities/TDRPGFireBolt.h"
-#include "TDRPGGameplayTags.h"
 
 FString UTDRPGFireBolt::GetDescription(int32 Level)
 {
     const float ManaCost = FMath::Abs(GetManaCost(Level));
     const float Cooldown = GetCooldown(Level);
-    const int32 Damage = static_cast<int32>(GetDamageByDamageType(Level, FTDRPGGameplayTags::Get().Damage_Fire));
+    const int32 ScaledDamage = static_cast<int32>(Damage.GetValueAtLevel(Level));
     
     if(Level == 1)
     {
@@ -20,7 +19,7 @@ FString UTDRPGFireBolt::GetDescription(int32 Level)
             
             "<Default>Launches a bolt of fire, exploding on impact and dealing: </>"
             "<Damage>%d</><Default> fire damage with a chance to burn</>"),
-            Level, ManaCost, Cooldown, Damage);
+            Level, ManaCost, Cooldown, ScaledDamage);
     }
     else
     {
@@ -33,7 +32,7 @@ FString UTDRPGFireBolt::GetDescription(int32 Level)
             
             "<Default>Launches %d bolts of fire, exploding on impact and dealing: </>"
             "<Damage>%d</><Default> fire damage with a chance to burn</>"),
-            Level, ManaCost, Cooldown, FMath::Min(Level, NumProjectiles), Damage);
+            Level, ManaCost, Cooldown, FMath::Min(Level, NumProjectiles), ScaledDamage);
     }
 }
 
@@ -41,7 +40,7 @@ FString UTDRPGFireBolt::GetNextLevelDescription(int32 Level)
 {
     const float ManaCost = FMath::Abs(GetManaCost(Level));
     const float Cooldown = GetCooldown(Level);
-    const int32 Damage = static_cast<int32>(GetDamageByDamageType(Level, FTDRPGGameplayTags::Get().Damage_Fire));
+    const int32 ScaledDamage = static_cast<int32>(Damage.GetValueAtLevel(Level));
     
     return FString::Printf(TEXT(
         "<Title>NEXT LEVEL</>\n\n"
@@ -52,5 +51,5 @@ FString UTDRPGFireBolt::GetNextLevelDescription(int32 Level)
         
         "<Default>Launches %d bolts of fire, exploding on impact and dealing: </>"
         "<Damage>%d</><Default> fire damage with a chance to burn</>"),
-        Level, ManaCost, Cooldown, FMath::Min(Level, NumProjectiles), Damage);
+        Level, ManaCost, Cooldown, FMath::Min(Level, NumProjectiles), ScaledDamage);
 }
