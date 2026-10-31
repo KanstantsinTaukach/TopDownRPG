@@ -97,6 +97,19 @@ void FTDRPGGameplayTags::InitializeNativeGameplayTags()
         FName("Debuff.Physical"), FString("Debuff for Physical damage"));
 
     /*
+    * Debuff information
+    */
+    
+    GameplayTags.Debuff_Info_Chance = UGameplayTagsManager::Get().AddNativeGameplayTag(
+        FName("Debuff.Info.Chance"), FString("Debuff chance"));
+    GameplayTags.Debuff_Info_Damage = UGameplayTagsManager::Get().AddNativeGameplayTag(
+        FName("Debuff.Info.Damage"), FString("Debuff damage"));
+    GameplayTags.Debuff_Info_Duration = UGameplayTagsManager::Get().AddNativeGameplayTag(
+        FName("Debuff.Info.Duration"), FString("Debuff duration"));
+    GameplayTags.Debuff_Info_Frequency = UGameplayTagsManager::Get().AddNativeGameplayTag(
+        FName("Debuff.Info.Frequency"), FString("Debuff frequency"));
+
+    /*
     * Map of Damage Types to Resistances
     */
     
