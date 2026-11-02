@@ -14,6 +14,7 @@ class USpellMenuWidgetController;
 
 struct FGameplayEffectContextHandle;
 struct FWidgetControllerParams;
+struct FDamageEffectParams;
 
 UCLASS()
 class TOPDOWNRPG_API UTDRPGAbilitySystemLibrary : public UBlueprintFunctionLibrary
@@ -65,4 +66,7 @@ public:
 
     UFUNCTION(BlueprintCallable, Category = "TDRPGAbilitySystemLibrary|XP")
     static int32 GetXPRewardForClassAndLevel(const UObject* WorldContextObject, ECharacterClass CharacterClass, int32 CharacterLevel);
+
+    UFUNCTION(BlueprintCallable, Category = "TDRPGAbilitySystemLibrary|DamageEffect")
+    static FGameplayEffectContextHandle ApplyDamageEffect(const FDamageEffectParams& DamageEffectParams);
 };

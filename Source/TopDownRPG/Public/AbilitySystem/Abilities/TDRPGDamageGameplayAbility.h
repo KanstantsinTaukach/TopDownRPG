@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "TDRPGAbilityTypes.h"
 #include "TDRPGCombatInterface.h"
 #include "AbilitySystem/Abilities/TDRPGGameplayAbility.h"
 #include "TDRPGDamageGameplayAbility.generated.h"
@@ -16,6 +17,8 @@ public:
     UFUNCTION(BlueprintCallable)
     void CauseDamage(AActor* TargetActor);
 
+    FDamageEffectParams MakeDamageEffectParamsFromClassDefaults(AActor* TargetActor = nullptr) const;
+    
 protected:
     UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
     TSubclassOf<UGameplayEffect> DamageEffectClass;
