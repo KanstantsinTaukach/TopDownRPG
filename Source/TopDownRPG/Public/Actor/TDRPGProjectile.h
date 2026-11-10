@@ -3,8 +3,8 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "TDRPGAbilityTypes.h"
 #include "GameFramework/Actor.h"
-#include "GameplayEffectTypes.h"
 #include "TDRPGProjectile.generated.h"
 
 class UNiagaraSystem;
@@ -23,7 +23,7 @@ public:
     TObjectPtr<UProjectileMovementComponent> ProjectileMovementComponent;
 
     UPROPERTY(BlueprintReadWrite, meta = (ExposeOnSpawn = true))
-    FGameplayEffectSpecHandle DamageEffectSpecHandle;
+    FDamageEffectParams DamageEffectParams;
 
 protected:
 	virtual void BeginPlay() override;
@@ -53,5 +53,5 @@ private:
     UPROPERTY()
     TObjectPtr<UAudioComponent> LoopingSoundComponent;
 
-    void PlayImpactEffects() const;
+    void OnHit();
 };
