@@ -14,5 +14,12 @@ class TOPDOWNRPG_API UExecCalc_Damage : public UGameplayEffectExecutionCalculati
 public:
     UExecCalc_Damage();
 
-    virtual void Execute_Implementation(const FGameplayEffectCustomExecutionParameters& ExecutionParams, FGameplayEffectCustomExecutionOutput& OutExecutionOutput) const override; 
+    virtual void Execute_Implementation(const FGameplayEffectCustomExecutionParameters& ExecutionParams,
+        FGameplayEffectCustomExecutionOutput& OutExecutionOutput) const override;
+
+private:
+    void DetermineDebuff(const FGameplayEffectCustomExecutionParameters& ExecutionParams,
+                        const FGameplayEffectSpec& Spec,
+                        FAggregatorEvaluateParameters EvaluationParams,
+                        const TMap <FGameplayTag, FGameplayEffectAttributeCaptureDefinition>& InTagsToDefs) const;
 };
